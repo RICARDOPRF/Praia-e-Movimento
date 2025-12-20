@@ -1,199 +1,144 @@
-<!doctype html>
-<html lang="pt-BR">
+<!DOCTYPE html>
+<html lang="pt-BR" class="light">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Praia & Movimento — Home</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700&display=swap" rel="stylesheet">
-  <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
-  
-<script>
-tailwind.config = {
-  darkMode: "class",
-  theme: {
-    extend: {
-      colors: {
-        sand: "#fcfbf9",
-        ink: "#1c1917",
-        muted: "#78716c",
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Praia & Movimento — Moda Praia</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Plus+Jakarta+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: "#FF9E68",
+            primaryDark: "#E87C4C",
+            secondary: "#0A2C55",
+            bgLight: "#FFFBF8"
+          },
+          fontFamily: {
+            serif: ["Playfair Display", "serif"],
+            sans: ["Plus Jakarta Sans", "sans-serif"]
+          }
+        }
       }
     }
-  }
-}
-</script>
-
-  <style>
-    :root {
-      --primary: #f1b18f; /* feminino (pêssego) default */
-      --primary-dark: #d8916f;
-      --bg: #ffffff;
-      --panel: #fcfbf9;
-      --text: #1c1917;
-      --muted: #78716c;
-      --border: rgba(28,25,23,.10);
-    }
-    .theme-masculino {
-      --primary: #1e4ed8; /* azul */
-      --primary-dark: #123aa6;
-    }
-    .glass {
-      background: rgba(255,255,255,.82);
-      backdrop-filter: blur(10px);
-    }
-    .btn-primary {
-      background: var(--text);
-      color: #fff;
-    }
-    .btn-primary:hover { background: #2a2624; }
-    .btn-outline {
-      border: 1px solid var(--text);
-      color: var(--text);
-    }
-    .btn-outline:hover { background: var(--text); color: #fff; }
-    .badge {
-      background: var(--primary);
-      color: #fff;
-    }
-    a.active { color: var(--primary); border-bottom: 1px solid var(--primary); padding-bottom: 2px; }
-  </style>
+  </script>
 </head>
 
-<body class="min-h-screen flex flex-col" style="background: var(--bg); color: var(--text);">
+<body class="bg-bgLight text-secondary font-sans">
 
-<header class="sticky top-0 z-50 w-full glass border-b" style="border-color: var(--border);">
-  <div class="mx-auto max-w-[1200px] px-5 md:px-8">
-    <div class="flex h-20 items-center justify-between">
-      <button class="md:hidden p-2" onclick="PM.toggleMobileMenu()">
-        <span class="material-symbols-outlined text-[24px]" style="color: var(--text);">menu</span>
-      </button>
+  <!-- HEADER -->
+  <header class="sticky top-0 bg-white/90 backdrop-blur border-b border-orange-100 z-50">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <span class="material-symbols-outlined text-primary text-3xl">waves</span>
+        <h1 class="font-serif text-2xl font-bold">Praia & Movimento</h1>
+      </div>
 
-      <nav class="hidden md:flex items-center gap-8 text-xs tracking-[0.2em] uppercase">
-        <a href="index.html" class="active" style="color: var(--text);">Home</a>
-        <a href="loja.html" class="" style="color: var(--text);">Loja</a>
-        <a href="feminino.html" class="" style="color: var(--text);">Feminino</a>
-        <a href="masculino.html" class="" style="color: var(--text);">Masculino</a>
-        <a href="contato.html" class="" style="color: var(--text);">Contato</a>
+      <nav class="hidden md:flex gap-8 text-sm font-medium">
+        <a href="#" class="hover:text-primary">Início</a>
+        <a href="#" class="hover:text-primary">Feminino</a>
+        <a href="#" class="hover:text-primary">Masculino</a>
+        <a href="#" class="hover:text-primary">Acessórios</a>
       </nav>
 
-      <a href="index.html" class="flex flex-col items-center text-center">
-        <span class="material-symbols-outlined text-[26px] mb-0.5" style="color: var(--primary);">waves</span>
-        <div class="font-[Cinzel] text-[18px] tracking-[0.18em] uppercase" style="color: var(--text);">Praia &amp; Movimento</div>
-      </a>
-
-      <div class="flex items-center gap-4">
-        <button class="hidden md:flex items-center gap-2 text-xs tracking-[0.2em] uppercase" onclick="PM.openSearch()">
-          <span style="color: var(--text);">Buscar</span>
-          <span class="material-symbols-outlined text-[22px]" style="color: var(--text);">search</span>
+      <div class="flex gap-4 items-center">
+        <button>
+          <span class="material-symbols-outlined">search</span>
         </button>
 
-        <a href="carrinho.html" class="relative p-1" aria-label="Carrinho">
-          <span class="material-symbols-outlined text-[22px]" style="color: var(--text);">shopping_bag</span>
-          <span id="cartBadge" class="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full text-[9px] font-semibold badge">0</span>
-        </a>
-
-        <button class="hidden md:block p-1" onclick="PM.goLogin()">
-          <span class="material-symbols-outlined text-[22px]" style="color: var(--text);">person</span>
+        <button class="relative">
+          <span class="material-symbols-outlined">shopping_bag</span>
+          <span class="absolute -top-1 -right-1 bg-primary text-white text-[10px] px-1.5 rounded-full">0</span>
         </button>
       </div>
     </div>
+  </header>
 
-    <div id="mobileMenu" class="md:hidden hidden pb-5">
-      <div class="flex flex-col gap-3 text-xs tracking-[0.2em] uppercase">
-        <a href="index.html">Home</a>
-        <a href="loja.html">Loja</a>
-        <a href="feminino.html">Feminino</a>
-        <a href="masculino.html">Masculino</a>
-        <a href="contato.html">Contato</a>
-      </div>
-    </div>
-  </div>
-</header>
-
-<main class="flex-grow">
-  <section class="py-16 md:py-24" style="background: var(--panel);">
-    <div class="mx-auto max-w-[1200px] px-5 md:px-8 text-center">
-      <div class="text-xs tracking-[0.3em] uppercase font-semibold" style="color: var(--primary);">Praia & Movimento</div>
-      <h1 class="mt-4 font-[Playfair_Display] italic text-4xl md:text-6xl">Seu verão, do seu jeito.</h1>
-      <p class="mt-6 max-w-2xl mx-auto text-base md:text-lg" style="color: var(--muted);">
-        Dois mundos na mesma marca: <b>Feminino</b> com identidade pêssego e <b>Masculino</b> com identidade azul.
+  <!-- HERO -->
+  <section class="relative h-[520px] flex items-center justify-center text-center"
+    style="background-image:linear-gradient(rgba(10,44,85,.5),rgba(255,158,104,.4)),url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e');background-size:cover;background-position:center;">
+    <div class="text-white px-6">
+      <span class="inline-block mb-4 px-4 py-1 rounded-full bg-white/20 text-sm">
+        Nova Coleção Verão
+      </span>
+      <h2 class="font-serif text-5xl md:text-6xl mb-4">
+        Viva o Verão <span class="italic text-primary">com Estilo</span>
+      </h2>
+      <p class="max-w-xl mx-auto mb-6 text-white/90">
+        Moda praia com conforto, elegância e alma tropical.
       </p>
-
-      <div class="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
-        <a href="feminino.html" class="px-8 py-3 text-xs tracking-[0.2em] uppercase btn-outline">Ver Feminino</a>
-        <a href="masculino.html" class="px-8 py-3 text-xs tracking-[0.2em] uppercase btn-outline">Ver Masculino</a>
-        <a href="loja.html" class="px-8 py-3 text-xs tracking-[0.2em] uppercase btn-primary">Ir para Loja</a>
-      </div>
+      <button class="bg-primary hover:bg-primaryDark text-white px-8 py-3 rounded-full font-bold">
+        Ver Coleção
+      </button>
     </div>
   </section>
 
-  <section class="mx-auto max-w-[1200px] px-5 md:px-8 mt-14">
-    <div class="grid md:grid-cols-2 gap-8">
-      <a href="feminino.html" class="group border p-8" style="border-color: var(--border);">
-        <div class="text-xs tracking-[0.3em] uppercase font-semibold" style="color: var(--primary);">Segmento</div>
-        <h2 class="mt-3 font-[Playfair_Display] italic text-3xl">Moda Feminina</h2>
-        <p class="mt-3 text-sm" style="color: var(--muted);">Pêssego, leve e elegante — beachwear & lifestyle.</p>
-        <div class="mt-6 text-xs tracking-[0.2em] uppercase underline">Explorar</div>
-      </a>
+  <!-- PRODUTOS -->
+  <section class="max-w-7xl mx-auto px-6 py-20">
+    <h3 class="font-serif text-3xl mb-10 text-center">Destaques</h3>
 
-      <a href="masculino.html" class="group border p-8 theme-masculino" style="border-color: rgba(28,25,23,.10);">
-        <div class="text-xs tracking-[0.3em] uppercase font-semibold" style="color: var(--primary);">Segmento</div>
-        <h2 class="mt-3 font-[Playfair_Display] italic text-3xl">Moda Masculina</h2>
-        <p class="mt-3 text-sm" style="color: var(--muted);">Azul, forte e clean — praia/urbano com pegada premium.</p>
-        <div class="mt-6 text-xs tracking-[0.2em] uppercase underline">Explorar</div>
-      </a>
-    </div>
-  </section>
-</main>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
 
-<footer class="mt-24 border-t" style="border-color: var(--border); background: var(--panel);">
-  <div class="mx-auto max-w-[1200px] px-5 md:px-8 py-14">
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-10">
-      <div class="md:col-span-1">
-        <div class="flex flex-col items-start">
-          <span class="material-symbols-outlined text-[34px] mb-3" style="color: var(--primary);">waves</span>
-          <div class="font-[Cinzel] text-[14px] tracking-[0.18em] uppercase" style="color: var(--text);">Praia &amp; Movimento</div>
-          <p class="mt-4 text-sm" style="color: var(--muted);">Moda praia com identidade: Feminino (pêssego) e Masculino (azul).</p>
+      <!-- Produto -->
+      <div class="group">
+        <div class="aspect-[3/4] bg-gray-100 mb-4 overflow-hidden">
+          <img class="w-full h-full object-cover group-hover:scale-105 transition"
+            src="https://images.unsplash.com/photo-1520975916090-3105956dac38" />
         </div>
+        <h4 class="font-serif text-lg">Biquíni Tropical</h4>
+        <p class="text-sm text-gray-500">Feminino</p>
+        <p class="font-bold text-primary mt-1">R$ 149,90</p>
+        <button class="mt-3 w-full border border-secondary py-2 text-sm hover:bg-secondary hover:text-white transition">
+          Adicionar à Sacola
+        </button>
       </div>
-      <div>
-        <div class="text-xs tracking-[0.2em] uppercase font-semibold" style="color: var(--text);">Coleções</div>
-        <ul class="mt-4 space-y-3 text-sm" style="color: var(--muted);">
-          <li><a href="feminino.html" class="hover:underline">Feminino</a></li>
-          <li><a href="masculino.html" class="hover:underline">Masculino</a></li>
-          <li><a href="loja.html" class="hover:underline">Loja</a></li>
-        </ul>
-      </div>
-      <div>
-        <div class="text-xs tracking-[0.2em] uppercase font-semibold" style="color: var(--text);">Atendimento</div>
-        <ul class="mt-4 space-y-3 text-sm" style="color: var(--muted);">
-          <li><a href="contato.html" class="hover:underline">Contato</a></li>
-          <li><a href="#" onclick="alert('Página em construção');return false;" class="hover:underline">Trocas & Devoluções</a></li>
-          <li><a href="#" onclick="alert('Página em construção');return false;" class="hover:underline">FAQ</a></li>
-        </ul>
-      </div>
-      <div>
-        <div class="text-xs tracking-[0.2em] uppercase font-semibold" style="color: var(--text);">Newsletter</div>
-        <p class="mt-4 text-sm" style="color: var(--muted);">Receba novidades exclusivas.</p>
-        <form class="mt-3 flex gap-2" onsubmit="PM.newsletter(event)">
-          <input class="w-full rounded-none border px-3 py-2 text-sm" style="border-color: var(--border); background: #fff;" placeholder="Seu e-mail" type="email" required>
-          <button class="px-4 py-2 text-xs tracking-[0.2em] uppercase btn-outline" type="submit">Enviar</button>
-        </form>
-      </div>
-    </div>
 
-    <div class="mt-12 pt-6 border-t flex flex-col md:flex-row justify-between items-center gap-3 text-xs" style="border-color: var(--border); color: var(--muted);">
-      <div>© 2025 Praia &amp; Movimento. Todos os direitos reservados.</div>
-      <div class="flex gap-5 uppercase tracking-[0.18em]">
-        <a href="#" onclick="PM.openInsta();return false;" class="hover:underline">Instagram</a>
-        <a href="#" onclick="alert('Link em construção');return false;" class="hover:underline">Pinterest</a>
+      <!-- Produto -->
+      <div class="group">
+        <div class="aspect-[3/4] bg-gray-100 mb-4 overflow-hidden">
+          <img class="w-full h-full object-cover group-hover:scale-105 transition"
+            src="https://images.unsplash.com/photo-1503341455253-b2e723bb3dbb" />
+        </div>
+        <h4 class="font-serif text-lg">Short Praia Azul</h4>
+        <p class="text-sm text-gray-500">Masculino</p>
+        <p class="font-bold text-primary mt-1">R$ 129,90</p>
+        <button class="mt-3 w-full border border-secondary py-2 text-sm hover:bg-secondary hover:text-white transition">
+          Adicionar à Sacola
+        </button>
       </div>
+
+      <!-- Produto -->
+      <div class="group">
+        <div class="aspect-[3/4] bg-gray-100 mb-4 overflow-hidden">
+          <img class="w-full h-full object-cover group-hover:scale-105 transition"
+            src="https://images.unsplash.com/photo-1521334884684-d80222895322" />
+        </div>
+        <h4 class="font-serif text-lg">Chapéu de Palha</h4>
+        <p class="text-sm text-gray-500">Acessórios</p>
+        <p class="font-bold text-primary mt-1">R$ 89,90</p>
+        <button class="mt-3 w-full border border-secondary py-2 text-sm hover:bg-secondary hover:text-white transition">
+          Adicionar à Sacola
+        </button>
+      </div>
+
     </div>
-  </div>
-</footer>
-<script src="site.js"></script>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-secondary text-white py-10 text-center">
+    <span class="material-symbols-outlined text-4xl text-primary">waves</span>
+    <p class="mt-4 text-sm">© 2024 Praia & Movimento — Todos os direitos reservados</p>
+  </footer>
+
+  <!-- JS -->
+  <script src="site.js"></script>
 </body>
 </html>
-

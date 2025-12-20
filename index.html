@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Praia & Movimento — Moda Praia</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Plus+Jakarta+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: "#FF9E68",
+            primaryDark: "#E87C4C",
+            secondary: "#0A2C55",
+            bgLight: "#FFFBF8"
+          },
+          fontFamily: {
+            serif: ["Playfair Display", "serif"],
+            sans: ["Plus Jakarta Sans", "sans-serif"]
+          }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body class="bg-bgLight text-secondary font-sans">
+
+  <!-- HEADER -->
+  <header class="sticky top-0 bg-white/90 backdrop-blur border-b border-orange-100 z-50">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <span class="material-symbols-outlined text-primary text-3xl">waves</span>
+        <h1 class="font-serif text-2xl font-bold">Praia & Movimento</h1>
+      </div>
+
+      <nav class="hidden md:flex gap-8 text-sm font-medium">
+        <a href="#" class="hover:text-primary">Início</a>
+        <a href="#" class="hover:text-primary">Feminino</a>
+        <a href="#" class="hover:text-primary">Masculino</a>
+        <a href="#" class="hover:text-primary">Acessórios</a>
+      </nav>
+
+      <div class="flex gap-4 items-center">
+        <button>
+          <span class="material-symbols-outlined">search</span>
+        </button>
+
+        <button class="relative">
+          <span class="material-symbols-outlined">shopping_bag</span>
+          <span class="absolute -top-1 -right-1 bg-primary text-white text-[10px] px-1.5 rounded-full">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="relative h-[520px] flex items-center justify-center text-center"
+    style="background-image:linear-gradient(rgba(10,44,85,.5),rgba(255,158,104,.4)),url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e');background-size:cover;background-position:center;">
+    <div class="text-white px-6">
+      <span class="inline-block mb-4 px-4 py-1 rounded-full bg-white/20 text-sm">
+        Nova Coleção Verão
+      </span>
+      <h2 class="font-serif text-5xl md:text-6xl mb-4">
+        Viva o Verão <span class="italic text-primary">com Estilo</span>
+      </h2>
+      <p class="max-w-xl mx-auto mb-6 text-white/90">
+        Moda praia com conforto, elegância e alma tropical.
+      </p>
+      <button class="bg-primary hover:bg-primaryDark text-white px-8 py-3 rounded-full font-bold">
+        Ver Coleção
+      </button>
+    </div>
+  </section>
+
+  <!-- PRODUTOS -->
+  <section class="max-w-7xl mx-auto px-6 py-20">
+    <h3 class="font-serif text-3xl mb-10 text-center">Destaques</h3>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
+
+      <!-- Produto -->
+      <div class="group">
+        <div class="aspect-[3/4] bg-gray-100 mb-4 overflow-hidden">
+          <img class="w-full h-full object-cover group-hover:scale-105 transition"
+            src="https://images.unsplash.com/photo-1520975916090-3105956dac38" />
+        </div>
+        <h4 class="font-serif text-lg">Biquíni Tropical</h4>
+        <p class="text-sm text-gray-500">Feminino</p>
+        <p class="font-bold text-primary mt-1">R$ 149,90</p>
+        <button class="mt-3 w-full border border-secondary py-2 text-sm hover:bg-secondary hover:text-white transition">
+          Adicionar à Sacola
+        </button>
+      </div>
+
+      <!-- Produto -->
+      <div class="group">
+        <div class="aspect-[3/4] bg-gray-100 mb-4 overflow-hidden">
+          <img class="w-full h-full object-cover group-hover:scale-105 transition"
+            src="https://images.unsplash.com/photo-1503341455253-b2e723bb3dbb" />
+        </div>
+        <h4 class="font-serif text-lg">Short Praia Azul</h4>
+        <p class="text-sm text-gray-500">Masculino</p>
+        <p class="font-bold text-primary mt-1">R$ 129,90</p>
+        <button class="mt-3 w-full border border-secondary py-2 text-sm hover:bg-secondary hover:text-white transition">
+          Adicionar à Sacola
+        </button>
+      </div>
+
+      <!-- Produto -->
+      <div class="group">
+        <div class="aspect-[3/4] bg-gray-100 mb-4 overflow-hidden">
+          <img class="w-full h-full object-cover group-hover:scale-105 transition"
+            src="https://images.unsplash.com/photo-1521334884684-d80222895322" />
+        </div>
+        <h4 class="font-serif text-lg">Chapéu de Palha</h4>
+        <p class="text-sm text-gray-500">Acessórios</p>
+        <p class="font-bold text-primary mt-1">R$ 89,90</p>
+        <button class="mt-3 w-full border border-secondary py-2 text-sm hover:bg-secondary hover:text-white transition">
+          Adicionar à Sacola
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-secondary text-white py-10 text-center">
+    <span class="material-symbols-outlined text-4xl text-primary">waves</span>
+    <p class="mt-4 text-sm">© 2024 Praia & Movimento — Todos os direitos reservados</p>
+  </footer>
+
+  <!-- JS -->
+  <script src="site.js"></script>
+</body>
+</html>

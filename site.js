@@ -87,23 +87,31 @@ function atualizarAreaCliente() {
     }
 }
 
-/* --- VITRINES --- */
+/* --- VITRINES (AGORA COM FILTRO DE ESGOTADO) --- */
 function renderizarVitrine(containerId, filtro = "Todos") {
   const container = document.getElementById(containerId);
   if (!container) return;
+  const stockDb = JSON.parse(localStorage.getItem('stock_db')) || {};
+  
   const lista = filtro === "Todos" ? PRODUTOS : PRODUTOS.filter(p => p.categoria === filtro);
   
-  container.innerHTML = lista.map(p => `
-    <a href="produto.html?produto=${p.slug}" class="group">
+  container.innerHTML = lista.map(p => {
+    const stockInfo = stockDb[p.slug] || { esgotado: false };
+    const labelEsgotado = stockInfo.esgotado ? '<span class="absolute top-2 left-2 bg-red-500 text-white text-[10px] px-2 py-1 rounded font-bold z-10">ESGOTADO</span>' : '';
+    
+    return `
+    <a href="produto.html?produto=${p.slug}" class="group relative">
+      ${labelEsgotado}
       <div class="aspect-[3/4] overflow-hidden rounded-xl bg-white shadow-sm group-hover:shadow-xl transition">
-        <img src="${p.slug}-view1.jpeg" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+        <img src="${p.slug}-view1.jpeg" class="w-full h-full object-cover group-hover:scale-105 transition duration-500 ${stockInfo.esgotado ? 'grayscale opacity-50' : ''}">
       </div>
       <div class="mt-5">
         <h3 class="font-serif text-lg">${p.nome}</h3>
         <p class="text-sm text-black/50 mt-1">${p.categoria}</p>
         <p class="mt-2 text-gold font-medium">${formatarPreco(p.preco)}</p>
       </div>
-    </a>`).join('');
+    </a>`;
+  }).join('');
 }
 
 /* --- SACOLA --- */
@@ -203,18 +211,37 @@ window.addEventListener('DOMContentLoaded', () => {
   renderizarVitrine("vitrine-sexyshop", "Sexy Shop");
   renderizarVitrine("vitrine-loja", "Todos");
 
-  // Logica da pagina de produto individual
+  // Lógica da página de produto individual com suporte ao Stock do Admin
   const params = new URLSearchParams(window.location.search);
   const slug = params.get("produto");
   if (slug && document.getElementById("nome-produto")) {
     const p = PRODUTOS.find(item => item.slug === slug);
+    const stockDb = JSON.parse(localStorage.getItem('stock_db')) || {};
+    const stockInfo = stockDb[slug] || { esgotado: false, tamanhos: p.tamanhos };
+
     if (p) {
         document.getElementById("nome-produto").textContent = p.nome;
         document.getElementById("preco-produto").textContent = formatarPreco(p.preco);
         document.getElementById("categoria-produto").textContent = p.categoria;
         document.getElementById("cor-produto").textContent = `Cor: ${p.cor}`;
-        document.getElementById("select-tamanho").innerHTML = p.tamanhos.map(t => `<option value="${t}">${t}</option>`).join('');
         document.getElementById("imagem-principal").src = `${p.slug}-view1.jpeg`;
+
+        const selectTamanho = document.getElementById("select-tamanho");
+        const btnAdicionar = document.querySelector("button[onclick='adicionarAoCarrinho()']");
+
+        if (stockInfo.esgotado) {
+            selectTamanho.innerHTML = `<option>ESGOTADO</option>`;
+            selectTamanho.disabled = true;
+            if(btnAdicionar) {
+                btnAdicionar.disabled = true;
+                btnAdicionar.textContent = "PRODUTO ESGOTADO";
+                btnAdicionar.classList.add("opacity-50", "cursor-not-allowed");
+            }
+        } else {
+            // Mostra apenas os tamanhos que estão ativos no Admin ou no site.js
+            const tamanhosParaMostrar = stockInfo.tamanhos || p.tamanhos;
+            selectTamanho.innerHTML = tamanhosParaMostrar.map(t => `<option value="${t}">${t}</option>`).join('');
+        }
     }
   }
 });

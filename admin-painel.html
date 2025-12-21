@@ -10,6 +10,7 @@
   <style>
     body { font-family: 'Plus Jakarta Sans', sans-serif; }
     .modal-active { display: flex !important; }
+    .btn-tamanho-ativo { border-color: #3b82f6; background-color: #eff6ff; color: #1d4ed8; }
   </style>
 </head>
 <body class="bg-gray-50 text-gray-900 pb-20">
@@ -20,12 +21,14 @@
         <span class="material-symbols-outlined text-yellow-500">dashboard</span>
         PAINEL DE GESTÃO — PM
       </h1>
-      <a href="index.html" class="text-[10px] bg-white/10 px-4 py-2 rounded-lg hover:bg-white/20 transition font-bold uppercase tracking-widest">Sair do Painel</a>
+      <div class="flex gap-4 items-center">
+        <a href="index.html" class="text-[10px] bg-white/10 px-4 py-2 rounded-lg hover:bg-white/20 transition font-bold uppercase tracking-widest">Ver Site</a>
+        <button onclick="fazerLogout()" class="text-[10px] bg-red-500/20 text-red-400 px-4 py-2 rounded-lg hover:bg-red-500 hover:text-white transition font-bold uppercase tracking-widest">Sair</button>
+      </div>
     </div>
   </nav>
 
   <main class="max-w-7xl mx-auto p-6 md:p-12">
-    
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
       <section class="bg-white p-8 rounded-[2rem] shadow-sm border border-gray-100">
         <h2 class="text-xl font-bold mb-6 flex items-center gap-2">
@@ -51,49 +54,58 @@
 
     <section class="bg-white rounded-[2rem] shadow-xl overflow-hidden border border-gray-100">
       <div class="p-8 border-b border-gray-50 bg-gray-50/50">
-        <h2 class="text-2xl font-bold">Gerenciador de Fotos</h2>
-        <p class="text-gray-400 text-sm">Clique no produto para ver o nome correto do arquivo de imagem</p>
+        <h2 class="text-2xl font-bold">Gerenciador de Estoque</h2>
       </div>
-
       <div class="p-8">
-        <div id="grid-admin-produtos" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
-          </div>
+        <div id="grid-admin-produtos" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4"></div>
       </div>
     </section>
   </main>
 
   <div id="modal-produto" class="fixed inset-0 bg-black/80 z-[60] hidden items-center justify-center p-6 backdrop-blur-sm">
-    <div class="bg-white w-full max-w-lg rounded-[2.5rem] overflow-hidden shadow-2xl">
-        <div class="p-8">
-            <div class="flex justify-between items-start mb-6">
-                <h3 id="modal-nome" class="text-2xl font-bold">Nome do Produto</h3>
-                <button onclick="fecharModal()" class="material-symbols-outlined p-2 hover:bg-gray-100 rounded-full transition">close</button>
-            </div>
-
-            <div class="bg-yellow-50 border-2 border-dashed border-yellow-200 p-6 rounded-2xl mb-6 text-center">
-                <p class="text-[10px] uppercase font-bold text-yellow-600 tracking-widest mb-2">Nome correto da Foto (View 1)</p>
-                <code id="modal-slug" class="text-xl font-mono font-bold text-slate-800 select-all cursor-pointer block">nome-do-arquivo.jpeg</code>
-                <p class="text-[10px] text-yellow-600 mt-2 italic">Dica: Renomeie sua foto exatamente assim antes de fazer o upload.</p>
-            </div>
-
-            <div class="space-y-4">
-                <div class="flex justify-between text-sm py-2 border-b border-gray-50">
-                    <span class="text-gray-400">Categoria:</span>
-                    <span id="modal-cat" class="font-bold">---</span>
-                </div>
-                <div class="flex justify-between text-sm py-2 border-b border-gray-50">
-                    <span class="text-gray-400">Preço:</span>
-                    <span id="modal-preco" class="font-bold text-green-600">---</span>
-                </div>
-            </div>
-
-            <button onclick="fecharModal()" class="w-full mt-8 bg-slate-900 text-white font-bold py-4 rounded-2xl hover:bg-black transition">Entendido</button>
+    <div class="bg-white w-full max-w-lg rounded-[2.5rem] overflow-hidden shadow-2xl p-8">
+        <div class="flex justify-between items-start mb-6">
+            <h3 id="modal-nome" class="text-2xl font-bold">Produto</h3>
+            <button onclick="fecharModal()" class="material-symbols-outlined p-2 hover:bg-gray-100 rounded-full transition">close</button>
         </div>
+        <div class="space-y-6 mb-8">
+            <div>
+              <label class="text-[10px] uppercase font-bold text-gray-400 tracking-widest block mb-3">Tamanhos Disponíveis</label>
+              <div id="tamanhos-admin" class="flex flex-wrap gap-2"></div>
+            </div>
+            <div class="flex items-center justify-between p-4 bg-gray-50 rounded-2xl border border-gray-100">
+              <span class="text-sm font-bold">Marcar como Esgotado</span>
+              <button id="btn-toggle-esgotado" onclick="alternarEsgotadoGeral()" class="w-12 h-6 rounded-full bg-gray-300 relative transition-colors">
+                <div class="dot absolute top-1 left-1 bg-white w-4 h-4 rounded-full transition-transform"></div>
+              </button>
+            </div>
+        </div>
+        <button onclick="salvarEstoque()" class="w-full bg-slate-900 text-white font-bold py-4 rounded-2xl hover:bg-black transition">Salvar Alterações</button>
     </div>
   </div>
 
   <script src="site.js"></script>
   <script>
+    // TRAVA DE SEGURANÇA ATUALIZADA
+    const ADMIN_UID = "FRkurJILRWQF7Q2IYMlIWSUVJbq1";
+
+    (function verificarAcesso() {
+        const user = JSON.parse(localStorage.getItem("usuario_logado"));
+        if (!user || user.uid !== ADMIN_UID) {
+            alert("Acesso negado.");
+            window.location.href = "index.html";
+        }
+    })();
+
+    function fazerLogout() {
+        localStorage.removeItem("usuario_logado");
+        window.location.href = "login.html";
+    }
+
+    // Lógica do Painel
+    let produtoSelecionado = null;
+    let stockTemporario = {};
+
     document.addEventListener('DOMContentLoaded', () => {
       renderizarProdutosAdmin();
       atualizarListaRastreios();
@@ -101,49 +113,91 @@
 
     function renderizarProdutosAdmin() {
       const grid = document.getElementById('grid-admin-produtos');
-      if (!typeof PRODUTOS) return;
+      const stockInfo = JSON.parse(localStorage.getItem('stock_db')) || {};
+      if (typeof PRODUTOS === 'undefined') return;
 
-      grid.innerHTML = PRODUTOS.map(p => `
-        <div onclick="abrirModal('${p.slug}')" class="group cursor-pointer bg-gray-50 p-3 rounded-2xl border border-gray-100 hover:border-blue-500 transition-all">
-          <div class="aspect-square bg-white rounded-xl overflow-hidden mb-3 relative">
-            <img src="${p.slug}-view1.jpeg" class="w-full h-full object-cover opacity-50 group-hover:opacity-100 transition" onerror="this.src='https://placehold.co/400x400/f3f4f6/a3a3a3?text=Sem+Foto'">
-            <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition bg-black/20">
-                <span class="bg-white text-[10px] font-bold px-3 py-1 rounded-full shadow-lg">GERENCIAR</span>
+      grid.innerHTML = PRODUTOS.map(p => {
+        const status = stockInfo[p.slug] || { esgotado: false };
+        return `
+          <div onclick="abrirModal('${p.slug}')" class="group cursor-pointer bg-white p-3 rounded-2xl border ${status.esgotado ? 'border-red-200 bg-red-50' : 'border-gray-100'} hover:border-blue-500 transition-all relative">
+            <div class="aspect-square bg-gray-50 rounded-xl overflow-hidden mb-3">
+              <img src="${p.slug}-view1.jpeg" class="w-full h-full object-cover ${status.esgotado ? 'grayscale opacity-50' : ''}" onerror="this.src='https://placehold.co/400x400?text=Sem+Foto'">
             </div>
+            <h4 class="text-[10px] font-bold uppercase truncate">${p.nome}</h4>
           </div>
-          <h4 class="text-[10px] font-bold uppercase truncate">${p.nome}</h4>
-          <p class="text-[9px] text-gray-400">${p.categoria}</p>
-        </div>
-      `).join('');
+        `;
+      }).join('');
     }
 
     function abrirModal(slug) {
+        produtoSelecionado = slug;
         const p = PRODUTOS.find(item => item.slug === slug);
-        if(!p) return;
-
+        const db = JSON.parse(localStorage.getItem('stock_db')) || {};
+        stockTemporario = db[slug] || { esgotado: false, tamanhos: ["P", "M", "G", "GG"] };
         document.getElementById('modal-nome').textContent = p.nome;
-        document.getElementById('modal-slug').textContent = `${p.slug}-view1.jpeg`;
-        document.getElementById('modal-cat').textContent = p.categoria;
-        document.getElementById('modal-preco').textContent = `R$ ${p.preco.toFixed(2)}`;
-        
+        renderizarBotoesTamanho();
+        atualizarVisualToggle();
         document.getElementById('modal-produto').classList.add('modal-active');
+    }
+
+    function renderizarBotoesTamanho() {
+        const area = document.getElementById('tamanhos-admin');
+        const lista = ["P", "M", "G", "GG", "U"];
+        area.innerHTML = lista.map(t => `
+            <button onclick="toggleTamanho('${t}')" 
+                class="px-4 py-2 rounded-xl border-2 font-bold transition text-xs ${stockTemporario.tamanhos.includes(t) ? 'btn-tamanho-ativo' : 'border-gray-200 text-gray-300'}">
+                ${t}
+            </button>
+        `).join('');
+    }
+
+    function toggleTamanho(t) {
+        if (stockTemporario.tamanhos.includes(t)) {
+            stockTemporario.tamanhos = stockTemporario.tamanhos.filter(item => item !== t);
+        } else {
+            stockTemporario.tamanhos.push(t);
+        }
+        renderizarBotoesTamanho();
+    }
+
+    function alternarEsgotadoGeral() {
+        stockTemporario.esgotado = !stockTemporario.esgotado;
+        atualizarVisualToggle();
+    }
+
+    function atualizarVisualToggle() {
+        const btn = document.getElementById('btn-toggle-esgotado');
+        const dot = btn.querySelector('.dot');
+        if (stockTemporario.esgotado) {
+            btn.classList.replace('bg-gray-300', 'bg-red-500');
+            dot.classList.add('translate-x-6');
+        } else {
+            btn.classList.replace('bg-red-500', 'bg-gray-300');
+            dot.classList.remove('translate-x-6');
+        }
+    }
+
+    function salvarEstoque() {
+        let db = JSON.parse(localStorage.getItem('stock_db')) || {};
+        db[produtoSelecionado] = stockTemporario;
+        localStorage.setItem('stock_db', JSON.stringify(db));
+        fecharModal();
+        renderizarProdutosAdmin();
+        alert('Estoque atualizado!');
     }
 
     function fecharModal() {
         document.getElementById('modal-produto').classList.remove('modal-active');
     }
 
-    /* Lógica de Rastreio vinculada ao LocalStorage */
+    // Rastreio (Local Storage)
     document.getElementById('form-rastreio').addEventListener('submit', (e) => {
       e.preventDefault();
       const email = document.getElementById('track-email').value;
       const code = document.getElementById('track-code').value;
-
       let rastreios = JSON.parse(localStorage.getItem('rastreios_db')) || [];
       rastreios.push({ email, code, status: "Objeto Postado" });
       localStorage.setItem('rastreios_db', JSON.stringify(rastreios));
-      
-      alert('Rastreio salvo!');
       e.target.reset();
       atualizarListaRastreios();
     });

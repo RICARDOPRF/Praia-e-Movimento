@@ -1,53 +1,77 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Sua Sacola — Praia & Movimento</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minha Sacola — Praia & Movimento</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,700&family=Plus+Jakarta+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
   <script>
     tailwind.config = {
-      theme: { extend: { colors: { sand: "#F7E9D7", ink: "#0C0C0C", gold: "#C9A44F" } } }
+      theme: {
+        extend: {
+          colors: { sand: "#F7E9D7", ink: "#1A1A1A", gold: "#C9A44F" },
+          fontFamily: { serif: ["Playfair Display", "serif"], sans: ["Plus Jakarta Sans", "sans-serif"] }
+        }
+      }
     }
   </script>
 </head>
+<body class="bg-sand text-ink font-sans antialiased min-h-screen">
 
-<body class="bg-sand text-ink font-sans min-h-screen">
-
-  <header class="p-6 bg-white border-b border-black/5 flex justify-between items-center sticky top-0 z-50">
-    <a href="index.html" class="font-serif text-xl font-bold italic">Praia & Movimento</a>
-    <a href="loja.html" class="text-xs uppercase tracking-widest underline">Continuar Comprando</a>
+  <header class="p-6 bg-white/80 backdrop-blur sticky top-0 z-50 border-b border-black/5">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+      <a href="index.html" class="font-serif text-xl font-bold italic tracking-tighter">Praia & Movimento</a>
+      <a href="index.html" class="text-[10px] uppercase font-bold tracking-widest border-b border-ink">Continuar Comprando</a>
+    </div>
   </header>
 
   <main class="max-w-3xl mx-auto px-6 py-12">
-    <h1 class="font-serif text-4xl mb-10 text-center italic">Sua Sacola</h1>
+    <h1 class="font-serif text-4xl mb-8 italic">Sua Sacola</h1>
 
-    <div id="itens-carrinho" class="space-y-6">
+    <div id="itens-carrinho" class="space-y-4 mb-10">
       </div>
 
-    <div id="resumo-carrinho" class="mt-12 border-t border-black/10 pt-8 hidden">
-      <div class="flex justify-between text-2xl font-serif mb-8">
-        <span>Total</span>
-        <span id="total-carrinho" class="font-bold text-gold">R$ 0,00</span>
+    <div id="resumo-carrinho" class="bg-white p-8 rounded-[2rem] shadow-sm hidden">
+      <div class="flex justify-between items-center mb-6 pb-6 border-b border-gray-100">
+        <span class="text-sm uppercase tracking-widest font-bold opacity-40">Total do Pedido</span>
+        <span id="total-carrinho" class="text-2xl font-bold text-ink">R$ 0,00</span>
       </div>
-      
-      <button onclick="finalizarPedido()" class="w-full bg-ink text-white py-5 rounded-full font-bold tracking-widest hover:bg-gold transition shadow-xl">
-        FINALIZAR PEDIDO VIA WHATSAPP
-      </button>
-      
-      <p class="text-center text-[10px] text-black/40 uppercase mt-4 tracking-tighter">
-        Pagamento via PIX ou Cartão combinado no atendimento
+
+      <p class="text-[10px] text-center opacity-50 mb-6 uppercase tracking-widest">
+        O pagamento e a entrega serão combinados via WhatsApp
       </p>
+
+      <button onclick="finalizarPedido()" class="w-full py-5 bg-ink text-white rounded-full font-bold uppercase tracking-[0.2em] text-xs hover:bg-gold transition-all shadow-xl flex items-center justify-center gap-3">
+        <span class="material-symbols-outlined !text-base">brand_whatsapp</span>
+        Finalizar no WhatsApp
+      </button>
+    </div>
+
+    <div id="carrinho-vazio" class="hidden text-center py-20">
+        <span class="material-symbols-outlined text-6xl opacity-10 mb-4">shopping_basket</span>
+        <p class="italic opacity-40 mb-8">Sua sacola ainda está vazia...</p>
+        <a href="index.html" class="inline-block px-8 py-4 bg-ink text-white rounded-full text-[10px] font-bold uppercase tracking-widest">Ver Coleção</a>
     </div>
   </main>
 
   <script src="site.js"></script>
   <script>
-    // Inicia a página do carrinho
-    window.onload = () => {
+    document.addEventListener('DOMContentLoaded', () => {
+        // Chama a função que já existe no seu site.js
         exibirCarrinho();
-    };
+        
+        // Verifica se está vazio para mostrar a mensagem correta
+        const carrinho = JSON.parse(localStorage.getItem("carrinho_pm")) || [];
+        if (carrinho.length === 0) {
+            document.getElementById("carrinho-vazio").classList.remove("hidden");
+            document.getElementById("resumo-carrinho").classList.add("hidden");
+        } else {
+            document.getElementById("carrinho-vazio").classList.add("hidden");
+            document.getElementById("resumo-carrinho").classList.remove("hidden");
+        }
+    });
   </script>
 </body>
 </html>

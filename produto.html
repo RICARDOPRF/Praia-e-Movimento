@@ -4,96 +4,137 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Produto — Praia & Movimento</title>
-
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
-
   <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,700&family=Plus+Jakarta+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
   <script>
     tailwind.config = {
       theme: {
         extend: {
-          colors: {
-            sand: "#F7E9D7",
-            ink: "#0C0C0C",
-            gold: "#C9A44F",
-          },
-          fontFamily: {
-            serif: ["Playfair Display", "serif"],
-            sans: ["Plus Jakarta Sans", "sans-serif"]
-          }
+          colors: { sand: "#F7E9D7", ink: "#1A1A1A", gold: "#C9A44F" },
+          fontFamily: { serif: ["Playfair Display", "serif"], sans: ["Plus Jakarta Sans", "sans-serif"] }
         }
       }
     }
   </script>
 </head>
-
 <body class="bg-sand text-ink font-sans antialiased">
 
-<header class="p-6 bg-white/80 backdrop-blur sticky top-0 z-50 border-b border-black/5">
-  <div class="max-w-7xl mx-auto flex justify-between items-center">
-    <a href="index.html" class="font-serif text-xl font-bold italic">Praia & Movimento</a>
-    <nav class="hidden md:flex gap-8 text-sm font-medium uppercase tracking-widest">
-      <a href="loja.html" class="hover:text-gold transition">Loja</a>
-      <a href="masculino.html" class="hover:text-gold transition">Masculino</a>
-      <a href="feminino.html" class="hover:text-gold transition">Feminino</a>
-      <a href="lingerie.html" class="hover:text-gold transition">Lingerie</a>
-    </nav>
-  </div>
-</header>
-
-<main class="max-w-7xl mx-auto px-6 py-12 grid md:grid-cols-2 gap-12 items-start">
-  
-  <section class="space-y-4">
-    <div class="aspect-[3/4] overflow-hidden rounded-3xl bg-white shadow-lg">
-      <img id="imagem-principal" src="" alt="Produto" class="w-full h-full object-cover transition duration-700">
+  <header class="p-6 bg-white/80 backdrop-blur sticky top-0 z-50 border-b border-black/5">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+      <a href="index.html" class="font-serif text-xl font-bold italic">Praia & Movimento</a>
+      <a href="javascript:history.back()" class="material-symbols-outlined">arrow_back</a>
     </div>
-    <div id="thumbnails" class="flex gap-4 overflow-x-auto pb-2"></div>
-  </section>
+  </header>
 
-  <section class="flex flex-col h-full">
-    <nav class="text-xs uppercase tracking-widest text-black/40 mb-2">
-      <span id="categoria-produto">Categoria</span>
-    </nav>
-    
-    <h1 id="nome-produto" class="font-serif text-4xl md:text-5xl leading-tight mb-2 text-ink">
-      Carregando...
-    </h1>
-    
-    <p id="cor-produto" class="text-gold font-medium mb-6">Cor: --</p>
-    
-    <div id="preco-produto" class="text-3xl font-light mb-8 italic">
-      R$ 0,00
+  <main class="max-w-7xl mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-2 gap-12">
+    <div class="rounded-[2rem] overflow-hidden bg-white shadow-xl">
+      <img id="prod-img" src="" class="w-full h-auto object-cover min-h-[400px]">
     </div>
 
-    <div class="space-y-6 border-y border-black/5 py-8">
-      <div>
-        <label class="text-[10px] uppercase tracking-[0.2em] font-bold block mb-3">Tamanho</label>
-        <select id="select-tamanho" class="w-full bg-white border border-black/10 rounded-full px-6 py-4 outline-none focus:border-gold transition appearance-none cursor-pointer">
-          </select>
+    <div class="flex flex-col justify-center">
+      <p id="prod-cat" class="text-[10px] uppercase tracking-[0.3em] text-gold font-bold mb-4">Categoria</p>
+      <h1 id="prod-nome" class="font-serif text-4xl md:text-5xl italic mb-6">Nome do Produto</h1>
+      <p id="prod-preco" class="text-2xl font-bold mb-8 text-ink">R$ 0,00</p>
+
+      <div id="area-selecao" class="mb-10">
+        <label class="text-[10px] uppercase font-bold tracking-widest block mb-4">Selecione o Tamanho:</label>
+        <div id="grade-tamanhos" class="flex flex-wrap gap-3"></div>
       </div>
-    </div>
 
-    <div class="mt-10 space-y-4">
-      <a id="whatsapp-link" href="#" target="_blank" class="block w-full bg-ink text-white text-center py-5 rounded-full font-bold tracking-widest hover:bg-gold transition transform hover:-translate-y-1 shadow-xl">
-        COMPRAR PELO WHATSAPP
-      </a>
-      
-      <button class="block w-full border border-ink text-ink text-center py-5 rounded-full font-bold tracking-widest hover:bg-ink hover:text-white transition">
-        ADICIONAR À SACOLA
+      <button id="btn-comprar" onclick="adicionarESacola()" class="w-full py-5 bg-ink text-white rounded-full font-bold uppercase tracking-[0.2em] text-xs hover:bg-gold transition-all shadow-xl flex items-center justify-center gap-3">
+        <span class="material-symbols-outlined !text-base">shopping_bag</span>
+        Adicionar à Sacola
       </button>
+
+      <p id="msg-esgotado" class="hidden text-center text-red-500 font-bold italic py-4 border-2 border-dashed border-red-200 rounded-2xl">
+        Lamentamos, mas esta peça está temporariamente esgotada.
+      </p>
     </div>
+  </main>
 
-    <p class="text-black/50 text-sm mt-10 leading-relaxed italic">
-      * Peças exclusivas com estoque limitado. Inspiradas no movimento e na liberdade do verão brasileiro.
-    </p>
-  </section>
-</main>
+  <script src="site.js"></script>
+  <script>
+    let produtoAtual = null;
+    let tamanhoSelecionado = null;
 
-<footer class="bg-sand border-t border-black/5 py-12 text-center mt-12">
-  <p class="font-serif text-lg">Praia & Movimento</p>
-</footer>
+    document.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(window.location.search);
+      const slug = params.get('produto');
+      
+      if (!slug) {
+        window.location.href = 'index.html';
+        return;
+      }
 
-<script src="site.js"></script>
+      // Procura o produto no array PRODUTOS do site.js
+      if (typeof PRODUTOS !== 'undefined') {
+          produtoAtual = PRODUTOS.find(p => p.slug === slug);
+      }
+
+      if (!produtoAtual) return;
+
+      // Preencher Dados na Tela
+      document.getElementById('prod-nome').textContent = produtoAtual.nome;
+      document.getElementById('prod-cat').textContent = produtoAtual.categoria;
+      document.getElementById('prod-preco').textContent = `R$ ${produtoAtual.preco.toFixed(2).replace('.', ',')}`;
+      document.getElementById('prod-img').src = `${produtoAtual.slug}-view1.jpeg`;
+
+      // CONFIGURAÇÃO DE ESTOQUE (Lê do Admin-Painel)
+      const db = JSON.parse(localStorage.getItem('stock_db')) || {};
+      const stockInfo = db[slug] || { esgotado: false, tamanhos: produtoAtual.tamanhos || ["P", "M", "G", "GG"] };
+
+      const gradeTamanhos = document.getElementById('grade-tamanhos');
+      const btnComprar = document.getElementById('btn-comprar');
+      const msgEsgotado = document.getElementById('msg-esgotado');
+
+      if (stockInfo.esgotado || stockInfo.tamanhos.length === 0) {
+          gradeTamanhos.parentElement.classList.add('hidden');
+          btnComprar.classList.add('hidden');
+          msgEsgotado.classList.remove('hidden');
+      } else {
+          gradeTamanhos.innerHTML = stockInfo.tamanhos.map(t => `
+            <button onclick="selecionarTamanho(this, '${t}')" class="w-14 h-14 border-2 border-black/5 rounded-2xl font-bold hover:border-gold transition-all flex items-center justify-center">
+              ${t}
+            </button>
+          `).join('');
+      }
+    });
+
+    function selecionarTamanho(el, tamanho) {
+        tamanhoSelecionado = tamanho;
+        document.querySelectorAll('#grade-tamanhos button').forEach(b => {
+            b.classList.remove('bg-ink', 'text-white', 'border-ink');
+            b.classList.add('border-black/5');
+        });
+        el.classList.add('bg-ink', 'text-white', 'border-ink');
+    }
+
+    // NOVA FUNÇÃO: SALVA NA SACOLA E VAI PARA A PÁGINA DO CARRINHO
+    function adicionarESacola() {
+        if (!tamanhoSelecionado) {
+            alert("Por favor, selecione um tamanho antes de continuar.");
+            return;
+        }
+
+        // Pega o que já tem na sacola ou cria uma nova
+        let carrinho = JSON.parse(localStorage.getItem("carrinho_pm")) || [];
+
+        // Adiciona o produto atual
+        carrinho.push({
+            slug: produtoAtual.slug,
+            nome: produtoAtual.nome,
+            preco: produtoAtual.preco,
+            tamanho: tamanhoSelecionado,
+            cor: produtoAtual.cor || "N/A"
+        });
+
+        // Salva na memória do navegador
+        localStorage.setItem("carrinho_pm", JSON.stringify(carrinho));
+
+        // Redireciona para a página da sacola
+        window.location.href = "carrinho.html";
+    }
+  </script>
 </body>
 </html>

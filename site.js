@@ -1,146 +1,100 @@
 /* ================================
    PRAIA & MOVIMENTO — SITE.JS
-   Central de Produtos
 ================================ */
 
 const PRODUTOS = [
-  // ===== MASCULINO =====
+  // MASCULINO
   {
     slug: "masculino-churrasco-pao-de-alho-preta",
     nome: "Camisa Churrasco Pão de Alho",
     categoria: "Masculino",
     preco: 145.00,
-    tamanhos: ["M", "G", "GG"]
+    tamanhos: ["M", "G", "GG"],
+    cor: "Preta",
+    imagemPrincipal: "masculino-churrasco-pao-de-alho-preta-view1.jpeg"
   },
   {
     slug: "masculino-saideira-nunca-e-so-uma-nude",
     nome: "A Saideira Nunca é Só Uma",
     categoria: "Masculino",
     preco: 130.00,
-    tamanhos: ["M", "G", "GG"]
+    tamanhos: ["M", "G", "GG"],
+    cor: "Nude",
+    imagemPrincipal: "masculino-saideira-nunca-e-so-uma-nude-view1.jpeg"
   },
-  {
-    slug: "masculino-sexta-feira-em-algum-lugar-pink",
-    nome: "Sexta-feira em Algum Lugar",
-    categoria: "Masculino",
-    preco: 130.00,
-    tamanhos: ["M", "G"]
-  },
-
-  // ===== FEMININO =====
+  // FEMININO
   {
     slug: "biquini-floripa",
     nome: "Biquíni Floripa",
     categoria: "Feminino",
     preco: 85.90,
-    tamanhos: ["P", "M", "G"]
+    tamanhos: ["P", "M", "G"],
+    cor: "Vermelho/Verde/Rosa",
+    imagemPrincipal: "biquini-floripa-vermelho-view1.jpeg"
   },
-
-  // ===== LINGERIE =====
+  // LINGERIE
   {
     slug: "conjunto-bianca",
     nome: "Conjunto Bianca",
     categoria: "Lingerie",
     preco: 55.90,
-    tamanhos: ["P", "M", "G"]
-  },
-  {
-    slug: "conjunto-afrodite",
-    nome: "Conjunto Afrodite",
-    categoria: "Lingerie",
-    preco: 99.90,
-    tamanhos: ["P", "M"]
-  },
-  {
-    slug: "camisola-esther",
-    nome: "Camisola Esther",
-    categoria: "Lingerie",
-    preco: 69.90,
-    tamanhos: ["P", "M", "G"]
+    tamanhos: ["P", "M", "G"],
+    cor: "Nude",
+    imagemPrincipal: "lingerie-renda-preta-view1.jpeg"
   }
 ];
 
-/* ================================
-   UTILIDADES
-================================ */
+// Formatação de Preço
+const formatarPreco = (v) => v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
-function getProduto(slug) {
-  return PRODUTOS.find(p => p.slug === slug);
+/* GERA A VITRINE AUTOMATICAMENTE */
+function renderizarVitrine(containerId, filtro = "Todos") {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+
+  const lista = filtro === "Todos" ? PRODUTOS : PRODUTOS.filter(p => p.categoria === filtro);
+
+  container.innerHTML = lista.map(p => `
+    <a href="produto.html?produto=${p.slug}" class="group bg-white p-4 rounded-2xl shadow-sm hover:shadow-md transition">
+      <div class="aspect-[3/4] overflow-hidden rounded-xl">
+        <img src="${p.imagemPrincipal}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+      </div>
+      <div class="mt-4">
+        <p class="text-[10px] uppercase tracking-widest text-gold font-bold">${p.categoria}</p>
+        <h3 class="font-serif text-lg text-ink">${p.nome}</h3>
+        <p class="text-gold font-semibold mt-1">${formatarPreco(p.preco)}</p>
+      </div>
+    </a>
+  `).join('');
 }
 
-function formatarPreco(valor) {
-  return valor.toLocaleString("pt-BR", {
-    style: "currency",
-    currency: "BRL"
-  });
-}
-
-/* ================================
-   PRODUTO.HTML — CARGA DINÂMICA
-================================ */
-
+/* PREENCHE A PÁGINA DE PRODUTO */
 function carregarProduto() {
   const params = new URLSearchParams(window.location.search);
   const slug = params.get("produto");
-  if (!slug) return;
+  const p = PRODUTOS.find(item => item.slug === slug);
 
-  const produto = getProduto(slug);
-  if (!produto) return;
+  if (!p) return;
 
-  // Textos
-  document.getElementById("nome-produto").textContent = produto.nome;
-  document.getElementById("categoria-produto").textContent = produto.categoria;
-  document.getElementById("preco-produto").textContent = formatarPreco(produto.preco);
-
-  // Tamanhos
+  document.getElementById("nome-produto").textContent = p.nome;
+  document.getElementById("categoria-produto").textContent = p.categoria;
+  document.getElementById("preco-produto").textContent = formatarPreco(p.preco);
+  document.getElementById("cor-produto").textContent = `Cor: ${p.cor}`;
+  
   const select = document.getElementById("select-tamanho");
-  select.innerHTML = "";
-  produto.tamanhos.forEach(t => {
-    const opt = document.createElement("option");
-    opt.value = t;
-    opt.textContent = t;
-    select.appendChild(opt);
-  });
+  select.innerHTML = p.tamanhos.map(t => `<option value="${t}">${t}</option>`).join('');
 
-  // Galeria
   const imgPrincipal = document.getElementById("imagem-principal");
-  const thumbs = document.getElementById("thumbnails");
-  thumbs.innerHTML = "";
+  imgPrincipal.src = p.imagemPrincipal;
 
-  let primeiraImagem = true;
-
-  for (let i = 1; i <= 5; i++) {
-    const img = new Image();
-    img.src = `${slug}-view${i}.jpeg`;
-
-    img.onload = () => {
-      if (primeiraImagem) {
-        imgPrincipal.src = img.src;
-        primeiraImagem = false;
-      }
-
-      img.className =
-        "w-20 h-28 object-cover rounded cursor-pointer border border-black/20";
-      img.onclick = () => (imgPrincipal.src = img.src);
-      thumbs.appendChild(img);
-    };
-  }
-
-  // Vídeo opcional
-  const video = document.getElementById("video-produto");
-  const videoSrc = `${slug}-view4.mp4`;
-
-  fetch(videoSrc, { method: "HEAD" })
-    .then(res => {
-      if (res.ok) {
-        video.src = videoSrc;
-        video.classList.remove("hidden");
-      }
-    });
-
-  // WhatsApp
-  const whatsapp = document.getElementById("whatsapp-link");
-  whatsapp.href =
-    `https://wa.me/555197365965?text=` +
-    encodeURIComponent(`Olá! Tenho interesse no produto: ${produto.nome}`);
+  const zap = document.getElementById("whatsapp-link");
+  zap.href = `https://wa.me/555197365965?text=Olá! Gostaria de comprar o produto: ${p.nome}`;
 }
+
+window.onload = () => {
+  renderizarVitrine("vitrine-masculino", "Masculino");
+  renderizarVitrine("vitrine-feminino", "Feminino");
+  renderizarVitrine("vitrine-lingerie", "Lingerie");
+  renderizarVitrine("vitrine-loja", "Todos");
+  carregarProduto();
+};

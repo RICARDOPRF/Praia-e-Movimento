@@ -1,139 +1,23 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
-  <title>Loja — Praia & Movimento</title>
-
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
-
-  <!-- Tailwind -->
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            sand: "#F7E9D7",
-            ink: "#0C0C0C",
-            gold: "#C9A44F",
-            peach: "#FF9E68"
-          },
-          fontFamily: {
-            serif: ["Playfair Display", "serif"],
-            sans: ["Plus Jakarta Sans", "sans-serif"]
-          }
-        }
-      }
-    }
-  </script>
+    <meta charset="UTF-8">
+    <title>Loja — Praia & Movimento</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { theme: { extend: { colors: { sand: "#F7E9D7", ink: "#0C0C0C", gold: "#C9A44F" } } } }
+    </script>
 </head>
+<body class="bg-sand text-ink">
+    <header class="p-8 text-center border-b border-black/5">
+        <h1 class="font-serif text-4xl italic">Coleção Completa</h1>
+        <p class="text-sm opacity-50 mt-2">Explore Praia & Movimento</p>
+    </header>
 
-<body class="bg-sand text-ink font-sans antialiased">
+    <main class="max-w-7xl mx-auto px-6 py-16">
+        <div id="vitrine-loja" class="grid grid-cols-2 md:grid-cols-4 gap-8"></div>
+    </main>
 
-<!-- HEADER -->
-<header class="sticky top-0 z-50 bg-white/80 backdrop-blur border-b border-black/5">
-  <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-    <a href="index.html" class="flex items-center gap-2">
-      <span class="material-symbols-outlined text-gold text-3xl">waves</span>
-      <span class="font-serif text-xl font-bold">Praia & Movimento</span>
-    </a>
-
-    <nav class="hidden md:flex gap-10 text-sm font-medium">
-      <a href="feminino.html" class="hover:text-gold">Feminino</a>
-      <a href="masculino.html" class="hover:text-gold">Masculino</a>
-      <a href="lingerie.html" class="hover:text-gold">Lingerie</a>
-      <a href="loja.html" class="text-gold">Loja</a>
-    </nav>
-
-    <a href="carrinho.html">
-      <span class="material-symbols-outlined">shopping_bag</span>
-    </a>
-  </div>
-</header>
-
-<!-- HERO -->
-<section class="max-w-7xl mx-auto px-6 pt-28 pb-16 text-center">
-  <h1 class="font-serif text-4xl md:text-5xl mb-4">
-    Nossa <span class="italic text-gold">Coleção</span>
-  </h1>
-  <p class="text-black/70 max-w-2xl mx-auto">
-    Explore as principais linhas da Praia & Movimento.
-  </p>
-</section>
-
-<!-- MASCULINO -->
-<section class="max-w-7xl mx-auto px-6 mb-24">
-  <h2 class="font-serif text-3xl mb-8">Masculino</h2>
-
-  <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
-    <a href="masculino.html" class="group">
-      <img src="masculino-churrasco-pao-de-alho-preta-view1.jpeg"
-           class="w-full h-80 object-cover rounded-xl group-hover:scale-105 transition">
-      <h3 class="mt-3 font-serif">Churrasco Pão de Alho</h3>
-      <p class="text-gold font-semibold">R$ 145,00</p>
-    </a>
-
-    <a href="masculino.html" class="group">
-      <img src="masculino-saideira-nunca-e-so-uma-nude-view1.jpeg"
-           class="w-full h-80 object-cover rounded-xl group-hover:scale-105 transition">
-      <h3 class="mt-3 font-serif">A Saideira Nunca é Só Uma</h3>
-      <p class="text-gold font-semibold">R$ 130,00</p>
-    </a>
-  </div>
-
-  <a href="masculino.html" class="inline-block mt-6 underline font-semibold">
-    Ver toda coleção Masculina →
-  </a>
-</section>
-
-<!-- FEMININO -->
-<section class="max-w-7xl mx-auto px-6 mb-24">
-  <h2 class="font-serif text-3xl mb-8">Feminino</h2>
-
-  <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
-    <a href="feminino.html" class="group">
-      <img src="biquini-floripa-view1.jpeg"
-           class="w-full h-80 object-cover rounded-xl group-hover:scale-105 transition">
-      <h3 class="mt-3 font-serif">Biquíni Floripa</h3>
-      <p class="text-gold font-semibold">R$ 85,90</p>
-    </a>
-  </div>
-
-  <a href="feminino.html" class="inline-block mt-6 underline font-semibold">
-    Ver toda coleção Feminina →
-  </a>
-</section>
-
-<!-- LINGERIE -->
-<section class="max-w-7xl mx-auto px-6 mb-24">
-  <h2 class="font-serif text-3xl mb-8">Lingerie</h2>
-
-  <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
-    <a href="lingerie.html" class="group">
-      <img src="lingerie-renda-preta-view1.jpeg"
-           class="w-full h-80 object-cover rounded-xl group-hover:scale-105 transition">
-      <h3 class="mt-3 font-serif">Lingerie Renda Preta</h3>
-      <p class="text-gold font-semibold">R$ 179,90</p>
-    </a>
-  </div>
-
-  <a href="lingerie.html" class="inline-block mt-6 underline font-semibold">
-    Ver toda coleção Lingerie →
-  </a>
-</section>
-
-<!-- FOOTER -->
-<footer class="bg-ink text-white py-16 text-center">
-  <span class="font-serif text-xl">Praia & Movimento</span>
-  <p class="text-white/60 text-sm mt-4">
-    © 2024 — Todos os direitos reservados
-  </p>
-</footer>
-
+    <script src="site.js"></script>
 </body>
 </html>

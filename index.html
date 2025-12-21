@@ -1,40 +1,167 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Praia & Movimento | Lifestyle Premium</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Plus+Jakarta+Sans:wght@300;500&display=swap" rel="stylesheet">
-  <style>
-    body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #fcfbf9; }
-    h1, h2 { font-family: 'Cinzel', serif; }
-    .glass { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(15px); }
-  </style>
-</head>
-<body>
-  <nav class="fixed top-0 w-full z-50 glass border-b border-black/5 p-4 flex justify-between items-center">
-    <a href="index.html" class="text-xl tracking-widest font-bold">PRAIA & MOVIMENTO</a>
-    <div class="flex gap-6 items-center">
-      <a href="loja.html" class="hover:opacity-50 transition">LOJA</a>
-      <a href="carrinho.html" class="relative">
-        <span class="material-symbols-outlined">shopping_bag</span>
-        <span class="cart-count absolute -top-2 -right-2 bg-orange-400 text-white text-[10px] px-1 rounded-full">0</span>
-      </a>
-    </div>
-  </nav>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-  <section class="h-screen flex items-center justify-center bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1520975916090-3105956dac38');">
-    <div class="text-center text-white bg-black/20 p-10 backdrop-blur-sm">
-      <h1 class="text-5xl md:text-7xl mb-6">Verão de Elite</h1>
-      <p class="mb-8 tracking-[0.3em] uppercase">Coleção 2025</p>
-      <div class="flex gap-4 justify-center">
-        <a href="feminino.html" class="px-8 py-3 bg-white text-black hover:bg-black hover:text-white transition">FEMININO</a>
-        <a href="masculino.html" class="px-8 py-3 border border-white hover:bg-white hover:text-black transition">MASCULINO</a>
+  <title>Praia & Movimento — Lifestyle de Verão</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            sand: "#F7E9D7",
+            ink: "#0C0C0C",
+            gold: "#C9A44F",
+            peach: "#FF9E68"
+          },
+          fontFamily: {
+            serif: ["Playfair Display", "serif"],
+            sans: ["Plus Jakarta Sans", "sans-serif"]
+          }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body class="bg-sand text-ink font-sans antialiased">
+
+  <!-- HEADER -->
+  <header class="fixed top-0 w-full z-50 bg-white/70 backdrop-blur border-b border-black/5">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <span class="material-symbols-outlined text-gold text-3xl">waves</span>
+        <span class="font-serif text-xl font-bold tracking-wide">Praia & Movimento</span>
+      </div>
+
+      <nav class="hidden md:flex gap-10 text-sm font-medium">
+        <a href="feminino.html" class="hover:text-gold transition">Feminino</a>
+        <a href="masculino.html" class="hover:text-gold transition">Masculino</a>
+        <a href="loja.html" class="hover:text-gold transition">Loja</a>
+        <a href="contato.html" class="hover:text-gold transition">Contato</a>
+      </nav>
+
+      <div class="flex items-center gap-4">
+        <a href="carrinho.html">
+          <span class="material-symbols-outlined">shopping_bag</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section
+    class="h-screen flex items-center justify-center text-center px-6"
+    style="background-image:
+      linear-gradient(rgba(12,12,12,.55), rgba(12,12,12,.25)),
+      url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e');
+      background-size:cover;
+      background-position:center;">
+    
+    <div class="max-w-3xl text-white animate-fadeIn">
+      <span class="inline-block mb-6 px-5 py-2 rounded-full bg-white/20 text-sm tracking-widest uppercase">
+        Nova Coleção
+      </span>
+
+      <h1 class="font-serif text-5xl md:text-6xl font-bold leading-tight mb-6">
+        O luxo do verão<br>
+        <span class="italic text-peach">em movimento</span>
+      </h1>
+
+      <p class="text-white/90 max-w-xl mx-auto mb-10">
+        Moda praia, lifestyle e atitude para quem vive o sol com elegância,
+        liberdade e identidade.
+      </p>
+
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="feminino.html"
+           class="px-8 py-4 rounded-full bg-peach text-white font-semibold hover:scale-105 transition">
+          Moda Feminina
+        </a>
+
+        <a href="masculino.html"
+           class="px-8 py-4 rounded-full border border-white text-white font-semibold hover:bg-white hover:text-ink transition">
+          Moda Masculina
+        </a>
       </div>
     </div>
   </section>
 
-  <script src="site.js"></script>
+  <!-- MANIFESTO -->
+  <section class="max-w-5xl mx-auto px-6 py-24 text-center">
+    <h2 class="font-serif text-4xl mb-6">
+      Mais que roupa.<br>
+      Um <span class="italic text-gold">estilo de vida</span>.
+    </h2>
+
+    <p class="text-black/70 leading-relaxed max-w-3xl mx-auto">
+      Praia & Movimento nasce do encontro entre o sol, o corpo e a liberdade.
+      Criamos peças que acompanham o ritmo de quem vive intensamente,
+      com conforto, sensualidade e elegância natural.
+    </p>
+  </section>
+
+  <!-- DESTAQUES -->
+  <section class="max-w-7xl mx-auto px-6 pb-24">
+    <h3 class="font-serif text-3xl text-center mb-12">
+      Destaques da Coleção
+    </h3>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
+      <!-- Card -->
+      <a href="loja.html" class="group">
+        <div class="aspect-[3/4] overflow-hidden rounded-xl">
+          <img
+            src="https://images.unsplash.com/photo-1520975916090-3105956dac38"
+            class="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+            loading="lazy"/>
+        </div>
+        <h4 class="mt-4 font-serif text-lg">Biquíni Marquinha</h4>
+        <p class="text-sm text-black/60">Moda Praia</p>
+      </a>
+
+      <a href="loja.html" class="group">
+        <div class="aspect-[3/4] overflow-hidden rounded-xl">
+          <img
+            src="https://images.unsplash.com/photo-1503341455253-b2e723bb3dbb"
+            class="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+            loading="lazy"/>
+        </div>
+        <h4 class="mt-4 font-serif text-lg">Camisa Lifestyle</h4>
+        <p class="text-sm text-black/60">Masculino</p>
+      </a>
+
+      <a href="loja.html" class="group">
+        <div class="aspect-[3/4] overflow-hidden rounded-xl">
+          <img
+            src="https://images.unsplash.com/photo-1521334884684-d80222895322"
+            class="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+            loading="lazy"/>
+        </div>
+        <h4 class="mt-4 font-serif text-lg">Acessórios Premium</h4>
+        <p class="text-sm text-black/60">Lifestyle</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-ink text-white py-16 text-center">
+    <span class="font-serif text-xl">Praia & Movimento</span>
+    <p class="text-white/60 text-sm mt-4">
+      © 2024 — Todos os direitos reservados
+    </p>
+  </footer>
+
 </body>
 </html>

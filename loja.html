@@ -3,27 +3,121 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Praia & Movimento — Loja</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-white text-slate-900">
-  <main class="max-w-5xl mx-auto p-6">
-    <h1 class="text-3xl font-bold">Loja (placeholder)</h1>
-    <p class="mt-2 text-slate-600">Você pode colar aqui o HTML da Loja que você já tem.</p>
 
-    <div class="mt-8">
-      <button data-add-to-cart data-sku="produto-demo" data-name="Produto Demo" data-price="10.00"
-        class="px-4 py-2 border rounded">
-        Adicionar à Sacola (teste)
+  <title>Loja — Praia & Movimento</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            sand: "#F7E9D7",
+            ink: "#0C0C0C",
+            gold: "#C9A44F",
+            peach: "#FF9E68"
+          },
+          fontFamily: {
+            serif: ["Playfair Display", "serif"],
+            sans: ["Plus Jakarta Sans", "sans-serif"]
+          }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body class="bg-sand text-ink font-sans antialiased">
+
+  <!-- HEADER -->
+  <header class="sticky top-0 z-50 bg-white/80 backdrop-blur border-b border-black/5">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+      <a href="index.html" class="flex items-center gap-2">
+        <span class="material-symbols-outlined text-gold text-3xl">waves</span>
+        <span class="font-serif text-xl font-bold">Praia & Movimento</span>
+      </a>
+
+      <nav class="hidden md:flex gap-10 text-sm font-medium">
+        <a href="feminino.html" class="hover:text-gold">Feminino</a>
+        <a href="masculino.html" class="hover:text-gold">Masculino</a>
+        <a href="loja.html" class="text-gold">Loja</a>
+        <a href="contato.html" class="hover:text-gold">Contato</a>
+      </nav>
+
+      <a href="carrinho.html">
+        <span class="material-symbols-outlined">shopping_bag</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="max-w-7xl mx-auto px-6 pt-28 pb-14 text-center">
+    <h1 class="font-serif text-4xl md:text-5xl mb-4">
+      Nossa <span class="italic text-gold">Coleção</span>
+    </h1>
+    <p class="text-black/70 max-w-2xl mx-auto">
+      Explore peças que unem conforto, estilo e identidade.
+    </p>
+  </section>
+
+  <!-- FILTROS VISUAIS -->
+  <section class="max-w-7xl mx-auto px-6 mb-12">
+    <div class="flex flex-wrap gap-4 justify-center">
+      <button class="px-6 py-2 rounded-full border border-black/20 hover:bg-ink hover:text-white transition">
+        Todos
+      </button>
+      <button class="px-6 py-2 rounded-full border border-black/20 hover:bg-peach hover:text-white transition">
+        Feminino
+      </button>
+      <button class="px-6 py-2 rounded-full border border-black/20 hover:bg-blue-900 hover:text-white transition">
+        Masculino
+      </button>
+      <button class="px-6 py-2 rounded-full border border-black/20 hover:bg-ink hover:text-white transition">
+        Acessórios
       </button>
     </div>
+  </section>
 
-    <div class="mt-8">
-      <a href="index.html" class="underline">Voltar</a>
-      <a href="carrinho.html" class="underline ml-4">Ir para o carrinho</a>
+  <!-- GRID DE PRODUTOS -->
+  <section class="max-w-7xl mx-auto px-6 pb-24">
+    <div id="lista-produtos"
+         class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10">
+
+      <!-- CARD MODELO (JS VAI DUPLICAR) -->
+      <a href="produto.html" class="group">
+        <div class="aspect-[3/4] rounded-xl overflow-hidden bg-white">
+          <img
+            src="masculino-churrasco-pao-de-alho-preta-view1.jpeg"
+            alt="Produto"
+            class="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+            loading="lazy">
+        </div>
+
+        <h3 class="mt-4 font-serif text-lg">
+          Camisa Churrasco Pão de Alho
+        </h3>
+        <p class="text-sm text-black/60">Masculino</p>
+        <p class="mt-1 font-semibold text-gold">R$ 145,00</p>
+      </a>
+
     </div>
-  </main>
+  </section>
 
+  <!-- FOOTER -->
+  <footer class="bg-ink text-white py-16 text-center">
+    <span class="font-serif text-xl">Praia & Movimento</span>
+    <p class="text-white/60 text-sm mt-4">
+      © 2024 — Todos os direitos reservados
+    </p>
+  </footer>
+
+  <!-- JS GLOBAL -->
   <script src="site.js"></script>
 </body>
 </html>

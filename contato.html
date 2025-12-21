@@ -1,1 +1,105 @@
-<!DOCTYPE html><html><head><title>Contato</title></head><body><h1>Contato</h1></body></html>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contato — Praia & Movimento</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            sand: "#F7E9D7",
+            ink: "#1C1C1C",
+            gold: "#C9A44F"
+          },
+          fontFamily: {
+            serif: ["Playfair Display", "serif"],
+            sans: ["Plus Jakarta Sans", "sans-serif"]
+          }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body class="bg-sand text-ink font-sans antialiased">
+
+  <header class="sticky top-0 z-50 bg-white/80 backdrop-blur border-b border-black/5">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+      <a href="index.html" class="flex items-center gap-2">
+        <span class="material-symbols-outlined text-gold text-3xl">waves</span>
+        <span class="font-serif text-xl font-bold">Praia & Movimento</span>
+      </a>
+      <nav class="hidden md:flex gap-8 text-sm font-bold uppercase tracking-widest">
+        <a href="feminino.html" class="hover:text-gold transition">Feminino</a>
+        <a href="masculino.html" class="hover:text-gold transition">Masculino</a>
+        <a href="lingerie.html" class="hover:text-gold transition">Lingerie</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="max-w-4xl mx-auto px-6 py-20">
+    <div class="text-center mb-16">
+      <h1 class="font-serif text-5xl mb-6 italic">Fale Connosco</h1>
+      <p class="text-black/60 max-w-lg mx-auto">
+        Dúvidas sobre tamanhos, envios ou quer fazer um pedido personalizado? 
+        A nossa equipa está pronta para ajudar.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-12">
+      <div class="space-y-8">
+        <div class="bg-white p-8 rounded-3xl shadow-sm border border-black/5">
+          <span class="material-symbols-outlined text-gold text-3xl mb-4">chat</span>
+          <h2 class="font-serif text-2xl mb-2">WhatsApp</h2>
+          <p class="text-sm text-black/50 mb-6">Atendimento imediato para vendas e suporte.</p>
+          <a href="https://wa.me/555197365965" target="_blank" class="inline-block bg-ink text-white px-8 py-3 rounded-full font-bold text-xs tracking-widest hover:bg-gold transition">
+            ENVIAR MENSAGEM
+          </a>
+        </div>
+
+        <div class="bg-white p-8 rounded-3xl shadow-sm border border-black/5">
+          <span class="material-symbols-outlined text-gold text-3xl mb-4">photo_camera</span>
+          <h2 class="font-serif text-2xl mb-2">Instagram</h2>
+          <p class="text-sm text-black/50 mb-6">Acompanhe as novidades e mostre o seu look.</p>
+          <a href="https://www.instagram.com/praiaemovimento" target="_blank" class="text-gold font-bold text-xs tracking-widest hover:underline">
+            @praiaemovimento
+          </a>
+        </div>
+      </div>
+
+      <div class="flex flex-col justify-center bg-ink text-white p-12 rounded-3xl shadow-xl">
+        <h3 class="font-serif text-3xl mb-8 italic">Dados da Loja</h3>
+        
+        <div class="space-y-6">
+          <div>
+            <label class="text-[10px] uppercase font-bold text-gold tracking-widest block mb-1">Localização Principal</label>
+            <p class="text-sm opacity-80">Telemaco Borba, Parana</p>
+          </div>
+          <div>
+            <label class="text-[10px] uppercase font-bold text-gold tracking-widest block mb-1">Telefone de Suporte</label>
+            <p class="text-sm opacity-80">(42) 99900-9935</p>
+          </div>
+          <div class="pt-8 border-t border-white/10">
+            <p class="text-[11px] italic opacity-50">
+              * O atendimento para pedidos de Moda Praia, Lingerie e Masculino é realizado exclusivamente via WhatsApp.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="bg-sand border-t border-black/5 py-12 text-center">
+    <p class="font-serif text-lg">Praia & Movimento</p>
+    <p class="text-xs text-black/40 mt-2">© 2024 — Todos os direitos reservados</p>
+  </footer>
+
+</body>
+</html>

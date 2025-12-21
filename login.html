@@ -1,68 +1,71 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login — Praia & Movimento</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@1&family=Plus+Jakarta+Sans:wght@400;600&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = { theme: { extend: { colors: { sand: "#F7E9D7", ink: "#0C0C0C", gold: "#C9A44F" } } } }
-    </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Entrar — Praia & Movimento</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@1&family=Plus+Jakarta+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = { theme: { extend: { colors: { sand: "#F7E9D7", ink: "#0C0C0C", gold: "#C9A44F" } } } }
+  </script>
 </head>
-<body class="bg-sand min-h-screen flex items-center justify-center font-sans px-6">
+<body class="bg-sand text-ink font-sans min-h-screen flex items-center justify-center">
 
-    <div class="max-w-md w-full bg-white p-10 rounded-3xl shadow-2xl">
-        <div class="text-center mb-10">
-            <h1 class="font-serif text-3xl italic font-bold text-ink">Acessar Conta</h1>
-            <p class="text-xs uppercase tracking-widest text-gold mt-2 font-bold">Bem-vindo de volta</p>
-        </div>
+  <div class="bg-white w-full max-w-md rounded-[3rem] p-12 shadow-xl mx-6">
+    <header class="text-center mb-10">
+      <a href="index.html" class="font-serif text-2xl font-bold italic block mb-2">Praia & Movimento</a>
+      <p class="text-black/40 text-[10px] uppercase tracking-[0.2em] font-bold">Acesse sua conta</p>
+    </header>
 
-        <form onsubmit="event.preventDefault(); loginCliente();" class="space-y-6">
-            <div>
-                <label class="text-[10px] uppercase font-bold tracking-widest ml-4 text-black/40">E-mail</label>
-                <input id="login-email" type="email" placeholder="seu@email.com" required
-                    class="w-full mt-1 p-4 rounded-full border border-black/5 bg-sand/30 outline-none focus:border-gold transition">
-            </div>
-            <div>
-                <label class="text-[10px] uppercase font-bold tracking-widest ml-4 text-black/40">Senha</label>
-                <input id="login-senha" type="password" placeholder="••••••••" required
-                    class="w-full mt-1 p-4 rounded-full border border-black/5 bg-sand/30 outline-none focus:border-gold transition">
-            </div>
+    <form id="form-login" class="space-y-6">
+      <div>
+        <label class="text-[10px] uppercase font-bold text-black/30 tracking-widest ml-1">E-mail</label>
+        <input type="email" id="login-email" class="w-full border-b border-black/10 py-3 outline-none focus:border-gold transition" required>
+      </div>
+      
+      <div>
+        <label class="text-[10px] uppercase font-bold text-black/30 tracking-widest ml-1">Senha</label>
+        <input type="password" id="login-senha" class="w-full border-b border-black/10 py-3 outline-none focus:border-gold transition" required>
+      </div>
 
-            <button type="submit" 
-                class="w-full bg-ink text-white py-4 rounded-full font-bold hover:bg-gold transition shadow-lg transform hover:-translate-y-1">
-                ENTRAR
-            </button>
-        </form>
-
-        <p class="mt-8 text-center text-sm text-black/60">
-            Não tem conta? <a href="cadastro.html" class="text-gold font-bold underline">Cadastre-se</a>
-        </p>
+      <button type="submit" class="w-full bg-ink text-white py-4 rounded-full font-bold tracking-widest hover:bg-gold transition shadow-lg transform hover:-translate-y-0.5">
+        ENTRAR
+      </button>
+    </form>
+    
+    <div class="mt-10 text-center space-y-4">
+      <p class="text-sm text-black/40">Novo por aqui? <a href="cadastro.html" class="text-ink font-bold underline">Criar conta</a></p>
+      <a href="https://wa.me/555197365965?text=Esqueci%20minha%20senha" target="_blank" class="block text-[10px] uppercase tracking-widest text-black/30 hover:text-gold transition">
+        Esqueceu a senha? Fale connosco
+      </a>
     </div>
+  </div>
 
-    <script>
-        function loginCliente() {
-            const email = document.getElementById('login-email').value;
-            const senha = document.getElementById('login-senha').value;
+  <script>
+    document.getElementById('form-login').onsubmit = (e) => {
+      e.preventDefault();
+      const email = document.getElementById('login-email').value;
+      const senha = document.getElementById('login-senha').value;
 
-            // Busca os dados salvos no navegador para esse e-mail
-            const dadosSalvos = localStorage.getItem(`user_${email}`);
+      // Procura o utilizador guardado no navegador
+      const dadosUsuario = localStorage.getItem(`user_${email}`);
 
-            if (dadosSalvos) {
-                const usuario = JSON.parse(dadosSalvos);
-                
-                if (usuario.senha === senha) {
-                    localStorage.setItem("cliente_nome", usuario.nome);
-                    localStorage.setItem("cliente_logado", "true");
-                    window.location.href = "index.html";
-                } else {
-                    alert("Senha incorreta!");
-                }
-            } else {
-                alert("E-mail não encontrado! Por favor, cadastre-se.");
-            }
+      if (dadosUsuario) {
+        const usuario = JSON.parse(dadosUsuario);
+        
+        // Verifica se a senha está correta
+        if (usuario.senha === senha) {
+          localStorage.setItem("usuario_logado", JSON.stringify(usuario));
+          window.location.href = "index.html";
+        } else {
+          alert("Senha incorreta. Por favor, tente novamente.");
         }
-    </script>
+      } else {
+        alert("E-mail não encontrado. Verifique os dados ou crie uma conta.");
+      }
+    };
+  </script>
+
 </body>
 </html>

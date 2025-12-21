@@ -1,64 +1,77 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro — Praia & Movimento</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@1&family=Plus+Jakarta+Sans:wght@400;600&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = { theme: { extend: { colors: { sand: "#F7E9D7", ink: "#0C0C0C", gold: "#C9A44F" } } } }
-    </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Criar Conta — Praia & Movimento</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,700&family=Plus+Jakarta+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = { theme: { extend: { colors: { sand: "#F7E9D7", ink: "#0C0C0C", gold: "#C9A44F" } } } }
+  </script>
 </head>
-<body class="bg-sand min-h-screen flex items-center justify-center font-sans px-6 py-12">
+<body class="bg-sand text-ink font-sans min-h-screen flex flex-col">
+  <header class="p-6 flex justify-center">
+    <a href="index.html" class="font-serif text-2xl font-bold italic">Praia & Movimento</a>
+  </header>
 
-    <div class="max-w-md w-full bg-white p-10 rounded-3xl shadow-2xl">
-        <div class="text-center mb-8">
-            <h1 class="font-serif text-3xl italic font-bold text-ink">Criar Conta</h1>
-            <p class="text-xs uppercase tracking-widest text-gold mt-2 font-bold">Junte-se à Praia & Movimento</p>
+  <main class="flex-1 flex items-center justify-center px-6 py-12">
+    <div class="bg-white w-full max-w-xl rounded-[3rem] p-10 shadow-xl">
+      <h1 class="font-serif text-3xl mb-8 text-center italic">Cadastre-se</h1>
+      
+      <form id="form-cadastro" class="space-y-4">
+        <input type="text" id="cad-nome" placeholder="Nome Completo" class="w-full border-b border-black/10 py-3 outline-none focus:border-gold" required>
+        
+        <div class="grid grid-cols-2 gap-4">
+          <input type="tel" id="cad-tel" placeholder="Telefone (DDD)" class="border-b border-black/10 py-3 outline-none focus:border-gold" required>
+          <input type="text" id="cad-insta" placeholder="@Instagram" class="border-b border-black/10 py-3 outline-none focus:border-gold">
         </div>
 
-        <form onsubmit="event.preventDefault(); registrarCliente();" class="space-y-4">
-            <div>
-                <label class="text-[10px] uppercase font-bold tracking-widest ml-4 text-black/40">Nome Completo</label>
-                <input id="reg-nome" type="text" placeholder="Seu nome" required
-                    class="w-full mt-1 p-4 rounded-full border border-black/5 bg-sand/30 outline-none focus:border-gold transition">
-            </div>
-            <div>
-                <label class="text-[10px] uppercase font-bold tracking-widest ml-4 text-black/40">E-mail</label>
-                <input id="reg-email" type="email" placeholder="seu@email.com" required
-                    class="w-full mt-1 p-4 rounded-full border border-black/5 bg-sand/30 outline-none focus:border-gold transition">
-            </div>
-            <div>
-                <label class="text-[10px] uppercase font-bold tracking-widest ml-4 text-black/40">Senha</label>
-                <input id="reg-senha" type="password" placeholder="••••••••" required
-                    class="w-full mt-1 p-4 rounded-full border border-black/5 bg-sand/30 outline-none focus:border-gold transition">
-            </div>
+        <input type="email" id="cad-email" placeholder="E-mail" class="w-full border-b border-black/10 py-3 outline-none focus:border-gold" required>
+        
+        <input type="password" id="cad-senha" placeholder="Escolha uma Senha" class="w-full border-b border-black/10 py-3 outline-none focus:border-gold" required>
+        
+        <div class="pt-4 grid grid-cols-2 gap-4">
+          <input type="text" id="cad-cidade" placeholder="Cidade" class="border-b border-black/10 py-3 outline-none focus:border-gold" required>
+          <input type="text" id="cad-estado" placeholder="Estado" class="border-b border-black/10 py-3 outline-none focus:border-gold" required>
+        </div>
 
-            <button type="submit" 
-                class="w-full bg-ink text-white py-4 rounded-full font-bold hover:bg-gold transition shadow-lg transform hover:-translate-y-1">
-                CADASTRAR
-            </button>
-        </form>
+        <div class="grid grid-cols-3 gap-4">
+          <input type="text" id="cad-rua" placeholder="Rua" class="col-span-2 border-b border-black/10 py-3 outline-none focus:border-gold" required>
+          <input type="text" id="cad-num" placeholder="Nº" class="border-b border-black/10 py-3 outline-none focus:border-gold" required>
+        </div>
 
-        <p class="mt-6 text-center text-sm text-black/60">
-            Já tem conta? <a href="login.html" class="text-gold font-bold underline">Fazer Login</a>
-        </p>
+        <button type="submit" class="w-full bg-ink text-white py-4 rounded-full font-bold tracking-widest mt-8 hover:bg-gold transition shadow-lg">
+          CRIAR MINHA CONTA
+        </button>
+      </form>
+      <p class="text-center mt-6 text-sm text-black/40">Já tem conta? <a href="login.html" class="text-ink font-bold underline">Entrar</a></p>
     </div>
+  </main>
 
-    <script>
-        function registrarCliente() {
-            const nome = document.getElementById('reg-nome').value;
-            const email = document.getElementById('reg-email').value;
-            const senha = document.getElementById('reg-senha').value;
-
-            // Salva o objeto do usuário no LocalStorage
-            const usuario = { nome, email, senha };
-            localStorage.setItem(`user_${email}`, JSON.stringify(usuario));
-            
-            alert("Cadastro realizado com sucesso! Agora faça seu login.");
-            window.location.href = "login.html";
-        }
-    </script>
+  <script>
+    document.getElementById('form-cadastro').onsubmit = (e) => {
+      e.preventDefault();
+      const user = {
+        nome: document.getElementById('cad-nome').value,
+        telefone: document.getElementById('cad-tel').value,
+        email: document.getElementById('cad-email').value,
+        senha: document.getElementById('cad-senha').value, // Senha guardada
+        cidade: document.getElementById('cad-cidade').value,
+        estado: document.getElementById('cad-estado').value,
+        rua: document.getElementById('cad-rua').value,
+        numero: document.getElementById('cad-num').value,
+        instagram: document.getElementById('cad-insta').value
+      };
+      
+      // Salva no sistema local usando o e-mail como chave única
+      localStorage.setItem(`user_${user.email}`, JSON.stringify(user));
+      // Loga automaticamente após o cadastro
+      localStorage.setItem("usuario_logado", JSON.stringify(user));
+      
+      alert("Cadastro realizado com sucesso!");
+      window.location.href = "index.html";
+    };
+  </script>
 </body>
 </html>

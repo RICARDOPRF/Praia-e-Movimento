@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Trocas e Devoluções — Praia & Movimento</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            sand: "#F7E9D7",
+            ink: "#1C1C1C",
+            gold: "#C9A44F"
+          },
+          fontFamily: {
+            serif: ["Playfair Display", "serif"],
+            sans: ["Plus Jakarta Sans", "sans-serif"]
+          }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body class="bg-sand text-ink font-sans antialiased">
+
+  <header class="sticky top-0 z-50 bg-white/80 backdrop-blur border-b border-black/5">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+      <a href="index.html" class="flex items-center gap-2">
+        <span class="material-symbols-outlined text-gold text-3xl">waves</span>
+        <span class="font-serif text-xl font-bold">Praia & Movimento</span>
+      </a>
+      <nav class="hidden md:flex gap-8 text-sm font-bold uppercase tracking-widest">
+        <a href="feminino.html" class="hover:text-gold transition">Feminino</a>
+        <a href="masculino.html" class="hover:text-gold transition">Masculino</a>
+        <a href="lingerie.html" class="hover:text-gold transition">Lingerie</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="max-w-4xl mx-auto px-6 py-16">
+    <div class="bg-white rounded-[3rem] p-8 md:p-16 shadow-sm border border-black/5">
+      <h1 class="font-serif text-4xl md:text-5xl mb-10 italic text-center">Trocas e Devoluções</h1>
+      
+      <div class="space-y-10 text-black/75 leading-relaxed">
+        
+        <section>
+          <h2 class="font-serif text-2xl text-ink mb-4">1. Direito de Arrependimento</h2>
+          <p>
+            Em conformidade com o Código de Defesa do Consumidor, o cliente possui até <strong>7 (setes) dias corridos</strong> após o recebimento do produto para desistir da compra realizada online e solicitar a devolução.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="font-serif text-2xl text-ink mb-4">2. Condições para Devolução</h2>
+          <p class="mb-4">Para que a troca ou devolução seja efetuada, o item deve obrigatoriamente cumprir os seguintes requisitos:</p>
+          <ul class="list-disc pl-6 space-y-2">
+            <li>Estar na embalagem original e sem sinais de uso ou lavagem;</li>
+            <li>Manter etiquetas e lacres originais intactos;</li>
+            <li>Não apresentar odores, manchas ou alterações (como ajustes e bainhas).</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2 class="font-serif text-2xl text-ink mb-4">3. Higiene (Biquínis e Lingeries)</h2>
+          <p>
+            Por questões de saúde, peças de moda praia e lingeries só serão aceitas se o protetor higiênico não tiver sido removido e a peça não apresentar sinais de prova direta na pele.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="font-serif text-2xl text-ink mb-4">4. Defeitos de Fabrico</h2>
+          <p>
+            Caso identifique algum defeito, o cliente tem até <strong>30 dias</strong> para entrar em contacto. A equipa avaliará o caso para proceder à troca ou reembolso.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="font-serif text-2xl text-ink mb-4">5. Como solicitar</h2>
+          <p>
+            Todo o processo é centralizado no nosso atendimento via <strong>WhatsApp (+55 51 9736-5965)</strong>. Tenha em mãos o nome do titular da compra e fotos do produto.
+          </p>
+        </section>
+
+        <div class="pt-10 border-t border-black/5 flex flex-col items-center">
+          <p class="text-xs uppercase tracking-[0.2em] font-bold text-gold mb-6 text-center">Dúvidas Adicionais?</p>
+          <a href="contato.html" class="bg-ink text-white px-10 py-4 rounded-full font-bold text-xs tracking-widest hover:bg-gold transition transform hover:-translate-y-1 shadow-lg">
+            CENTRAL DE ATENDIMENTO
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="bg-sand py-12 text-center">
+    <p class="font-serif text-lg">Praia & Movimento</p>
+    <p class="text-[10px] text-black/40 mt-4 tracking-widest uppercase">Telemaco Borba, PR — Brasil</p>
+  </footer>
+
+</body>
+</html>

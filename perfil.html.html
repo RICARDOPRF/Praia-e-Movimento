@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Meu Perfil — Praia & Movimento</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { sand: "#F7E9D7", ink: "#1C1C1C", gold: "#C9A44F" },
+          fontFamily: { serif: ["Playfair Display", "serif"], sans: ["Plus Jakarta Sans", "sans-serif"] }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body class="bg-sand text-ink font-sans antialiased">
+
+  <header class="sticky top-0 z-50 bg-white/80 backdrop-blur border-b border-black/5">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+      <a href="index.html" class="flex items-center gap-2">
+        <span class="material-symbols-outlined text-gold text-3xl">waves</span>
+        <span class="font-serif text-xl font-bold">Praia & Movimento</span>
+      </a>
+      <div id="area-cliente" class="text-xs font-bold uppercase tracking-widest"></div>
+    </div>
+  </header>
+
+  <main class="max-w-3xl mx-auto px-6 py-16">
+    <h1 class="font-serif text-4xl mb-10 italic text-center">Minha Conta</h1>
+    
+    <div class="bg-white rounded-3xl p-8 shadow-sm space-y-8">
+      <div class="grid md:grid-cols-2 gap-6 border-b border-black/5 pb-8">
+        <div>
+          <label class="text-[10px] uppercase font-bold text-black/40 tracking-widest block mb-1">Nome Completo</label>
+          <p id="perfil-nome" class="font-medium">Carregando...</p>
+        </div>
+        <div>
+          <label class="text-[10px] uppercase font-bold text-black/40 tracking-widest block mb-1">Telefone</label>
+          <p id="perfil-telefone" class="font-medium">--</p>
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-6 border-b border-black/5 pb-8">
+        <div>
+          <label class="text-[10px] uppercase font-bold text-black/40 tracking-widest block mb-1">Cidade / Estado</label>
+          <p id="perfil-localizacao" class="font-medium">--</p>
+        </div>
+        <div>
+          <label class="text-[10px] uppercase font-bold text-black/40 tracking-widest block mb-1">Endereço</label>
+          <p id="perfil-endereco" class="font-medium">--</p>
+        </div>
+      </div>
+
+      <div class="pt-4 flex flex-col md:flex-row gap-4">
+        <button onclick="logout()" class="flex-1 border border-ink py-4 rounded-full font-bold uppercase text-xs tracking-widest hover:bg-ink hover:text-white transition">
+          Sair da Conta
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <script src="site.js"></script>
+  <script>
+    // Lógica para preencher os dados na tela
+    window.addEventListener('DOMContentLoaded', () => {
+      const usuario = JSON.parse(localStorage.getItem("usuario_logado"));
+      
+      if (!usuario) {
+        window.location.href = "login.html"; // Redireciona se não estiver logado
+        return;
+      }
+
+      document.getElementById("perfil-nome").textContent = usuario.nome;
+      document.getElementById("perfil-telefone").textContent = usuario.telefone;
+      document.getElementById("perfil-localizacao").textContent = `${usuario.cidade}, ${usuario.estado}`;
+      document.getElementById("perfil-endereco").textContent = `${usuario.rua}, nº ${usuario.numero}`;
+    });
+
+    function logout() {
+      localStorage.removeItem("usuario_logado");
+      window.location.href = "index.html";
+    }
+  </script>
+</body>
+</html>

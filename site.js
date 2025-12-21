@@ -1,12 +1,10 @@
 /* ================================
    PRAIA & MOVIMENTO — SITE.JS 
-   Versão Final: Cliente, Loja e Carrinho
+   Foco: Vendas 100% via WhatsApp
 ================================ */
 
 const PRODUTOS = [
-
-
-// ===== MASCULINO (REGATAS E CAMISAS) =====
+  // ===== MASCULINO (REGATAS E CAMISAS) =====
   { slug: "bora-tomar-uma", nome: "Regata Bora Tomar Uma", categoria: "Masculino", preco: 130.00, cor: "Preta", tamanhos: ["M"] },
   { slug: "meu-mar", nome: "Regata Meu Mar", categoria: "Masculino", preco: 130.00, cor: "Azul", tamanhos: ["M"] },
   { slug: "lisa-regata", nome: "Regata Lisa", categoria: "Masculino", preco: 130.00, cor: "Rosa, Azul", tamanhos: ["M", "G"] },
@@ -66,178 +64,87 @@ const PRODUTOS = [
 
 const formatarPreco = (v) => v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
-/* --- SISTEMA DE LOGIN/CADASTRO DO CLIENTE --- */
-
-function registrarCliente(nome, email, senha) {
-  const usuario = { nome, email, senha };
-  localStorage.setItem(`user_${email}`, JSON.stringify(usuario));
-  alert("Cadastro realizado com sucesso!");
-  window.location.href = "login.html";
-}
-
-function loginCliente(email, senha) {
-  const dados = localStorage.getItem(`user_${email}`);
-  if (dados) {
-    const usuario = JSON.parse(dados);
-    if (usuario.senha === senha) {
-      localStorage.setItem("cliente_nome", usuario.nome);
-      localStorage.setItem("cliente_logado", "true");
-      window.location.href = "index.html";
-    } else {
-      alert("Senha incorreta!");
+/* --- GERENCIAMENTO DE SESSÃO --- */
+function verificarSessao() {
+    const areaCliente = document.getElementById("area-cliente");
+    if (!areaCliente) return;
+    const user = JSON.parse(localStorage.getItem("usuario_logado"));
+    if (user) {
+        areaCliente.innerHTML = `<a href="perfil.html" class="hover:text-gold transition flex items-center gap-2">
+            <span class="material-symbols-outlined !text-lg">person</span> Olá, ${user.nome.split(' ')[0]}</a>`;
     }
-  } else {
-    alert("E-mail não encontrado!");
-  }
 }
 
-function verificarCliente() {
-  const nome = localStorage.getItem("cliente_nome");
-  const logado = localStorage.getItem("cliente_logado");
-  const areaCliente = document.getElementById("area-cliente");
-
-  if (logado === "true" && areaCliente) {
-    areaCliente.innerHTML = `
-      <div class="flex items-center gap-4">
-        <a href="minha-conta.html" class="text-[10px] font-bold uppercase tracking-widest text-gold italic hover:underline">
-          Olá, ${nome.split(' ')[0]}!
-        </a>
-        <button onclick="logoutCliente()" class="text-[10px] text-ink/40 hover:text-red-500 font-bold uppercase transition">Sair</button>
-      </div>
-    `;
-  }
-}
-
-function logoutCliente() {
-  localStorage.removeItem("cliente_nome");
-  localStorage.removeItem("cliente_logado");
-  window.location.href = "index.html";
-}
-
-/* --- RENDERIZAÇÃO DA LOJA --- */
-
+/* --- VITRINES --- */
 function renderizarVitrine(containerId, filtro = "Todos") {
   const container = document.getElementById(containerId);
   if (!container) return;
-
   const lista = filtro === "Todos" ? PRODUTOS : PRODUTOS.filter(p => p.categoria === filtro);
-
   container.innerHTML = lista.map(p => `
-    <a href="produto.html?produto=${p.slug}" class="group bg-white p-4 rounded-2xl shadow-sm hover:shadow-xl transition duration-300">
-      <div class="aspect-[3/4] overflow-hidden rounded-xl bg-gray-100">
-        <img src="${p.slug}-view1.jpeg" alt="${p.nome}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+    <a href="produto.html?produto=${p.slug}" class="group">
+      <div class="aspect-[3/4] overflow-hidden rounded-xl bg-white shadow-sm group-hover:shadow-xl transition">
+        <img src="${p.slug}-view1.jpeg" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
       </div>
       <div class="mt-5">
-        <span class="text-[10px] tracking-[0.2em] text-gold font-bold uppercase">${p.categoria}</span>
-        <h3 class="font-serif text-lg text-ink mt-1">${p.nome}</h3>
-        <p class="text-gold font-semibold mt-2">${formatarPreco(p.preco)}</p>
+        <h3 class="font-serif text-lg">${p.nome}</h3>
+        <p class="text-sm text-black/50 mt-1">${p.categoria}</p>
+        <p class="mt-2 text-gold font-medium">${formatarPreco(p.preco)}</p>
       </div>
-    </a>
-  `).join('');
+    </a>`).join('');
 }
 
-/* --- SACOLA (CARRINHO) --- */
-
+/* --- SACOLA E WHATSAPP --- */
 function adicionarAoCarrinho() {
   const params = new URLSearchParams(window.location.search);
   const slug = params.get("produto");
   const p = PRODUTOS.find(item => item.slug === slug);
-  const selectTamanho = document.getElementById("select-tamanho");
-  const tamanho = selectTamanho ? selectTamanho.value : "U";
-
+  const tamanho = document.getElementById("select-tamanho")?.value || "U";
   if (!p) return;
 
   let carrinho = JSON.parse(localStorage.getItem("carrinho_pm")) || [];
   carrinho.push({ slug: p.slug, nome: p.nome, preco: p.preco, tamanho: tamanho, cor: p.cor });
   localStorage.setItem("carrinho_pm", JSON.stringify(carrinho));
-  
-  window.location.href = "carrinho.html";
-}
-
-function exibirCarrinho() {
-  const container = document.getElementById("itens-carrinho");
-  if (!container) return;
-
-  let carrinho = JSON.parse(localStorage.getItem("carrinho_pm")) || [];
-  let total = 0;
-
-  if (carrinho.length === 0) {
-    container.innerHTML = `<div class="py-20 text-center opacity-40 italic">Sua sacola está vazia.</div>`;
-    if(document.getElementById("resumo-carrinho")) document.getElementById("resumo-carrinho").classList.add("hidden");
-    return;
-  }
-
-  container.innerHTML = carrinho.map((item, index) => {
-    total += item.preco;
-    return `
-      <div class="flex items-center gap-4 bg-white p-4 rounded-2xl border border-black/5 shadow-sm">
-        <img src="${item.slug}-view1.jpeg" class="w-16 h-20 object-cover rounded-lg">
-        <div class="flex-1">
-          <h3 class="font-serif text-md leading-tight">${item.nome}</h3>
-          <p class="text-[9px] text-black/40 uppercase font-bold">${item.tamanho} | ${item.cor}</p>
-          <p class="text-gold font-bold">${formatarPreco(item.preco)}</p>
-        </div>
-        <button onclick="removerDoCarrinho(${index})" class="text-red-400 text-[10px] font-bold uppercase">Remover</button>
-      </div>
-    `;
-  }).join('');
-
-  if(document.getElementById("total-carrinho")) document.getElementById("total-carrinho").textContent = formatarPreco(total);
-}
-
-function removerDoCarrinho(index) {
-  let carrinho = JSON.parse(localStorage.getItem("carrinho_pm")) || [];
-  carrinho.splice(index, 1);
-  localStorage.setItem("carrinho_pm", JSON.stringify(carrinho));
-  exibirCarrinho();
+  alert("Produto adicionado à sacola!");
 }
 
 function finalizarPedido() {
-  const carrinho = JSON.parse(localStorage.getItem("carrinho_pm")) || [];
-  const nomeCliente = localStorage.getItem("cliente_nome") || "Cliente não identificado";
-  
-  if (carrinho.length === 0) return alert("Sua sacola está vazia!");
+    const carrinho = JSON.parse(localStorage.getItem("carrinho_pm")) || [];
+    const usuario = JSON.parse(localStorage.getItem("usuario_logado"));
+    if (carrinho.length === 0) return alert("Sacola vazia!");
 
-  let texto = `🌊 *PEDIDO: PRAIA & MOVIMENTO*\n`;
-  texto += `👤 *Cliente:* ${nomeCliente}\n`;
-  texto += `────────────────────\n\n`;
-
-  let total = 0;
-  carrinho.forEach((item, i) => {
-    texto += `*${i+1}. ${item.nome}*\n   Tam: ${item.tamanho} | ${formatarPreco(item.preco)}\n\n`;
-    total += item.preco;
-  });
-
-  texto += `────────────────────\n`;
-  texto += `*TOTAL:* ${formatarPreco(total)}\n\n`;
-  texto += `_Olá! Gostaria de confirmar estes itens._`;
-
-  window.open(`https://wa.me/555197365965?text=${encodeURIComponent(texto)}`, "_blank");
+    let msg = "*NOVO PEDIDO - PRAIA & MOVIMENTO*\n\n";
+    if (usuario) msg += `*Cliente:* ${usuario.nome}\n*Endereço:* ${usuario.rua}, ${usuario.numero} - ${usuario.cidade}\n\n`;
+    
+    msg += "*PRODUTOS:*\n";
+    let total = 0;
+    carrinho.forEach(i => {
+        msg += `- ${i.nome} (${i.tamanho}): ${formatarPreco(i.preco)}\n`;
+        total += i.preco;
+    });
+    msg += `\n*TOTAL: ${formatarPreco(total)}*`;
+    window.open(`https://wa.me/555197365965?text=${encodeURIComponent(msg)}`, "_blank");
 }
 
-/* --- INICIALIZAÇÃO AO CARREGAR --- */
-
+/* --- INICIALIZAÇÃO --- */
 window.addEventListener('DOMContentLoaded', () => {
-  verificarCliente();
+  verificarSessao();
   renderizarVitrine("vitrine-masculino", "Masculino");
   renderizarVitrine("vitrine-feminino", "Feminino");
   renderizarVitrine("vitrine-lingerie", "Lingerie");
+  renderizarVitrine("vitrine-sexyshop", "Sexy Shop");
   renderizarVitrine("vitrine-loja", "Todos");
-  
-  // Se estiver na página de produto, carregar detalhes
-  if (document.getElementById("nome-produto")) {
-    const params = new URLSearchParams(window.location.search);
-    const slug = params.get("produto");
+
+  const params = new URLSearchParams(window.location.search);
+  const slug = params.get("produto");
+  if (slug && document.getElementById("nome-produto")) {
     const p = PRODUTOS.find(item => item.slug === slug);
     if (p) {
       document.getElementById("nome-produto").textContent = p.nome;
       document.getElementById("preco-produto").textContent = formatarPreco(p.preco);
+      document.getElementById("categoria-produto").textContent = p.categoria;
       document.getElementById("cor-produto").textContent = `Cor: ${p.cor}`;
-      document.getElementById("imagem-principal").src = `${p.slug}-view1.jpeg`;
       document.getElementById("select-tamanho").innerHTML = p.tamanhos.map(t => `<option value="${t}">${t}</option>`).join('');
+      document.getElementById("imagem-principal").src = `${p.slug}-view1.jpeg`;
     }
   }
-
-  // Se estiver na página de carrinho
-  if (document.getElementById("itens-carrinho")) exibirCarrinho();
 });

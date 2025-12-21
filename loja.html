@@ -1,23 +1,33 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <title>Loja — Praia & Movimento</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = { theme: { extend: { colors: { sand: "#F7E9D7", ink: "#0C0C0C", gold: "#C9A44F" } } } }
-    </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Loja Completa — Praia & Movimento</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: { extend: { colors: { sand: "#F7E9D7", ink: "#0C0C0C", gold: "#C9A44F" } } }
+    }
+  </script>
 </head>
 <body class="bg-sand text-ink">
-    <header class="p-8 text-center border-b border-black/5">
-        <h1 class="font-serif text-4xl italic">Coleção Completa</h1>
-        <p class="text-sm opacity-50 mt-2">Explore Praia & Movimento</p>
-    </header>
+  <header class="p-6 bg-white border-b border-black/5 flex justify-between items-center sticky top-0 z-50">
+    <a href="index.html" class="font-serif text-xl font-bold">Praia & Movimento</a>
+    <nav class="flex gap-4 text-xs uppercase tracking-widest">
+      <a href="masculino.html">Masculino</a>
+      <a href="feminino.html">Feminino</a>
+      <a href="lingerie.html">Lingerie</a>
+    </nav>
+  </header>
 
-    <main class="max-w-7xl mx-auto px-6 py-16">
-        <div id="vitrine-loja" class="grid grid-cols-2 md:grid-cols-4 gap-8"></div>
-    </main>
+  <main class="max-w-7xl mx-auto px-6 py-12">
+    <h1 class="font-serif text-4xl mb-12 text-center italic">Nossa Coleção</h1>
+    
+    <div id="vitrine-loja" class="grid grid-cols-2 md:grid-cols-4 gap-8">
+      </div>
+  </main>
 
-    <script src="site.js"></script>
+  <script src="site.js"></script>
 </body>
 </html>

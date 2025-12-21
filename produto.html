@@ -1,51 +1,99 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <title>Produto — Praia & Movimento</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Plus+Jakarta+Sans&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = { theme: { extend: { colors: { sand: "#F7E9D7", ink: "#0C0C0C", gold: "#C9A44F" } } } }
-    </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Produto — Praia & Movimento</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            sand: "#F7E9D7",
+            ink: "#0C0C0C",
+            gold: "#C9A44F",
+          },
+          fontFamily: {
+            serif: ["Playfair Display", "serif"],
+            sans: ["Plus Jakarta Sans", "sans-serif"]
+          }
+        }
+      }
+    }
+  </script>
 </head>
-<body class="bg-sand text-ink font-sans">
-    <header class="p-6 bg-white/80 backdrop-blur sticky top-0 z-50 border-b border-black/5">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <a href="index.html" class="font-serif text-xl font-bold italic">Praia & Movimento</a>
-            <nav class="flex gap-6 text-sm">
-                <a href="masculino.html">Masculino</a>
-                <a href="feminino.html">Feminino</a>
-                <a href="lingerie.html">Lingerie</a>
-            </nav>
-        </div>
-    </header>
 
-    <main class="max-w-7xl mx-auto px-6 py-12 grid md:grid-cols-2 gap-12">
-        <section>
-            <img id="imagem-principal" src="" class="w-full rounded-3xl shadow-lg aspect-[3/4] object-cover">
-            <div id="thumbnails" class="flex gap-4 mt-6"></div>
-        </section>
+<body class="bg-sand text-ink font-sans antialiased">
 
-        <section class="flex flex-col justify-center">
-            <span id="categoria-produto" class="text-xs tracking-tighter text-gold uppercase font-bold">Categoria</span>
-            <h1 id="nome-produto" class="font-serif text-5xl mt-2 leading-tight">Carregando...</h1>
-            <p id="cor-produto" class="text-sm text-black/40 mt-1">Cor</p>
-            <p id="preco-produto" class="text-2xl mt-6 font-semibold">R$ 0,00</p>
+<header class="p-6 bg-white/80 backdrop-blur sticky top-0 z-50 border-b border-black/5">
+  <div class="max-w-7xl mx-auto flex justify-between items-center">
+    <a href="index.html" class="font-serif text-xl font-bold italic">Praia & Movimento</a>
+    <nav class="hidden md:flex gap-8 text-sm font-medium uppercase tracking-widest">
+      <a href="loja.html" class="hover:text-gold transition">Loja</a>
+      <a href="masculino.html" class="hover:text-gold transition">Masculino</a>
+      <a href="feminino.html" class="hover:text-gold transition">Feminino</a>
+      <a href="lingerie.html" class="hover:text-gold transition">Lingerie</a>
+    </nav>
+  </div>
+</header>
 
-            <div class="mt-8">
-                <label class="text-xs uppercase font-bold">Selecione o Tamanho</label>
-                <select id="select-tamanho" class="w-full mt-2 p-4 rounded-full border border-black/10 bg-white"></select>
-            </div>
+<main class="max-w-7xl mx-auto px-6 py-12 grid md:grid-cols-2 gap-12 items-start">
+  
+  <section class="space-y-4">
+    <div class="aspect-[3/4] overflow-hidden rounded-3xl bg-white shadow-lg">
+      <img id="imagem-principal" src="" alt="Produto" class="w-full h-full object-cover transition duration-700">
+    </div>
+    <div id="thumbnails" class="flex gap-4 overflow-x-auto pb-2"></div>
+  </section>
 
-            <div class="mt-10 flex flex-col gap-4">
-                <a id="whatsapp-link" href="#" class="bg-ink text-white py-5 rounded-full text-center font-bold hover:scale-105 transition">
-                    Comprar pelo WhatsApp
-                </a>
-            </div>
-        </section>
-    </main>
+  <section class="flex flex-col h-full">
+    <nav class="text-xs uppercase tracking-widest text-black/40 mb-2">
+      <span id="categoria-produto">Categoria</span>
+    </nav>
+    
+    <h1 id="nome-produto" class="font-serif text-4xl md:text-5xl leading-tight mb-2 text-ink">
+      Carregando...
+    </h1>
+    
+    <p id="cor-produto" class="text-gold font-medium mb-6">Cor: --</p>
+    
+    <div id="preco-produto" class="text-3xl font-light mb-8 italic">
+      R$ 0,00
+    </div>
 
-    <script src="site.js"></script>
+    <div class="space-y-6 border-y border-black/5 py-8">
+      <div>
+        <label class="text-[10px] uppercase tracking-[0.2em] font-bold block mb-3">Tamanho</label>
+        <select id="select-tamanho" class="w-full bg-white border border-black/10 rounded-full px-6 py-4 outline-none focus:border-gold transition appearance-none cursor-pointer">
+          </select>
+      </div>
+    </div>
+
+    <div class="mt-10 space-y-4">
+      <a id="whatsapp-link" href="#" target="_blank" class="block w-full bg-ink text-white text-center py-5 rounded-full font-bold tracking-widest hover:bg-gold transition transform hover:-translate-y-1 shadow-xl">
+        COMPRAR PELO WHATSAPP
+      </a>
+      
+      <button class="block w-full border border-ink text-ink text-center py-5 rounded-full font-bold tracking-widest hover:bg-ink hover:text-white transition">
+        ADICIONAR À SACOLA
+      </button>
+    </div>
+
+    <p class="text-black/50 text-sm mt-10 leading-relaxed italic">
+      * Peças exclusivas com estoque limitado. Inspiradas no movimento e na liberdade do verão brasileiro.
+    </p>
+  </section>
+</main>
+
+<footer class="bg-sand border-t border-black/5 py-12 text-center mt-12">
+  <p class="font-serif text-lg">Praia & Movimento</p>
+</footer>
+
+<script src="site.js"></script>
 </body>
 </html>

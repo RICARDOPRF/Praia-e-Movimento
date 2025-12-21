@@ -1,25 +1,17 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Praia & Movimento — Carrinho</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-white text-slate-900">
-  <main class="max-w-4xl mx-auto p-6">
-    <h1 class="text-3xl font-bold">Carrinho</h1>
-    <div id="cartItems" class="mt-6 space-y-3"></div>
-
-    <div class="mt-8 flex items-center justify-between border-t pt-4">
-      <a href="index.html" class="underline">Continuar comprando</a>
-      <div class="text-right">
-        <div class="text-slate-600 text-sm">Total</div>
-        <div id="cartTotal" class="text-2xl font-bold">R$ 0,00</div>
-      </div>
+<body class="pt-24 p-6 max-w-4xl mx-auto">
+  <h2 class="text-3xl mb-10 text-center uppercase tracking-widest">Sua Sacola</h2>
+  
+  <div id="cart-items" class="space-y-6">
     </div>
-  </main>
 
-  <script src="site.js"></script>
+  <div class="mt-12 border-t pt-8">
+    <div class="flex justify-between text-xl font-bold mb-8">
+      <span>TOTAL</span>
+      <span id="cart-total">R$ 0,00</span>
+    </div>
+    <button onclick="PM.finalizePurchase()" class="w-full bg-black text-white py-5 tracking-widest hover:opacity-90 transition">
+      FINALIZAR PEDIDO VIA WHATSAPP
+    </button>
+    <p class="text-center text-xs mt-4 text-gray-400 uppercase tracking-tighter">Pagamento via PIX disponível no próximo passo</p>
+  </div>
 </body>
-</html>

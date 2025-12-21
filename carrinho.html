@@ -1,17 +1,53 @@
-<body class="pt-24 p-6 max-w-4xl mx-auto">
-  <h2 class="text-3xl mb-10 text-center uppercase tracking-widest">Sua Sacola</h2>
-  
-  <div id="cart-items" class="space-y-6">
-    </div>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sua Sacola — Praia & Movimento</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,700&family=Plus+Jakarta+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: { extend: { colors: { sand: "#F7E9D7", ink: "#0C0C0C", gold: "#C9A44F" } } }
+    }
+  </script>
+</head>
 
-  <div class="mt-12 border-t pt-8">
-    <div class="flex justify-between text-xl font-bold mb-8">
-      <span>TOTAL</span>
-      <span id="cart-total">R$ 0,00</span>
+<body class="bg-sand text-ink font-sans min-h-screen">
+
+  <header class="p-6 bg-white border-b border-black/5 flex justify-between items-center sticky top-0 z-50">
+    <a href="index.html" class="font-serif text-xl font-bold italic">Praia & Movimento</a>
+    <a href="loja.html" class="text-xs uppercase tracking-widest underline">Continuar Comprando</a>
+  </header>
+
+  <main class="max-w-3xl mx-auto px-6 py-12">
+    <h1 class="font-serif text-4xl mb-10 text-center italic">Sua Sacola</h1>
+
+    <div id="itens-carrinho" class="space-y-6">
+      </div>
+
+    <div id="resumo-carrinho" class="mt-12 border-t border-black/10 pt-8 hidden">
+      <div class="flex justify-between text-2xl font-serif mb-8">
+        <span>Total</span>
+        <span id="total-carrinho" class="font-bold text-gold">R$ 0,00</span>
+      </div>
+      
+      <button onclick="finalizarPedido()" class="w-full bg-ink text-white py-5 rounded-full font-bold tracking-widest hover:bg-gold transition shadow-xl">
+        FINALIZAR PEDIDO VIA WHATSAPP
+      </button>
+      
+      <p class="text-center text-[10px] text-black/40 uppercase mt-4 tracking-tighter">
+        Pagamento via PIX ou Cartão combinado no atendimento
+      </p>
     </div>
-    <button onclick="PM.finalizePurchase()" class="w-full bg-black text-white py-5 tracking-widest hover:opacity-90 transition">
-      FINALIZAR PEDIDO VIA WHATSAPP
-    </button>
-    <p class="text-center text-xs mt-4 text-gray-400 uppercase tracking-tighter">Pagamento via PIX disponível no próximo passo</p>
-  </div>
+  </main>
+
+  <script src="site.js"></script>
+  <script>
+    // Inicia a página do carrinho
+    window.onload = () => {
+        exibirCarrinho();
+    };
+  </script>
 </body>
+</html>

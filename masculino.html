@@ -5,11 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Masculino — Praia & Movimento</title>
 
-  <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
 
-  <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
 
   <script>
@@ -34,7 +32,6 @@
 
 <body class="bg-sand text-ink font-sans antialiased">
 
-<!-- HEADER -->
 <header class="sticky top-0 z-50 bg-white/80 backdrop-blur border-b border-black/5">
   <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
     <a href="index.html" class="flex items-center gap-2">
@@ -43,9 +40,11 @@
     </a>
 
     <nav class="hidden md:flex gap-10 text-sm tracking-wide">
-      <a href="feminino.html" class="hover:text-gold">Feminino</a>
-      <a href="masculino.html" class="text-gold">Masculino</a>
-      <a href="lingerie.html" class="hover:text-gold">Lingerie</a>
+      <div id="area-cliente" class="flex gap-6">
+          <a href="feminino.html" class="hover:text-gold transition">Feminino</a>
+          <a href="masculino.html" class="text-gold font-bold">Masculino</a>
+          <a href="lingerie.html" class="hover:text-gold transition">Lingerie</a>
+      </div>
     </nav>
 
     <a href="carrinho.html">
@@ -54,7 +53,6 @@
   </div>
 </header>
 
-<!-- HERO MASCULINO -->
 <section class="relative h-[60vh] flex items-center px-6">
   <div class="absolute inset-0">
     <img src="hero-masculino.jpeg" class="w-full h-full object-cover object-center">
@@ -62,7 +60,7 @@
   </div>
 
   <div class="relative z-10 max-w-3xl mx-auto text-left">
-    <span class="uppercase tracking-[0.35em] text-xs text-gold">
+    <span class="uppercase tracking-[0.35em] text-xs text-gold font-bold">
       Masculino
     </span>
 
@@ -77,161 +75,26 @@
   </div>
 </section>
 
-<!-- PRODUTOS -->
 <section class="max-w-7xl mx-auto px-6 py-24">
-  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-14">
-
-    <!-- CARD PRODUTO (mantendo estrutura original) -->
-    <a href="produto.html?produto=camisa-churrasco-pao-de-alho-preta" class="group">
-      <div class="aspect-[3/4] overflow-hidden rounded-xl bg-white shadow-sm
-                  group-hover:shadow-xl transition">
-        <img src="masculino-churrasco-pao-de-alho-preta-view1.jpeg"
-             class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+  <div id="vitrine-masculino" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 md:gap-14">
       </div>
-
-      <div class="mt-5">
-        <h3 class="font-serif text-lg">
-          Camisa Churrasco Pão de Alho
-        </h3>
-        <p class="text-sm text-black/50 mt-1">
-          Lifestyle Masculino
-        </p>
-        <p class="mt-2 text-gold font-medium">
-          R$ 145,00
-        </p>
-      </div>
-    </a>
-   <!-- CARD PRODUTO (mantendo estrutura original) -->
-    <a href="produto.html?produto=camisa-churrasco-pao-de-alho-preta" class="group">
-      <div class="aspect-[3/4] overflow-hidden rounded-xl bg-white shadow-sm
-                  group-hover:shadow-xl transition">
-        <img src="masculino-caipirinha-verde-view1.jpeg"
-             class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-      </div>
-
-      <div class="mt-5">
-        <h3 class="font-serif text-lg">
-          Camisa Caipirinha
-        </h3>
-        <p class="text-sm text-black/50 mt-1">
-          Lifestyle Masculino
-        </p>
-        <p class="mt-2 text-gold font-medium">
-          R$ 129,90
-        </p>
-      </div>
-    </a>
-   <!-- CARD PRODUTO (mantendo estrutura original) -->
-    <a href="produto.html?produto=camisa-churrasco-pao-de-alho-preta" class="group">
-      <div class="aspect-[3/4] overflow-hidden rounded-xl bg-white shadow-sm
-                  group-hover:shadow-xl transition">
-        <img src="masculino-lisa-pink-view1.jpeg"
-             class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-      </div>
-
-      <div class="mt-5">
-        <h3 class="font-serif text-lg">
-          Camisa Lisa Rosa
-        </h3>
-        <p class="text-sm text-black/50 mt-1">
-          Lifestyle Masculino
-        </p>
-        <p class="mt-2 text-gold font-medium">
-          R$ 129,90
-        </p>
-      </div>
-    </a>
-   <!-- CARD PRODUTO (mantendo estrutura original) -->
-    <a href="produto.html?produto=camisa-churrasco-pao-de-alho-preta" class="group">
-      <div class="aspect-[3/4] overflow-hidden rounded-xl bg-white shadow-sm
-                  group-hover:shadow-xl transition">
-        <img src="masculino-saideira-nunca-e-so-uma-nude-view1.jpeg"
-             class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-      </div>
-
-      <div class="mt-5">
-        <h3 class="font-serif text-lg">
-          Camisa Saidera
-        </h3>
-        <p class="text-sm text-black/50 mt-1">
-          Lifestyle Masculino
-        </p>
-        <p class="mt-2 text-gold font-medium">
-          R$ 129,90
-        </p>
-      </div>
-    </a>
-   <!-- CARD PRODUTO (mantendo estrutura original) -->
-    <a href="produto.html?produto=camisa-churrasco-pao-de-alho-preta" class="group">
-      <div class="aspect-[3/4] overflow-hidden rounded-xl bg-white shadow-sm
-                  group-hover:shadow-xl transition">
-        <img src="bar-bom-bar-aberto-preta-view1.jpeg"
-             class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-      </div>
-
-      <div class="mt-5">
-        <h3 class="font-serif text-lg">
-          Camisa Bar Bom Bar Aberto
-        </h3>
-        <p class="text-sm text-black/50 mt-1">
-          Lifestyle Masculino
-        </p>
-        <p class="mt-2 text-gold font-medium">
-          R$ 129,90
-        </p>
-      </div>
-    </a>
-   <!-- CARD PRODUTO (mantendo estrutura original) -->
-    <a href="produto.html?produto=camisa-churrasco-pao-de-alho-preta" class="group">
-      <div class="aspect-[3/4] overflow-hidden rounded-xl bg-white shadow-sm
-                  group-hover:shadow-xl transition">
-        <img src="masculino-sexta-feira-em-algum-lugar-pink-view1.jpeg"
-             class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-      </div>
-
-      <div class="mt-5">
-        <h3 class="font-serif text-lg">
-          Regata Sexta Feira
-        </h3>
-        <p class="text-sm text-black/50 mt-1">
-          Lifestyle Masculino
-        </p>
-        <p class="mt-2 text-gold font-medium">
-          R$ 129,90
-        </p>
-      </div>
-    </a>
-
-    <!-- 👉 Repete o mesmo padrão para os demais produtos já existentes -->
-
-  </div>
 </section>
+
 <footer class="bg-sand border-t border-black/5 py-12 text-center">
+  <span class="material-symbols-outlined text-gold text-4xl mb-4 block">waves</span>
+  <p class="font-serif text-lg">Praia & Movimento</p>
 
-  <span class="material-symbols-outlined text-gold text-4xl mb-4 block">
-    waves
-  </span>
-
-  <p class="font-serif text-lg">
-    Praia & Movimento
-  </p>
-
-  <div class="flex justify-center gap-6 mt-6 text-black/50 text-sm">
-    <a href="https://www.instagram.com/praiaemovimento" target="_blank" class="hover:text-gold transition">
-      Instagram
-    </a>
-
-    <a href="https://wa.me/555197365965" target="_blank" class="hover:text-gold transition">
-      WhatsApp
-    </a>
+  <div class="flex justify-center gap-6 mt-6 text-black/50 text-sm font-bold uppercase tracking-tighter">
+    <a href="https://www.instagram.com/praiaemovimento" target="_blank" class="hover:text-gold transition">Instagram</a>
+    <a href="https://wa.me/555197365965" target="_blank" class="hover:text-gold transition">WhatsApp</a>
   </div>
 
-  <p class="text-xs text-black/40 mt-6">
-    © 2024 Praia & Movimento — Todos os direitos reservados
+  <p class="text-xs text-black/40 mt-6 tracking-widest">
+    © 2025 Praia & Movimento — Todos os direitos reservados
   </p>
-
 </footer>
 
+<script src="site.js"></script>
 
 </body>
 </html>

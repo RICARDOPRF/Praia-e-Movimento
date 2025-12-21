@@ -4,11 +4,64 @@
 ================================ */
 
 const PRODUTOS = [
-  { slug: "masculino-churrasco-pao-de-alho-preta", nome: "Camisa Churrasco Pão de Alho", categoria: "Masculino", preco: 145.00, cor: "Preta", tamanhos: ["M", "G", "GG"] },
-  { slug: "masculino-saideira-nunca-e-so-uma-nude", nome: "A Saideira Nunca é Só Uma", categoria: "Masculino", preco: 130.00, cor: "Nude", tamanhos: ["M", "G", "GG"] },
-  { slug: "masculino-sexta-feira-em-algum-lugar-pink", nome: "Sexta-feira em Algum Lugar", categoria: "Masculino", preco: 130.00, cor: "Pink", tamanhos: ["M", "G"] },
-  { slug: "biquini-floripa", nome: "Biquíni Floripa", categoria: "Feminino", preco: 85.90, cor: "Estampado", tamanhos: ["P", "M", "G"] },
-  { slug: "conjunto-bianca", nome: "Conjunto Bianca", categoria: "Lingerie", preco: 55.90, cor: "Renda Preta", tamanhos: ["P", "M", "G"] }
+
+
+// ===== MASCULINO (REGATAS E CAMISAS) =====
+  { slug: "bora-tomar-uma", nome: "Regata Bora Tomar Uma", categoria: "Masculino", preco: 130.00, cor: "Preta", tamanhos: ["M"] },
+  { slug: "meu-mar", nome: "Regata Meu Mar", categoria: "Masculino", preco: 130.00, cor: "Azul", tamanhos: ["M"] },
+  { slug: "lisa-regata", nome: "Regata Lisa", categoria: "Masculino", preco: 130.00, cor: "Rosa, Azul", tamanhos: ["M", "G"] },
+  { slug: "sexta-feira", nome: "Regata Sexta Feira", categoria: "Masculino", preco: 130.00, cor: "Pink", tamanhos: ["G"] },
+  { slug: "cabra-da-peste", nome: "Regata Cabra da Peste", categoria: "Masculino", preco: 130.00, cor: "Nude", tamanhos: ["G"] },
+  { slug: "caipirinha-regata", nome: "Regata Caipirinha", categoria: "Masculino", preco: 130.00, cor: "Nude", tamanhos: ["GG"] },
+  { slug: "lisa-limon", nome: "Camisa Lisa Limon", categoria: "Masculino", preco: 130.00, cor: "Preta", tamanhos: ["GG"] },
+  { slug: "caipirinha-pinga", nome: "Camisa Caipirinha Pinga", categoria: "Masculino", preco: 145.00, cor: "Marron", tamanhos: ["GG"] },
+  { slug: "sol-cruzado", nome: "Camisa Sol Cruzado", categoria: "Masculino", preco: 130.00, cor: "Pink", tamanhos: ["GG"] },
+  { slug: "bar-aberto", nome: "Camisa Bar Aberto", categoria: "Masculino", preco: 130.00, cor: "Preta", tamanhos: ["M", "GG"] },
+  { slug: "saidera-nuca-so-uma", nome: "Camisa Saidera Nuca Só Uma", categoria: "Masculino", preco: 130.00, cor: "Nude", tamanhos: ["G"] },
+  { slug: "caipirinha-pinha", nome: "Camisa Caipirinha Pinha", categoria: "Masculino", preco: 145.00, cor: "Marron", tamanhos: ["G"] },
+  { slug: "churrasco-pao-de-alho", nome: "Camisa Churrasco Pão de Alho", categoria: "Masculino", preco: 145.00, cor: "Preta", tamanhos: ["M", "G"] },
+  { slug: "copa-cerveja-churrasco", nome: "Camisa Copa Cerveja e Churrasco", categoria: "Masculino", preco: 145.00, cor: "Copa", tamanhos: ["M"] },
+
+  // ===== FEMININO (MODA PRAIA) =====
+  { slug: "biquini-marquinha", nome: "Biquini Marquinha", categoria: "Feminino", preco: 85.90, cor: "Chocolate, Verde Musgo, Laranja, Azul Bebê, Cerêja, Vinho, Preto, Rosa Pink, Fucsia, Amarelo Manteiga", tamanhos: ["P", "M", "G"] },
+  { slug: "biquini-marquinha-premium", nome: "Biquini Marquinha Especial", categoria: "Feminino", preco: 89.90, cor: "Choco + Marrom, Chocolate + Off", tamanhos: ["P", "M"] },
+  { slug: "mini-saia-trico", nome: "Mini Saia Tricô", categoria: "Feminino", preco: 65.90, cor: "Preto, Bege", tamanhos: ["U"] },
+
+  // ===== LINGERIE =====
+  { slug: "conjunto-bianca-bojo", nome: "Conjunto Bianca c/ Bojo", categoria: "Lingerie", preco: 55.90, cor: "Nude", tamanhos: ["P"] },
+  { slug: "conjunto-afrodite", nome: "Conjunto Afrodite", categoria: "Lingerie", preco: 99.90, cor: "Preto", tamanhos: ["P"] },
+  { slug: "conjunto-ilha-bela", nome: "Conjunto Ilha Bela", categoria: "Lingerie", preco: 59.90, cor: "Preto", tamanhos: ["P"] },
+  { slug: "conjunto-lorena", nome: "Conjunto Lorena", categoria: "Lingerie", preco: 49.90, cor: "Verde Militar, Preto", tamanhos: ["M"] },
+  { slug: "conjunto-mariana", nome: "Conjunto Mariana", categoria: "Lingerie", preco: 69.90, cor: "Vermelho", tamanhos: ["P"] },
+  { slug: "conjunto-gabi", nome: "Conjunto Gabi", categoria: "Lingerie", preco: 59.90, cor: "Verde", tamanhos: ["M"] },
+  { slug: "conjunto-serena", nome: "Conjunto Serena", categoria: "Lingerie", preco: 49.90, cor: "Roxo", tamanhos: ["M"] },
+  { slug: "conjunto-zara", nome: "Conjunto Zara", categoria: "Lingerie", preco: 59.90, cor: "Preto", tamanhos: ["M"] },
+  { slug: "conjunto-angel", nome: "Conjunto Angel", categoria: "Lingerie", preco: 69.90, cor: "Vermelho", tamanhos: ["M"] },
+  { slug: "camisola-esther", nome: "Camisola Esther", categoria: "Lingerie", preco: 69.90, cor: "Pink", tamanhos: ["M"] },
+  { slug: "conjunto-dulce", nome: "Conjunto Dulce", categoria: "Lingerie", preco: 79.90, cor: "Vermelho", tamanhos: ["M"] },
+  { slug: "camisola-indecente", nome: "Camisola Indecente", categoria: "Lingerie", preco: 99.90, cor: "Preto", tamanhos: ["P", "G"] },
+  { slug: "conjunto-ravena", nome: "Conjunto Ravena", categoria: "Lingerie", preco: 59.90, cor: "Lilas", tamanhos: ["G"] },
+  { slug: "conjunto-saliente", nome: "Conjunto Saliente", categoria: "Lingerie", preco: 89.90, cor: "Branco", tamanhos: ["M"] },
+  { slug: "conjunto-seducao", nome: "Conjunto Sedução", categoria: "Lingerie", preco: 79.90, cor: "Harmonia", tamanhos: ["M"] },
+  { slug: "conjunto-cecilia", nome: "Conjunto Cecília", categoria: "Lingerie", preco: 79.90, cor: "Branco Floral", tamanhos: ["P", "G"] },
+  { slug: "calcinhas-simples", nome: "Calcinhas Simples / Renda", categoria: "Lingerie", preco: 12.90, cor: "Azul, Branca", tamanhos: ["U"] },
+  { slug: "calcinha-manu", nome: "Calcinha Manu", categoria: "Lingerie", preco: 18.90, cor: "Variadas", tamanhos: ["U"] },
+
+  // ===== MODA FITNESS =====
+  { slug: "conjunto-micro-canelado", nome: "Conjunto Micro Canelado", categoria: "Moda Fitness", preco: 59.90, cor: "Verde", tamanhos: ["P"] },
+  { slug: "conjunto-canelado-marron", nome: "Conjunto Canelado", categoria: "Moda Fitness", preco: 49.90, cor: "Marron", tamanhos: ["G"] },
+
+  // ===== SEXY SHOP =====
+  { slug: "caneta-lubrificante", nome: "Caneta Lubrificante", categoria: "Sexy Shop", preco: 27.40, cor: "N/A", tamanhos: ["N/A"] },
+  { slug: "gel-faisca", nome: "Gel Faisca Na Xavasca", categoria: "Sexy Shop", preco: 18.90, cor: "N/A", tamanhos: ["N/A"] },
+  { slug: "gel-facilitador", nome: "Gel Facilitador de Org.", categoria: "Sexy Shop", preco: 34.00, cor: "N/A", tamanhos: ["N/A"] },
+  { slug: "caldeirao-vibracao", nome: "Caldeirão da Vibração", categoria: "Sexy Shop", preco: 34.20, cor: "N/A", tamanhos: ["N/A"] },
+  { slug: "gel-esquenta-gela", nome: "Gel Esquenta e Gela", categoria: "Sexy Shop", preco: 22.30, cor: "N/A", tamanhos: ["N/A"] },
+  { slug: "tesao-raba", nome: "Tesão na Raba", categoria: "Sexy Shop", preco: 28.50, cor: "N/A", tamanhos: ["N/A"] },
+  { slug: "bolinha-beijavel", nome: "Bolinha Beijavel", categoria: "Sexy Shop", preco: 15.00, cor: "N/A", tamanhos: ["N/A"] },
+  { slug: "oleo-massagem", nome: "Óleo Massagem La Pimie", categoria: "Sexy Shop", preco: 25.00, cor: "N/A", tamanhos: ["N/A"] },
+  { slug: "gel-pikasso", nome: "Gel Pikasso", categoria: "Sexy Shop", preco: 20.50, cor: "N/A", tamanhos: ["N/A"] },
+  { slug: "garganta-profunda", nome: "Garganta Profunda", categoria: "Sexy Shop", preco: 38.50, cor: "N/A", tamanhos: ["N/A"] }
 ];
 
 const formatarPreco = (v) => v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });

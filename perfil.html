@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Meu Perfil — Praia & Movimento</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,700&family=Plus+Jakarta+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { sand: "#F7E9D7", ink: "#1A1A1A", gold: "#C9A44F" },
+          fontFamily: { serif: ["Playfair Display", "serif"], sans: ["Plus Jakarta Sans", "sans-serif"] }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-sand text-ink font-sans antialiased">
+
+  <header class="p-6 bg-white/80 backdrop-blur sticky top-0 z-50 border-b border-black/5">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+      <a href="index.html" class="font-serif text-xl font-bold italic">Praia & Movimento</a>
+      <a href="index.html" class="text-[10px] uppercase font-bold tracking-widest border-b border-ink">Voltar ao Início</a>
+    </div>
+  </header>
+
+  <main class="max-w-xl mx-auto px-6 py-20">
+    <div class="bg-white p-10 md:p-16 rounded-[3rem] shadow-sm relative overflow-hidden">
+      
+      <h1 class="font-serif text-4xl mb-2 italic">Minha Conta</h1>
+      <p class="text-black/40 text-sm mb-12">Dados e Acompanhamento</p>
+
+      <div class="space-y-8">
+        <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="text-[10px] uppercase tracking-widest font-bold text-gold block mb-1">Nome</label>
+              <p id="perfil-nome" class="font-medium text-sm">---</p>
+            </div>
+            <div>
+              <label class="text-[10px] uppercase tracking-widest font-bold text-gold block mb-1">E-mail</label>
+              <p id="perfil-email" class="font-medium text-sm truncate">---</p>
+            </div>
+        </div>
+
+        <div class="bg-sand/20 p-6 rounded-2xl border border-sand">
+          <label class="text-[10px] uppercase tracking-widest font-bold text-gold block mb-2">Endereço de Entrega</label>
+          <p id="perfil-endereco" class="text-sm leading-relaxed text-black/70 italic">---</p>
+        </div>
+
+        <div class="mt-8 pt-8 border-t border-sand">
+          <h3 class="text-[10px] uppercase tracking-[0.2em] font-bold text-ink mb-4">Acompanhar Pedido</h3>
+          
+          <div id="box-rastreio" class="bg-ink text-white p-6 rounded-2xl hidden shadow-xl">
+            <div class="flex justify-between items-start mb-4">
+              <div>
+                <p class="text-[10px] opacity-50 uppercase tracking-widest">Código Correios</p>
+                <p id="txt-codigo" class="text-lg font-mono font-bold text-gold">---</p>
+              </div>
+              <span class="material-symbols-outlined text-gold">local_shipping</span>
+            </div>
+            <div class="flex items-center gap-2 mb-6">
+              <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+              <p id="txt-status" class="text-xs uppercase tracking-widest font-bold">---</p>
+            </div>
+            <a id="link-correios" href="#" target="_blank" class="block text-center text-[10px] bg-gold text-white py-3 rounded-xl font-bold hover:bg-white hover:text-ink transition">
+              RASTREAR AGORA
+            </a>
+          </div>
+
+          <div id="sem-rastreio" class="text-center py-8 border-2 border-dashed border-sand rounded-2xl">
+            <span class="material-symbols-outlined opacity-20 text-4xl mb-2">package_2</span>
+            <p class="text-xs italic opacity-40 block">Ainda não há envios registados para este e-mail.</p>
+          </div>
+        </div>
+
+        <button onclick="logout()" class="w-full py-4 border border-ink/10 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-red-50 transition mt-10">
+          Sair da Conta
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <script src="site.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const user = JSON.parse(localStorage.getItem("usuario_logado"));
+      if (!user) { window.location.href = "login.html"; return; }
+
+      // Preencher dados do Perfil
+      document.getElementById("perfil-nome").textContent = user.nome;
+      document.getElementById("perfil-email").textContent = user.email;
+      document.getElementById("perfil-endereco").textContent = `${user.rua}, nº ${user.numero} - ${user.cidade}`;
+
+      // Lógica de Rastreio (Vem do site.js)
+      if (typeof DADOS_RASTREIO !== 'undefined') {
+          const info = DADOS_RASTREIO.find(r => r.email === user.email);
+          const box = document.getElementById("box-rastreio");
+          const vazio = document.getElementById("sem-rastreio");
+
+          if (info) {
+              box.classList.remove("hidden");
+              vazio.classList.add("hidden");
+              document.getElementById("txt-codigo").textContent = info.codigo;
+              document.getElementById("txt-status").textContent = info.status;
+              document.getElementById("link-correios").href = `https://www.linkcorreios.com.br/${info.codigo}`;
+          }
+      }
+    });
+
+    function logout() {
+      localStorage.removeItem("usuario_logado");
+      window.location.href = "index.html";
+    }
+  </script>
+</body>
+</html>

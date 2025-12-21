@@ -13,8 +13,16 @@
     tailwind.config = {
       theme: {
         extend: {
-          colors: { sand: "#F7E9D7", ink: "#1A1A1A", gold: "#C9A44F", peach: "#FFB089" },
-          fontFamily: { serif: ["Playfair Display", "serif"], sans: ["Plus Jakarta Sans", "sans-serif"] }
+          colors: { 
+            sand: "#F7E9D7", 
+            ink: "#1A1A1A", 
+            gold: "#C9A44F", 
+            peach: "#FFB089" 
+          },
+          fontFamily: { 
+            serif: ["Playfair Display", "serif"], 
+            sans: ["Plus Jakarta Sans", "sans-serif"] 
+          }
         }
       }
     }
@@ -23,6 +31,7 @@
   <style>
     .fade-in { opacity: 0; transform: translateY(20px); animation: fadeInUp 1.2s ease-out forwards; }
     @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
   </style>
 </head>
 
@@ -99,7 +108,8 @@
     <a href="feminino.html" class="text-xs font-bold uppercase tracking-widest border-b border-gold pb-1 hover:text-gold transition">Ver tudo</a>
   </div>
 
-  <div id="vitrine-destaques" class="grid grid-cols-2 md:grid-cols-4 gap-8"></div>
+  <div id="vitrine-destaques" class="grid grid-cols-2 md:grid-cols-4 gap-8">
+      </div>
 </section>
 
 <section class="max-w-7xl mx-auto px-6 mb-24">
@@ -149,7 +159,7 @@
 <script src="site.js"></script>
 <script>
   window.addEventListener('DOMContentLoaded', () => {
-    // 1. Carregar Destaques Aleatórios
+    // 1. Carrega 4 produtos aleatórios da lista global em site.js
     const container = document.getElementById("vitrine-destaques");
     if (container && typeof PRODUTOS !== 'undefined') {
       const destaques = PRODUTOS.sort(() => 0.5 - Math.random()).slice(0, 4);
@@ -167,10 +177,10 @@
       `).join('');
     }
 
-    // 2. Verificar Login para o Header
+    // 2. Atualiza o Header com o nome do cliente se estiver logado
     const areaCliente = document.getElementById("area-cliente");
     const user = JSON.parse(localStorage.getItem("usuario_logado"));
-    if (user) {
+    if (user && areaCliente) {
         areaCliente.innerHTML = `
             <a href="perfil.html" class="hover:text-gold transition flex items-center gap-2">
                 <span class="material-symbols-outlined !text-lg">person</span>

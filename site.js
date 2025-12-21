@@ -1,6 +1,6 @@
 /* ================================
    PRAIA & MOVIMENTO — SITE.JS 
-   Foco: Vendas 100% via WhatsApp
+   Cérebro da Loja Integrada
 ================================ */
 
 const PRODUTOS = [
@@ -64,14 +64,26 @@ const PRODUTOS = [
 
 const formatarPreco = (v) => v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
-/* --- GERENCIAMENTO DE SESSÃO --- */
-function verificarSessao() {
-    const areaCliente = document.getElementById("area-cliente");
-    if (!areaCliente) return;
-    const user = JSON.parse(localStorage.getItem("usuario_logado"));
-    if (user) {
-        areaCliente.innerHTML = `<a href="perfil.html" class="hover:text-gold transition flex items-center gap-2">
-            <span class="material-symbols-outlined !text-lg">person</span> Olá, ${user.nome.split(' ')[0]}</a>`;
+/* --- GESTÃO DE USUÁRIO --- */
+function atualizarAreaCliente() {
+    const area = document.getElementById("area-cliente");
+    if (!area) return;
+    const usuarioLogado = JSON.parse(localStorage.getItem("usuario_logado"));
+    
+    if (usuarioLogado) {
+        area.innerHTML = `
+            <div class="flex items-center gap-4">
+                <a href="perfil.html" class="hover:text-gold transition">Olá, ${usuarioLogado.nome.split(' ')[0]}</a>
+                <a href="carrinho.html" class="material-symbols-outlined !text-xl relative">
+                    shopping_bag
+                    <span id="cart-count" class="absolute -top-1 -right-1 bg-gold text-white text-[8px] w-4 h-4 rounded-full flex items-center justify-center">0</span>
+                </a>
+            </div>`;
+        atualizarContadorCarrinho();
+    } else {
+        area.innerHTML = `
+            <a href="login.html" class="hover:text-gold transition">Entrar</a>
+            <a href="carrinho.html" class="material-symbols-outlined !text-xl">shopping_bag</a>`;
     }
 }
 
@@ -80,6 +92,7 @@ function renderizarVitrine(containerId, filtro = "Todos") {
   const container = document.getElementById(containerId);
   if (!container) return;
   const lista = filtro === "Todos" ? PRODUTOS : PRODUTOS.filter(p => p.categoria === filtro);
+  
   container.innerHTML = lista.map(p => `
     <a href="produto.html?produto=${p.slug}" class="group">
       <div class="aspect-[3/4] overflow-hidden rounded-xl bg-white shadow-sm group-hover:shadow-xl transition">
@@ -93,7 +106,54 @@ function renderizarVitrine(containerId, filtro = "Todos") {
     </a>`).join('');
 }
 
-/* --- SACOLA E WHATSAPP --- */
+/* --- SACOLA --- */
+function atualizarContadorCarrinho() {
+    const carrinho = JSON.parse(localStorage.getItem("carrinho_pm")) || [];
+    const badge = document.getElementById("cart-count");
+    if (badge) badge.textContent = carrinho.length;
+}
+
+function exibirCarrinho() {
+    const container = document.getElementById("itens-carrinho");
+    const resumo = document.getElementById("resumo-carrinho");
+    if (!container) return;
+
+    const carrinho = JSON.parse(localStorage.getItem("carrinho_pm")) || [];
+    
+    if (carrinho.length === 0) {
+        container.innerHTML = "<p class='text-center opacity-40 py-20 italic'>Sua sacola está vazia.</p>";
+        resumo?.classList.add("hidden");
+        return;
+    }
+
+    resumo?.classList.remove("hidden");
+    let total = 0;
+    
+    container.innerHTML = carrinho.map((item, index) => {
+        total += item.preco;
+        return `
+        <div class="flex items-center gap-6 bg-white p-4 rounded-2xl shadow-sm">
+            <img src="${item.slug}-view1.jpeg" class="w-20 h-24 object-cover rounded-lg">
+            <div class="flex-1">
+                <h4 class="font-serif text-lg">${item.nome}</h4>
+                <p class="text-[10px] uppercase tracking-widest opacity-40">${item.tamanho} | ${item.cor}</p>
+                <p class="text-gold font-bold mt-1">${formatarPreco(item.preco)}</p>
+            </div>
+            <button onclick="removerDoCarrinho(${index})" class="text-red-400 text-xs uppercase font-bold">Remover</button>
+        </div>`;
+    }).join('');
+
+    document.getElementById("total-carrinho").textContent = formatarPreco(total);
+}
+
+function removerDoCarrinho(index) {
+    let carrinho = JSON.parse(localStorage.getItem("carrinho_pm")) || [];
+    carrinho.splice(index, 1);
+    localStorage.setItem("carrinho_pm", JSON.stringify(carrinho));
+    exibirCarrinho();
+    atualizarAreaCliente();
+}
+
 function adicionarAoCarrinho() {
   const params = new URLSearchParams(window.location.search);
   const slug = params.get("produto");
@@ -105,46 +165,56 @@ function adicionarAoCarrinho() {
   carrinho.push({ slug: p.slug, nome: p.nome, preco: p.preco, tamanho: tamanho, cor: p.cor });
   localStorage.setItem("carrinho_pm", JSON.stringify(carrinho));
   alert("Produto adicionado à sacola!");
+  atualizarAreaCliente();
 }
 
+/* --- WHATSAPP FINAL --- */
 function finalizarPedido() {
     const carrinho = JSON.parse(localStorage.getItem("carrinho_pm")) || [];
     const usuario = JSON.parse(localStorage.getItem("usuario_logado"));
-    if (carrinho.length === 0) return alert("Sacola vazia!");
 
-    let msg = "*NOVO PEDIDO - PRAIA & MOVIMENTO*\n\n";
-    if (usuario) msg += `*Cliente:* ${usuario.nome}\n*Endereço:* ${usuario.rua}, ${usuario.numero} - ${usuario.cidade}\n\n`;
+    if (carrinho.length === 0) return;
+
+    let mensagem = "*PEDIDO — PRAIA & MOVIMENTO*\n\n";
     
-    msg += "*PRODUTOS:*\n";
+    if (usuario) {
+        mensagem += `*Cliente:* ${usuario.nome}\n`;
+        mensagem += `*Endereço:* ${usuario.rua}, ${usuario.numero} - ${usuario.cidade}\n\n`;
+    }
+
+    mensagem += "*ITENS:*\n";
     let total = 0;
     carrinho.forEach(i => {
-        msg += `- ${i.nome} (${i.tamanho}): ${formatarPreco(i.preco)}\n`;
+        mensagem += `• ${i.nome} (${i.tamanho}) - ${formatarPreco(i.preco)}\n`;
         total += i.preco;
     });
-    msg += `\n*TOTAL: ${formatarPreco(total)}*`;
-    window.open(`https://wa.me/555197365965?text=${encodeURIComponent(msg)}`, "_blank");
+
+    mensagem += `\n*TOTAL: ${formatarPreco(total)}*`;
+    
+    window.open(`https://wa.me/555197365965?text=${encodeURIComponent(mensagem)}`, "_blank");
 }
 
 /* --- INICIALIZAÇÃO --- */
 window.addEventListener('DOMContentLoaded', () => {
-  verificarSessao();
+  atualizarAreaCliente();
   renderizarVitrine("vitrine-masculino", "Masculino");
   renderizarVitrine("vitrine-feminino", "Feminino");
   renderizarVitrine("vitrine-lingerie", "Lingerie");
   renderizarVitrine("vitrine-sexyshop", "Sexy Shop");
   renderizarVitrine("vitrine-loja", "Todos");
 
+  // Logica da pagina de produto individual
   const params = new URLSearchParams(window.location.search);
   const slug = params.get("produto");
   if (slug && document.getElementById("nome-produto")) {
     const p = PRODUTOS.find(item => item.slug === slug);
     if (p) {
-      document.getElementById("nome-produto").textContent = p.nome;
-      document.getElementById("preco-produto").textContent = formatarPreco(p.preco);
-      document.getElementById("categoria-produto").textContent = p.categoria;
-      document.getElementById("cor-produto").textContent = `Cor: ${p.cor}`;
-      document.getElementById("select-tamanho").innerHTML = p.tamanhos.map(t => `<option value="${t}">${t}</option>`).join('');
-      document.getElementById("imagem-principal").src = `${p.slug}-view1.jpeg`;
+        document.getElementById("nome-produto").textContent = p.nome;
+        document.getElementById("preco-produto").textContent = formatarPreco(p.preco);
+        document.getElementById("categoria-produto").textContent = p.categoria;
+        document.getElementById("cor-produto").textContent = `Cor: ${p.cor}`;
+        document.getElementById("select-tamanho").innerHTML = p.tamanhos.map(t => `<option value="${t}">${t}</option>`).join('');
+        document.getElementById("imagem-principal").src = `${p.slug}-view1.jpeg`;
     }
   }
 });

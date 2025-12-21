@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sexy Shop — Praia & Movimento</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,700&family=Plus+Jakarta+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            sand: "#F7E9D7",
+            ink: "#0C0C0C",
+            gold: "#C9A44F",
+            velvet: "#4A0E0E"
+          },
+          fontFamily: {
+            serif: ["Playfair Display", "serif"],
+            sans: ["Plus Jakarta Sans", "sans-serif"]
+          }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body class="bg-ink text-sand font-sans antialiased">
+
+<header class="p-6 bg-ink/90 backdrop-blur sticky top-0 z-50 border-b border-white/5">
+  <div class="max-w-7xl mx-auto flex justify-between items-center">
+    <a href="index.html" class="font-serif text-xl font-bold italic text-gold">Praia & Movimento</a>
+    <nav class="hidden md:flex gap-8 text-[10px] uppercase font-bold tracking-[0.2em]">
+      <a href="feminino.html" class="hover:text-gold transition text-white/60">Feminino</a>
+      <a href="lingerie.html" class="hover:text-gold transition text-white/60">Lingerie</a>
+      <a href="sexy-shop.html" class="text-gold border-b border-gold">Sexy Shop</a>
+    </nav>
+    <div id="area-cliente" class="text-[10px] uppercase font-bold tracking-widest text-gold"></div>
+  </div>
+</header>
+
+<section class="py-20 px-6 text-center bg-gradient-to-b from-ink to-[#1a1a1a]">
+  <span class="uppercase tracking-[0.4em] text-[10px] text-gold font-bold">Intimidade & Prazer</span>
+  <h1 class="font-serif text-5xl md:text-6xl mt-6 mb-4 italic text-white">Sexy Shop</h1>
+  <p class="text-white/40 max-w-lg mx-auto font-light leading-relaxed">
+    Uma curadoria sofisticada de bem-estar íntimo para momentos inesquecíveis. 
+    Entrega discreta em Telemaco Borba e todo o Brasil.
+  </p>
+</section>
+
+<main class="max-w-7xl mx-auto px-6 py-12">
+  <div id="vitrine-sexyshop" class="grid grid-cols-2 md:grid-cols-4 gap-8">
+    </div>
+</main>
+
+<section class="max-w-3xl mx-auto px-6 py-20 text-center">
+  <div class="border border-white/10 rounded-[3rem] p-10">
+    <span class="material-symbols-outlined text-gold text-4xl mb-4">lock</span>
+    <h2 class="font-serif text-2xl mb-4 italic text-white">Compra 100% Discreta</h2>
+    <p class="text-sm text-white/40 leading-relaxed">
+      Valorizamos a sua privacidade. Todas as encomendas são enviadas em embalagens totalmente neutras, sem menção à loja ou aos produtos no exterior do pacote.
+    </p>
+  </div>
+</section>
+
+<footer class="py-12 text-center border-t border-white/5 opacity-40">
+  <p class="font-serif text-lg text-gold">Praia & Movimento</p>
+  <p class="text-[10px] uppercase mt-2 tracking-widest">Momentos de Liberdade</p>
+</footer>
+
+<script src="site.js"></script>
+<script>
+  // Carrega apenas produtos da categoria Sexy Shop
+  window.addEventListener('DOMContentLoaded', () => {
+    if (typeof renderizarVitrine === 'function') {
+      renderizarVitrine("vitrine-sexyshop", "Sexy Shop");
+    }
+  });
+</script>
+
+</body>
+</html>

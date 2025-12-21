@@ -1,15 +1,101 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Minha Conta | Praia & Movimento</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<script type="module" src="site.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minha Conta — Praia & Movimento</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,700&family=Plus+Jakarta+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = { theme: { extend: { colors: { sand: "#F7E9D7", ink: "#0C0C0C", gold: "#C9A44F" } } } }
+    </script>
 </head>
-<body class="min-h-screen bg-[#FFFBF8] p-6">
-<h1 class="text-2xl font-bold mb-6">Minha Conta</h1>
-<div id="dados" class="bg-white p-6 rounded shadow mb-4"></div>
-<button onclick="logout()" class="bg-red-500 text-white px-6 py-2 rounded">Sair</button>
+<body class="bg-sand min-h-screen font-sans text-ink">
+
+    <header class="p-6 bg-white border-b border-black/5 flex justify-between items-center">
+        <a href="index.html" class="font-serif text-xl font-bold italic">Praia & Movimento</a>
+        <a href="index.html" class="text-[10px] uppercase font-bold tracking-widest text-black/40">Voltar para a Loja</a>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-6 py-12">
+        <div class="grid md:grid-cols-3 gap-8">
+            
+            <aside class="space-y-4">
+                <div class="bg-white p-8 rounded-3xl shadow-sm text-center border border-black/5">
+                    <div class="w-20 h-20 bg-gold/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-gold font-bold text-2xl" id="avatar-letra">U</span>
+                    </div>
+                    <h2 class="font-serif text-xl italic" id="perfil-nome">Usuário</h2>
+                    <p class="text-[10px] text-black/40 uppercase font-bold tracking-widest mt-1" id="perfil-email">email@exemplo.com</p>
+                    
+                    <button onclick="logoutCliente()" class="mt-8 text-xs text-red-400 font-bold uppercase hover:underline">Sair da Conta</button>
+                </div>
+            </aside>
+
+            <section class="md:col-span-2 space-y-6">
+                
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-black/5">
+                    <h3 class="font-serif text-2xl mb-6">Minha Sacola Atual</h3>
+                    <div id="resumo-sacola" class="space-y-4">
+                        </div>
+                    <div class="mt-8 pt-6 border-t border-black/5 flex justify-between items-center">
+                        <a href="carrinho.html" class="text-xs font-bold uppercase tracking-widest text-gold underline">Ver sacola completa</a>
+                        <button onclick="finalizarPedido()" class="bg-ink text-white px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-gold transition">Finalizar Pedido</button>
+                    </div>
+                </div>
+
+                <div class="bg-gold/10 p-8 rounded-3xl border border-gold/20 flex items-center justify-between">
+                    <div>
+                        <h4 class="font-bold">Precisa de ajuda?</h4>
+                        <p class="text-sm text-black/60">Fale com nosso consultor de estilo.</p>
+                    </div>
+                    <a href="https://wa.me/555197365965" target="_blank" class="bg-white p-4 rounded-full shadow-sm hover:scale-110 transition">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" class="w-6 h-6" alt="WhatsApp">
+                    </a>
+                </div>
+
+            </section>
+        </div>
+    </main>
+
+    <script src="site.js"></script>
+    <script>
+        // Lógica específica desta página
+        window.addEventListener('DOMContentLoaded', () => {
+            const logado = localStorage.getItem("cliente_logado");
+            const nome = localStorage.getItem("cliente_nome") || "Cliente";
+            
+            if (logado !== "true") {
+                window.location.href = "login.html";
+                return;
+            }
+
+            // Preencher Perfil
+            document.getElementById("perfil-nome").textContent = nome;
+            document.getElementById("avatar-letra").textContent = nome.charAt(0).toUpperCase();
+            
+            // Tentar buscar email do cadastro (baseado na lógica de login anterior)
+            // Como salvamos como user_email, precisaríamos percorrer o localStorage ou salvar o email logado
+            // Por enquanto, usaremos um placeholder ou o que estiver no storage
+            
+            // Resumo da Sacola
+            const sacola = JSON.parse(localStorage.getItem("carrinho_pm")) || [];
+            const container = document.getElementById("resumo-sacola");
+            
+            if (sacola.length === 0) {
+                container.innerHTML = `<p class="text-sm text-black/40 italic">Sua sacola está vazia no momento.</p>`;
+            } else {
+                container.innerHTML = sacola.slice(0, 3).map(item => `
+                    <div class="flex justify-between items-center text-sm">
+                        <span class="text-black/60">${item.nome} (${item.tamanho})</span>
+                        <span class="font-bold">${item.preco.toLocaleString('pt-BR', {style:'currency', currency:'BRL'})}</span>
+                    </div>
+                `).join('');
+                if(sacola.length > 3) {
+                    container.innerHTML += `<p class="text-[10px] text-gold font-bold">+ ${sacola.length - 3} outros itens</p>`;
+                }
+            }
+        });
+    </script>
 </body>
 </html>

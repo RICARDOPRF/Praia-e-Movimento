@@ -1,49 +1,142 @@
-/* Praia & Movimento — site.js (Versão PRO) */
-const PM = (() => {
-  const STORE_KEY = "pm_cart_v1";
-  const WHATSAPP_NUMBER = "55XXXXXXXXXXX"; // COLOQUE SEU NUMERO AQUI
-  const FIREBASE_RTD_URL = "https://praia-e-movimento-d51e4-default-rtdb.firebaseio.com";
+/* ================================
+   PRAIA & MOVIMENTO — SITE.JS
+   Base Central de Produtos
+================================ */
 
-  const products = [
-    { id:"f001", seg:"feminino", name:"Biquíni Tropical Pêssego", price:149.90, img:"https://images.unsplash.com/photo-1520975958225-62b87aee7f20?auto=format&fit=crop&w=1200&q=80", desc:"Peça premium com toque macio e design elegante." },
-    { id:"m001", seg:"masculino", name:"Bermuda Classic Mar", price:129.90, img:"https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=1200&q=80", desc:"Conforto e secagem rápida com corte alfaiataria." },
-    // ... Adicione os outros produtos aqui mantendo este padrão
-  ];
+const PRODUTOS = [
+  {
+    slug: "masculino-churrasco-pao-de-alho-preta",
+    nome: "Camisa Churrasco Pão de Alho",
+    categoria: "Masculino",
+    preco: 145.00,
+    tamanhos: ["M", "G", "GG"]
+  },
+  {
+    slug: "masculino-saideira-nunca-e-so-uma-nude",
+    nome: "Camisa Saideira Nunca é Só Uma",
+    categoria: "Masculino",
+    preco: 130.00,
+    tamanhos: ["M", "G", "GG"]
+  },
+  {
+    slug: "masculino-sexta-feira-em-algum-lugar-pink",
+    nome: "Regata Sexta-feira em Algum Lugar",
+    categoria: "Masculino",
+    preco: 130.00,
+    tamanhos: ["M", "G"]
+  }
+];
 
-  const getCart = () => JSON.parse(localStorage.getItem(STORE_KEY)) || [];
-  
-  const addToCart = (id) => {
-    const cart = getCart();
-    const product = products.find(p => p.id === id);
-    cart.push({ ...product, cartId: Date.now() });
-    localStorage.setItem(STORE_KEY, JSON.stringify(cart));
-    updateBadge();
-    alert("Adicionado com sucesso!");
-  };
+/* ================================
+   UTILIDADES
+================================ */
 
-  const updateBadge = () => {
-    const count = getCart().length;
-    document.querySelectorAll('.cart-count').forEach(el => el.textContent = count);
-  };
+function getProduto(slug) {
+  return PRODUTOS.find(p => p.slug === slug);
+}
 
-  const finalizePurchase = () => {
-    const cart = getCart();
-    if (cart.length === 0) return alert("Carrinho vazio");
+function formatarPreco(valor) {
+  return valor.toLocaleString("pt-BR", {
+    style: "currency",
+    currency: "BRL"
+  });
+}
 
-    let message = "*Novo Pedido - Praia & Movimento*\n\n";
-    let total = 0;
-    cart.forEach(item => {
-      message += `• ${item.name} - R$ ${item.price.toFixed(2)}\n`;
-      total += item.price;
+/* ================================
+   LOJA / LISTAGEM
+================================ */
+
+function renderLoja(containerId, filtroCategoria = null) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+
+  container.innerHTML = "";
+
+  PRODUTOS
+    .filter(p => !filtroCategoria || p.categoria === filtroCategoria)
+    .forEach(produto => {
+      const card = document.createElement("div");
+      card.className = "group";
+
+      card.innerHTML = `
+        <a href="produto.html?produto=${produto.slug}">
+          <div class="aspect-[3/4] bg-gray-100 overflow-hidden rounded-xl">
+            <img 
+              src="${produto.slug}-view1.jpeg"
+              class="w-full h-full object-cover group-hover:scale-105 transition"
+              loading="lazy"
+            />
+          </div>
+          <h3 class="font-serif text-lg mt-3">${produto.nome}</h3>
+          <p class="text-sm text-gray-500">${produto.categoria}</p>
+          <p class="font-semibold text-gold mt-1">${formatarPreco(produto.preco)}</p>
+        </a>
+      `;
+
+      container.appendChild(card);
     });
-    message += `\n*Total: R$ ${total.toFixed(2)}*`;
-    message += `\n\n*Pagamento preferencial: PIX*`;
+}
 
-    const encoded = encodeURIComponent(message);
-    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encoded}`, '_blank');
-  };
+/* ================================
+   PRODUTO.HTML
+================================ */
 
-  return { init: () => { updateBadge(); }, addToCart, finalizePurchase };
-})();
+function carregarProduto() {
+  const params = new URLSearchParams(window.location.search);
+  const slug = params.get("produto");
+  if (!slug) return;
 
-document.addEventListener("DOMContentLoaded", PM.init);
+  const produto = getProduto(slug);
+  if (!produto) return;
+
+  document.getElementById("nome-produto").textContent = produto.nome;
+  document.getElementById("categoria").textContent = produto.categoria;
+  document.getElementById("preco-produto").textContent = formatarPreco(produto.preco);
+
+  const select = document.querySelector("select");
+  select.innerHTML = "";
+  produto.tamanhos.forEach(t => {
+    const opt = document.createElement("option");
+    opt.textContent = t;
+    select.appendChild(opt);
+  });
+
+  document.getElementById("whatsapp-link").href =
+    `https://wa.me/555197365965?text=Tenho interesse no produto: ${produto.nome}`;
+}
+
+/* ================================
+   CARRINHO
+================================ */
+
+function getCarrinho() {
+  return JSON.parse(localStorage.getItem("carrinho")) || [];
+}
+
+function salvarCarrinho(carrinho) {
+  localStorage.setItem("carrinho", JSON.stringify(carrinho));
+}
+
+function addCarrinho(slug, tamanho) {
+  const carrinho = getCarrinho();
+  carrinho.push({ slug, tamanho, qtd: 1 });
+  salvarCarrinho(carrinho);
+  alert("Produto adicionado ao carrinho");
+}
+
+function gerarResumoWhatsApp() {
+  const carrinho = getCarrinho();
+  if (carrinho.length === 0) return "";
+
+  let texto = "🛍️ Pedido Praia & Movimento:%0A%0A";
+  let total = 0;
+
+  carrinho.forEach(item => {
+    const p = getProduto(item.slug);
+    texto += `• ${p.nome} (${item.tamanho}) — ${formatarPreco(p.preco)}%0A`;
+    total += p.preco;
+  });
+
+  texto += `%0A💰 Total: ${formatarPreco(total)}`;
+  return texto;
+}

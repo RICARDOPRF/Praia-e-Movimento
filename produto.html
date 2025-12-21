@@ -1,1 +1,187 @@
-<!DOCTYPE html><html><head><title>Produto</title></head><body><h1>Produto</h1><a href='index.html'>Home</a></body></html>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <title>Produto — Praia & Movimento</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            sand: "#F7E9D7",
+            ink: "#0C0C0C",
+            gold: "#C9A44F",
+            peach: "#FF9E68"
+          },
+          fontFamily: {
+            serif: ["Playfair Display", "serif"],
+            sans: ["Plus Jakarta Sans", "sans-serif"]
+          }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body class="bg-sand text-ink font-sans antialiased">
+
+  <!-- HEADER -->
+  <header class="sticky top-0 z-50 bg-white/80 backdrop-blur border-b border-black/5">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+      <a href="index.html" class="flex items-center gap-2">
+        <span class="material-symbols-outlined text-gold text-3xl">waves</span>
+        <span class="font-serif text-xl font-bold">Praia & Movimento</span>
+      </a>
+
+      <a href="carrinho.html">
+        <span class="material-symbols-outlined">shopping_bag</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- PRODUTO -->
+  <section class="max-w-7xl mx-auto px-6 pt-24 pb-24 grid grid-cols-1 lg:grid-cols-2 gap-14">
+
+    <!-- GALERIA -->
+    <div>
+
+      <!-- Imagem principal -->
+      <div class="aspect-[3/4] bg-white rounded-xl overflow-hidden mb-4">
+        <img id="imagem-principal"
+             class="w-full h-full object-cover"
+             loading="lazy">
+      </div>
+
+      <!-- Thumbnails -->
+      <div id="thumbnails" class="flex gap-3 overflow-x-auto"></div>
+
+      <!-- Vídeo -->
+      <div class="mt-6">
+        <video id="video-produto"
+               controls
+               class="w-full rounded-xl hidden"></video>
+      </div>
+
+    </div>
+
+    <!-- INFO -->
+    <div>
+
+      <span id="categoria" class="text-sm uppercase tracking-widest text-black/60">
+        Produto
+      </span>
+
+      <h1 id="nome-produto" class="font-serif text-4xl mt-2 mb-4">
+        Produto Praia & Movimento
+      </h1>
+
+      <p id="preco-produto" class="text-2xl font-semibold text-gold mb-6">
+        Consulte o valor
+      </p>
+
+      <!-- VARIAÇÕES -->
+      <div class="mb-6">
+        <label class="block text-sm mb-2">Tamanho</label>
+        <select class="w-full border border-black/20 rounded px-4 py-3 bg-white">
+          <option>P</option>
+          <option>M</option>
+          <option>G</option>
+          <option>GG</option>
+        </select>
+      </div>
+
+      <!-- BOTÕES -->
+      <div class="space-y-4">
+        <a href="carrinho.html"
+           class="block w-full text-center bg-ink text-white py-4 rounded-full font-semibold hover:opacity-90 transition">
+          Adicionar ao Carrinho
+        </a>
+
+        <a id="whatsapp-link"
+           target="_blank"
+           class="block w-full text-center border border-ink py-4 rounded-full font-semibold hover:bg-ink hover:text-white transition">
+          Comprar pelo WhatsApp
+        </a>
+      </div>
+
+      <!-- DESCRIÇÃO -->
+      <div class="mt-10 text-black/70 leading-relaxed">
+        Produto exclusivo Praia & Movimento, desenvolvido com materiais de alta qualidade,
+        conforto e design premium para acompanhar você em qualquer ocasião.
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-ink text-white py-16 text-center">
+    <span class="font-serif text-xl">Praia & Movimento</span>
+    <p class="text-white/60 text-sm mt-4">
+      © 2024 — Todos os direitos reservados
+    </p>
+  </footer>
+
+  <!-- JS PRODUTO DINÂMICO -->
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const slug = params.get("produto");
+
+    const imagemPrincipal = document.getElementById("imagem-principal");
+    const thumbs = document.getElementById("thumbnails");
+    const video = document.getElementById("video-produto");
+
+    const nomeProduto = document.getElementById("nome-produto");
+    const precoProduto = document.getElementById("preco-produto");
+    const categoria = document.getElementById("categoria");
+    const whatsapp = document.getElementById("whatsapp-link");
+
+    if (!slug) {
+      imagemPrincipal.src = "placeholder.jpeg";
+    } else {
+
+      // TEXTOS BASEADOS NO SLUG (opcional ajustar depois)
+      nomeProduto.textContent = slug.replaceAll("-", " ");
+      categoria.textContent = slug.includes("masculino") ? "Masculino" : "Produto";
+      precoProduto.textContent = "Consulte o valor";
+
+      whatsapp.href = `https://wa.me/555197365965?text=Tenho interesse no produto: ${slug.replaceAll("-", " ")}`;
+
+      // IMAGENS
+      for (let i = 1; i <= 5; i++) {
+        const img = new Image();
+        img.src = `${slug}-view${i}.jpeg`;
+
+        img.onload = () => {
+          if (!imagemPrincipal.src) {
+            imagemPrincipal.src = img.src;
+          }
+
+          img.className = "w-20 h-28 object-cover rounded cursor-pointer border border-black/20";
+          img.onclick = () => imagemPrincipal.src = img.src;
+          thumbs.appendChild(img);
+        };
+      }
+
+      // VÍDEO (opcional)
+      const videoSrc = `${slug}-video.mp4`;
+      fetch(videoSrc, { method: "HEAD" }).then(res => {
+        if (res.ok) {
+          video.src = videoSrc;
+          video.classList.remove("hidden");
+        }
+      });
+    }
+  </script>
+
+</body>
+</html>

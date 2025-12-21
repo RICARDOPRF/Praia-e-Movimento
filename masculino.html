@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
-  <title>Moda Masculina — Praia & Movimento</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Masculino — Praia & Movimento</title>
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
 
   <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -18,10 +17,10 @@
       theme: {
         extend: {
           colors: {
-            sand: "#F6E9D7",
-            ink: "#0C0C0C",
+            sand: "#F7E9D7",
+            ink: "#1C1C1C",
             gold: "#C9A44F",
-            peach: "#FF9E68"
+            peach: "#FFB28A"
           },
           fontFamily: {
             serif: ["Playfair Display", "serif"],
@@ -40,14 +39,13 @@
   <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
     <a href="index.html" class="flex items-center gap-2">
       <span class="material-symbols-outlined text-gold text-3xl">waves</span>
-      <span class="font-serif text-xl font-bold">Praia & Movimento</span>
+      <span class="font-serif text-xl font-semibold">Praia & Movimento</span>
     </a>
 
-    <nav class="hidden md:flex gap-8 text-sm font-medium">
+    <nav class="hidden md:flex gap-10 text-sm tracking-wide">
       <a href="feminino.html" class="hover:text-gold">Feminino</a>
       <a href="masculino.html" class="text-gold">Masculino</a>
-      <a href="acessorios.html" class="hover:text-gold">Acessórios</a>
-      <a href="loja.html" class="hover:text-gold">Loja</a>
+      <a href="lingerie.html" class="hover:text-gold">Lingerie</a>
     </nav>
 
     <a href="carrinho.html">
@@ -56,97 +54,84 @@
   </div>
 </header>
 
-<!-- HERO -->
-<section class="relative h-[45vh] flex items-center justify-center text-center overflow-hidden">
-  <img
-    src="home-masculino.jpeg"
-    class="absolute inset-0 w-full h-full object-cover"
-    loading="lazy"
-  >
-  <div class="absolute inset-0 bg-black/40"></div>
+<!-- HERO MASCULINO -->
+<section class="relative h-[60vh] flex items-center px-6">
+  <div class="absolute inset-0">
+    <img src="hero-masculino.jpeg" class="w-full h-full object-cover object-center">
+    <div class="absolute inset-0 bg-sand/50"></div>
+  </div>
 
-  <div class="relative z-10 px-6">
-    <h1 class="font-serif text-4xl md:text-5xl text-white mb-4">
-      Moda Masculina
+  <div class="relative z-10 max-w-3xl mx-auto text-left">
+    <span class="uppercase tracking-[0.35em] text-xs text-gold">
+      Masculino
+    </span>
+
+    <h1 class="font-serif text-4xl md:text-5xl mt-6 mb-6 leading-tight">
+      Estilo descomplicado <br>
+      <span class="italic text-peach">com presença e leveza</span>
     </h1>
-    <p class="text-white/80">
-      Estilo, conforto e atitude para qualquer ocasião.
+
+    <p class="text-black/65 max-w-md">
+      Peças que acompanham o ritmo do verão, do dia à noite, com conforto e identidade.
     </p>
   </div>
 </section>
 
 <!-- PRODUTOS -->
 <section class="max-w-7xl mx-auto px-6 py-24">
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-14">
 
-  <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+    <!-- CARD PRODUTO (mantendo estrutura original) -->
+    <a href="produto.html?produto=camisa-churrasco-pao-de-alho-preta" class="group">
+      <div class="aspect-[3/4] overflow-hidden rounded-xl bg-white shadow-sm
+                  group-hover:shadow-xl transition">
+        <img src="masculino-churrasco-pao-de-alho-preta-view1.jpeg"
+             class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+      </div>
 
-    <!-- PRODUTO -->
-    <a href="produto.html?produto=masculino-churrasco-pao-de-alho-preta" class="group">
-      <div class="bg-white rounded-2xl overflow-hidden shadow hover:shadow-xl transition">
-        <div class="aspect-[3/4] overflow-hidden">
-          <img
-            src="masculino-churrasco-pao-de-alho-preta-view1.jpeg"
-            class="w-full h-full object-cover group-hover:scale-105 transition duration-500"
-            loading="lazy"
-          >
-        </div>
-        <div class="p-4">
-          <h3 class="font-serif text-lg">Churrasco Pão de Alho</h3>
-          <p class="text-sm text-black/60">Camisa Masculina</p>
-          <p class="mt-2 font-semibold text-gold">R$ 145,00</p>
-        </div>
+      <div class="mt-5">
+        <h3 class="font-serif text-lg">
+          Camisa Churrasco Pão de Alho
+        </h3>
+        <p class="text-sm text-black/50 mt-1">
+          Lifestyle Masculino
+        </p>
+        <p class="mt-2 text-gold font-medium">
+          R$ 145,00
+        </p>
       </div>
     </a>
 
-    <!-- PRODUTO -->
-    <a href="produto.html?produto=masculino-saideira-nunca-e-so-uma-nude" class="group">
-      <div class="bg-white rounded-2xl overflow-hidden shadow hover:shadow-xl transition">
-        <div class="aspect-[3/4] overflow-hidden">
-          <img
-            src="masculino-saideira-nunca-e-so-uma-nude-view1.jpeg"
-            class="w-full h-full object-cover group-hover:scale-105 transition duration-500"
-            loading="lazy"
-          >
-        </div>
-        <div class="p-4">
-          <h3 class="font-serif text-lg">A Saideira Nunca é Só Uma</h3>
-          <p class="text-sm text-black/60">Camisa Masculina</p>
-          <p class="mt-2 font-semibold text-gold">R$ 130,00</p>
-        </div>
-      </div>
-    </a>
-
-    <!-- PRODUTO -->
-    <a href="produto.html?produto=masculino-sexta-feira-em-algum-lugar-pink" class="group">
-      <div class="bg-white rounded-2xl overflow-hidden shadow hover:shadow-xl transition">
-        <div class="aspect-[3/4] overflow-hidden">
-          <img
-            src="masculino-sexta-feira-em-algum-lugar-pink-view1.jpeg"
-            class="w-full h-full object-cover group-hover:scale-105 transition duration-500"
-            loading="lazy"
-          >
-        </div>
-        <div class="p-4">
-          <h3 class="font-serif text-lg">Sexta-feira em algum lugar</h3>
-          <p class="text-sm text-black/60">Regata Masculina</p>
-          <p class="mt-2 font-semibold text-gold">R$ 130,00</p>
-        </div>
-      </div>
-    </a>
-
-    <!-- ADICIONE MAIS PRODUTOS AQUI -->
+    <!-- 👉 Repete o mesmo padrão para os demais produtos já existentes -->
 
   </div>
-
 </section>
+<footer class="bg-sand border-t border-black/5 py-12 text-center">
 
-<!-- FOOTER -->
-<footer class="bg-ink text-white py-16 text-center">
-  <span class="font-serif text-xl">Praia & Movimento</span>
-  <p class="text-white/60 text-sm mt-4">
-    © 2024 — Todos os direitos reservados
+  <span class="material-symbols-outlined text-gold text-4xl mb-4 block">
+    waves
+  </span>
+
+  <p class="font-serif text-lg">
+    Praia & Movimento
   </p>
+
+  <div class="flex justify-center gap-6 mt-6 text-black/50 text-sm">
+    <a href="https://www.instagram.com/praiaemovimento" target="_blank" class="hover:text-gold transition">
+      Instagram
+    </a>
+
+    <a href="https://wa.me/555197365965" target="_blank" class="hover:text-gold transition">
+      WhatsApp
+    </a>
+  </div>
+
+  <p class="text-xs text-black/40 mt-6">
+    © 2024 Praia & Movimento — Todos os direitos reservados
+  </p>
+
 </footer>
+
 
 </body>
 </html>

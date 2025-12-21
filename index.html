@@ -4,11 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-  <title>Praia & Movimento — Lifestyle & Moda Praia</title>
+  <title>Praia & Movimento — Lifestyle Brasileiro</title>
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
 
   <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -18,10 +17,10 @@
       theme: {
         extend: {
           colors: {
-            sand: "#F6E9D7",
-            ink: "#0C0C0C",
+            sand: "#F7E9D7",
+            ink: "#1A1A1A",
             gold: "#C9A44F",
-            peach: "#FF9E68"
+            peach: "#FFB089"
           },
           fontFamily: {
             serif: ["Playfair Display", "serif"],
@@ -31,113 +30,152 @@
       }
     }
   </script>
+
+  <style>
+    /* Fade-in suave */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 1.2s ease-out forwards;
+    }
+
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
 </head>
 
 <body class="bg-sand text-ink font-sans antialiased">
 
 <!-- HEADER -->
-<header class="sticky top-0 z-50 bg-white/80 backdrop-blur border-b border-black/5">
+<header class="fixed top-0 w-full z-50 bg-sand/80 backdrop-blur border-b border-black/5">
   <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-    <a href="index.html" class="flex items-center gap-2">
-      <span class="material-symbols-outlined text-gold text-3xl">waves</span>
-      <span class="font-serif text-xl font-bold">Praia & Movimento</span>
+
+    <a href="index.html" class="font-serif text-xl tracking-wide">
+      Praia & Movimento
     </a>
 
-    <nav class="hidden md:flex gap-8 text-sm font-medium">
-      <a href="feminino.html" class="hover:text-gold">Feminino</a>
-      <a href="masculino.html" class="hover:text-gold">Masculino</a>
-      <a href="acessorios.html" class="hover:text-gold">Acessórios</a>
-      <a href="loja.html" class="hover:text-gold">Loja</a>
+    <nav class="hidden md:flex gap-10 text-sm">
+      <a href="loja.html" class="hover:text-gold transition">Loja</a>
+      <a href="feminino.html" class="hover:text-gold transition">Feminino</a>
+      <a href="masculino.html" class="hover:text-gold transition">Masculino</a>
+      <a href="lingerie.html" class="hover:text-gold transition">Lingerie</a>
     </nav>
 
-    <a href="carrinho.html">
-      <span class="material-symbols-outlined">shopping_bag</span>
-    </a>
+    <div class="flex gap-6 text-sm">
+      <a href="https://instagram.com/praiaemovimento" target="_blank" class="hover:text-gold transition">
+        Instagram
+      </a>
+      <a href="https://wa.me/555197365965" target="_blank" class="hover:text-gold transition">
+        WhatsApp
+      </a>
+    </div>
+
   </div>
 </header>
 
 <!-- HERO -->
-<section class="relative h-[85vh] flex items-center justify-center text-center overflow-hidden">
-  <img
-    src="hero-home.jpeg"
-    alt="Praia & Movimento Lifestyle"
-    class="absolute inset-0 w-full h-full object-cover"
-    loading="lazy"
-  />
-  <div class="absolute inset-0 bg-black/40"></div>
+<section class="relative h-[72vh] md:h-[78vh] flex items-center px-6 pt-32">
 
-  <div class="relative z-10 px-6 max-w-3xl">
-    <h1 class="font-serif text-5xl md:text-6xl text-white mb-6">
-      Viva o verão com <span class="italic text-gold">atitude</span>
-    </h1>
-    <p class="text-white/90 mb-8 text-lg">
-      Moda, lifestyle e liberdade em cada detalhe.
-    </p>
-    <a href="loja.html"
-       class="inline-block bg-gold text-ink px-10 py-4 rounded-full font-semibold hover:opacity-90 transition">
-      Explorar Coleção
-    </a>
+  <!-- Background -->
+  <div class="absolute inset-0">
+    <img src="hero-home.jpeg"
+         alt="Praia & Movimento Lifestyle"
+         class="w-full h-full object-cover object-center">
+    <div class="absolute inset-0 bg-sand/60"></div>
   </div>
+
+  <!-- Conteúdo -->
+  <div class="relative z-10 max-w-5xl mx-auto fade-in">
+
+    <span class="uppercase tracking-[0.3em] text-xs text-gold">
+      Lifestyle Brasileiro
+    </span>
+
+    <h1 class="font-serif text-4xl md:text-5xl leading-tight mt-6 mb-6 max-w-xl">
+      Elegância leve <br>
+      <span class="italic text-peach">com alma praiana</span>
+    </h1>
+
+    <p class="text-base md:text-lg text-black/65 mb-10 max-w-lg">
+      Moda que nasce do sol, do movimento e da liberdade de viver o verão o ano inteiro.
+    </p>
+
+    <a href="loja.html"
+       class="inline-block border border-gold text-ink px-10 py-3 rounded-full text-sm tracking-wide hover:bg-gold hover:text-white transition">
+      Explorar a Loja
+    </a>
+
+  </div>
+
 </section>
 
 <!-- CATEGORIAS -->
-<section class="max-w-7xl mx-auto px-6 py-24">
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+<section class="max-w-7xl mx-auto px-6 py-24 grid md:grid-cols-3 gap-12">
 
-    <!-- FEMININO -->
-    <a href="feminino.html" class="group">
-      <div class="rounded-2xl overflow-hidden bg-white shadow hover:shadow-xl transition">
-        <img
-          src="home-feminino.jpeg"
-          class="w-full h-[420px] object-cover group-hover:scale-105 transition duration-500"
-          loading="lazy"
-        >
-        <div class="p-6">
-          <h3 class="font-serif text-xl">Biquíni Floripa</h3>
-          <p class="text-sm text-black/60">Feminino</p>
-        </div>
-      </div>
-    </a>
+  <a href="feminino.html" class="group">
+    <div class="aspect-[3/4] bg-white rounded-xl overflow-hidden mb-6">
+      <img src="home-feminino.jpeg" class="w-full h-full object-cover group-hover:scale-105 transition">
+    </div>
+    <h3 class="font-serif text-xl">Moda Feminina</h3>
+    <p class="text-sm text-black/60 mt-1">Leveza, forma e liberdade</p>
+  </a>
 
-    <!-- MASCULINO -->
-    <a href="masculino.html" class="group">
-      <div class="rounded-2xl overflow-hidden bg-white shadow hover:shadow-xl transition">
-        <img
-          src="home-masculino.jpeg"
-          class="w-full h-[420px] object-cover group-hover:scale-105 transition duration-500"
-          loading="lazy"
-        >
-        <div class="p-6">
-          <h3 class="font-serif text-xl">Camisa Lifestyle</h3>
-          <p class="text-sm text-black/60">Masculino</p>
-        </div>
-      </div>
-    </a>
+  <a href="masculino.html" class="group">
+    <div class="aspect-[3/4] bg-white rounded-xl overflow-hidden mb-6">
+      <img src="home-masculino.jpeg" class="w-full h-full object-cover group-hover:scale-105 transition">
+    </div>
+    <h3 class="font-serif text-xl">Moda Masculina</h3>
+    <p class="text-sm text-black/60 mt-1">Lifestyle urbano & praiano</p>
+  </a>
 
-    <!-- LINGERIES -->
-    <a href="Lingerie.html" class="group">
-      <div class="rounded-2xl overflow-hidden bg-white shadow hover:shadow-xl transition">
-        <img
-          src="home-alingerie.jpeg"
-          class="w-full h-[420px] object-cover group-hover:scale-105 transition duration-500"
-          loading="lazy"
-        >
-        <div class="p-6">
-          <h3 class="font-serif text-xl">Lingeries</h3>
-          <p class="text-sm text-black/60">Sexy</p>
-        </div>
-      </div>
-    </a>
+  <a href="lingerie.html" class="group">
+    <div class="aspect-[3/4] bg-white rounded-xl overflow-hidden mb-6">
+      <img src="home-lingerie.jpeg" class="w-full h-full object-cover group-hover:scale-105 transition">
+    </div>
+    <h3 class="font-serif text-xl">Lingerie</h3>
+    <p class="text-sm text-black/60 mt-1">Sensualidade elegante</p>
+  </a>
 
-  </div>
 </section>
 
 <!-- FOOTER -->
-<footer class="bg-ink text-white py-16 text-center">
-  <span class="font-serif text-xl">Praia & Movimento</span>
-  <p class="text-white/60 text-sm mt-4">
-    © 2024 — Todos os direitos reservados
-  </p>
+<footer class="bg-sand border-t border-black/5">
+  <div class="max-w-7xl mx-auto px-6 py-16 grid md:grid-cols-3 gap-12 text-sm">
+
+    <div>
+      <span class="font-serif text-lg">Praia & Movimento</span>
+      <p class="text-black/60 mt-4 max-w-sm">
+        Marca brasileira inspirada no verão, no movimento e na liberdade.
+      </p>
+    </div>
+
+    <div>
+      <p class="font-semibold mb-4">Navegação</p>
+      <ul class="space-y-2 text-black/60">
+        <li><a href="loja.html" class="hover:text-gold">Loja</a></li>
+        <li><a href="feminino.html" class="hover:text-gold">Feminino</a></li>
+        <li><a href="masculino.html" class="hover:text-gold">Masculino</a></li>
+        <li><a href="lingerie.html" class="hover:text-gold">Lingerie</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <p class="font-semibold mb-4">Contato</p>
+      <ul class="space-y-2 text-black/60">
+        <li><a href="https://wa.me/555197365965" target="_blank" class="hover:text-gold">WhatsApp</a></li>
+        <li><a href="https://instagram.com/praiaemovimento" target="_blank" class="hover:text-gold">Instagram</a></li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="text-center text-xs text-black/40 pb-8">
+    © 2024 Praia & Movimento — Todos os direitos reservados
+  </div>
 </footer>
 
 </body>

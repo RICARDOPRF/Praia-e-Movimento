@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <title>Lingerie — Praia & Movimento</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            sand: "#F7E9D7",
+            ink: "#0C0C0C",
+            gold: "#C9A44F",
+            peach: "#FF9E68"
+          },
+          fontFamily: {
+            serif: ["Playfair Display", "serif"],
+            sans: ["Plus Jakarta Sans", "sans-serif"]
+          }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body class="bg-sand text-ink font-sans antialiased">
+
+  <!-- HEADER -->
+  <header class="sticky top-0 z-50 bg-white/80 backdrop-blur border-b border-black/5">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+      <a href="index.html" class="flex items-center gap-2">
+        <span class="material-symbols-outlined text-gold text-3xl">waves</span>
+        <span class="font-serif text-xl font-bold">Praia & Movimento</span>
+      </a>
+
+      <nav class="hidden md:flex gap-8 text-sm">
+        <a href="feminino.html" class="hover:text-gold transition">Feminino</a>
+        <a href="masculino.html" class="hover:text-gold transition">Masculino</a>
+        <a href="lingerie.html" class="text-gold font-medium">Lingerie</a>
+      </nav>
+
+      <a href="carrinho.html">
+        <span class="material-symbols-outlined">shopping_bag</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="relative h-[60vh] flex items-center">
+    <div class="absolute inset-0">
+      <img src="hero-homelin.jpeg" class="w-full h-full object-cover" />
+      <div class="absolute inset-0 bg-sand/65"></div>
+    </div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-6 text-center">
+      <span class="text-xs tracking-widest uppercase text-black/50">
+        Lingerie
+      </span>
+
+      <h1 class="font-serif text-4xl md:text-5xl mt-4">
+        Elegância que toca a pele
+      </h1>
+
+      <p class="text-black/60 mt-6 max-w-xl mx-auto">
+        Peças delicadas, confortáveis e femininas, pensadas para valorizar o corpo
+        com sofisticação e atitude.
+      </p>
+    </div>
+  </section>
+
+  <!-- PRODUTOS -->
+  <section class="max-w-7xl mx-auto px-6 py-24">
+
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10">
+
+      <!-- PRODUTO -->
+      <a href="produto.html?produto=conjunto-bianca" class="group">
+        <div class="aspect-[3/4] bg-white rounded-xl overflow-hidden">
+          <img src="lingerie-renda-preta-view1.jpeg"
+               class="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+               loading="lazy">
+        </div>
+
+        <h3 class="font-serif text-lg mt-4">Conjunto Bianca</h3>
+        <p class="text-sm text-black/50">Nude</p>
+        <p class="text-gold font-semibold mt-1">R$ 55,90</p>
+      </a>
+
+      <!-- PRODUTO -->
+      <a href="produto.html?produto=conjunto-afrodite" class="group">
+        <div class="aspect-[3/4] bg-white rounded-xl overflow-hidden">
+          <img src="lingerie-renda-preta-view1.jpeg"
+               class="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+               loading="lazy">
+        </div>
+
+        <h3 class="font-serif text-lg mt-4">Conjunto Afrodite</h3>
+        <p class="text-sm text-black/50">Preto</p>
+        <p class="text-gold font-semibold mt-1">R$ 99,90</p>
+      </a>
+
+      <!-- PRODUTO -->
+      <a href="produto.html?produto=camisola-esther" class="group">
+        <div class="aspect-[3/4] bg-white rounded-xl overflow-hidden">
+          <img src="lingerie-renda-preta-view1.jpeg"
+               class="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+               loading="lazy">
+        </div>
+
+        <h3 class="font-serif text-lg mt-4">Camisola Esther</h3>
+        <p class="text-sm text-black/50">Pink</p>
+        <p class="text-gold font-semibold mt-1">R$ 69,90</p>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-sand border-t border-black/5 py-12 text-center">
+
+    <span class="material-symbols-outlined text-gold text-4xl mb-4 block">
+      waves
+    </span>
+
+    <p class="font-serif text-lg">Praia & Movimento</p>
+
+    <div class="flex justify-center gap-6 mt-6 text-black/50 text-sm">
+      <a href="https://www.instagram.com/praiaemovimento" target="_blank" class="hover:text-gold transition">
+        Instagram
+      </a>
+      <a href="https://wa.me/555197365965" target="_blank" class="hover:text-gold transition">
+        WhatsApp
+      </a>
+    </div>
+
+    <p class="text-xs text-black/40 mt-6">
+      © 2024 Praia & Movimento — Todos os direitos reservados
+    </p>
+
+  </footer>
+
+</body>
+</html>

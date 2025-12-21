@@ -1,20 +1,68 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Login | Praia & Movimento</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<script type="module" src="site.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login — Praia & Movimento</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@1&family=Plus+Jakarta+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = { theme: { extend: { colors: { sand: "#F7E9D7", ink: "#0C0C0C", gold: "#C9A44F" } } } }
+    </script>
 </head>
-<body class="min-h-screen flex items-center justify-center bg-[#FFFBF8]">
-<div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
-<h1 class="text-2xl font-bold mb-4 text-center">Entrar</h1>
-<input id="email" type="email" placeholder="Seu e-mail"
- class="w-full border p-3 rounded mb-4"/>
-<button onclick="loginEmailLink()" class="w-full bg-[#FF9E68] text-white py-3 rounded font-bold">
-Receber link de acesso
-</button>
-</div>
+<body class="bg-sand min-h-screen flex items-center justify-center font-sans px-6">
+
+    <div class="max-w-md w-full bg-white p-10 rounded-3xl shadow-2xl">
+        <div class="text-center mb-10">
+            <h1 class="font-serif text-3xl italic font-bold text-ink">Acessar Conta</h1>
+            <p class="text-xs uppercase tracking-widest text-gold mt-2 font-bold">Bem-vindo de volta</p>
+        </div>
+
+        <form onsubmit="event.preventDefault(); loginCliente();" class="space-y-6">
+            <div>
+                <label class="text-[10px] uppercase font-bold tracking-widest ml-4 text-black/40">E-mail</label>
+                <input id="login-email" type="email" placeholder="seu@email.com" required
+                    class="w-full mt-1 p-4 rounded-full border border-black/5 bg-sand/30 outline-none focus:border-gold transition">
+            </div>
+            <div>
+                <label class="text-[10px] uppercase font-bold tracking-widest ml-4 text-black/40">Senha</label>
+                <input id="login-senha" type="password" placeholder="••••••••" required
+                    class="w-full mt-1 p-4 rounded-full border border-black/5 bg-sand/30 outline-none focus:border-gold transition">
+            </div>
+
+            <button type="submit" 
+                class="w-full bg-ink text-white py-4 rounded-full font-bold hover:bg-gold transition shadow-lg transform hover:-translate-y-1">
+                ENTRAR
+            </button>
+        </form>
+
+        <p class="mt-8 text-center text-sm text-black/60">
+            Não tem conta? <a href="cadastro.html" class="text-gold font-bold underline">Cadastre-se</a>
+        </p>
+    </div>
+
+    <script>
+        function loginCliente() {
+            const email = document.getElementById('login-email').value;
+            const senha = document.getElementById('login-senha').value;
+
+            // Busca os dados salvos no navegador para esse e-mail
+            const dadosSalvos = localStorage.getItem(`user_${email}`);
+
+            if (dadosSalvos) {
+                const usuario = JSON.parse(dadosSalvos);
+                
+                if (usuario.senha === senha) {
+                    localStorage.setItem("cliente_nome", usuario.nome);
+                    localStorage.setItem("cliente_logado", "true");
+                    window.location.href = "index.html";
+                } else {
+                    alert("Senha incorreta!");
+                }
+            } else {
+                alert("E-mail não encontrado! Por favor, cadastre-se.");
+            }
+        }
+    </script>
 </body>
 </html>

@@ -1,21 +1,64 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cadastro | Praia & Movimento</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<script type="module" src="site.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro — Praia & Movimento</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@1&family=Plus+Jakarta+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = { theme: { extend: { colors: { sand: "#F7E9D7", ink: "#0C0C0C", gold: "#C9A44F" } } } }
+    </script>
 </head>
-<body class="min-h-screen flex items-center justify-center bg-[#FFFBF8]">
-<div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
-<h1 class="text-2xl font-bold mb-4 text-center">Criar Conta</h1>
-<input id="nome" placeholder="Nome" class="w-full border p-3 rounded mb-3"/>
-<input id="telefone" placeholder="Telefone" class="w-full border p-3 rounded mb-3"/>
-<input id="email" placeholder="E-mail" class="w-full border p-3 rounded mb-4"/>
-<button onclick="salvarCadastro()" class="w-full bg-[#FF9E68] text-white py-3 rounded font-bold">
-Cadastrar
-</button>
-</div>
+<body class="bg-sand min-h-screen flex items-center justify-center font-sans px-6 py-12">
+
+    <div class="max-w-md w-full bg-white p-10 rounded-3xl shadow-2xl">
+        <div class="text-center mb-8">
+            <h1 class="font-serif text-3xl italic font-bold text-ink">Criar Conta</h1>
+            <p class="text-xs uppercase tracking-widest text-gold mt-2 font-bold">Junte-se à Praia & Movimento</p>
+        </div>
+
+        <form onsubmit="event.preventDefault(); registrarCliente();" class="space-y-4">
+            <div>
+                <label class="text-[10px] uppercase font-bold tracking-widest ml-4 text-black/40">Nome Completo</label>
+                <input id="reg-nome" type="text" placeholder="Seu nome" required
+                    class="w-full mt-1 p-4 rounded-full border border-black/5 bg-sand/30 outline-none focus:border-gold transition">
+            </div>
+            <div>
+                <label class="text-[10px] uppercase font-bold tracking-widest ml-4 text-black/40">E-mail</label>
+                <input id="reg-email" type="email" placeholder="seu@email.com" required
+                    class="w-full mt-1 p-4 rounded-full border border-black/5 bg-sand/30 outline-none focus:border-gold transition">
+            </div>
+            <div>
+                <label class="text-[10px] uppercase font-bold tracking-widest ml-4 text-black/40">Senha</label>
+                <input id="reg-senha" type="password" placeholder="••••••••" required
+                    class="w-full mt-1 p-4 rounded-full border border-black/5 bg-sand/30 outline-none focus:border-gold transition">
+            </div>
+
+            <button type="submit" 
+                class="w-full bg-ink text-white py-4 rounded-full font-bold hover:bg-gold transition shadow-lg transform hover:-translate-y-1">
+                CADASTRAR
+            </button>
+        </form>
+
+        <p class="mt-6 text-center text-sm text-black/60">
+            Já tem conta? <a href="login.html" class="text-gold font-bold underline">Fazer Login</a>
+        </p>
+    </div>
+
+    <script>
+        function registrarCliente() {
+            const nome = document.getElementById('reg-nome').value;
+            const email = document.getElementById('reg-email').value;
+            const senha = document.getElementById('reg-senha').value;
+
+            // Salva o objeto do usuário no LocalStorage
+            const usuario = { nome, email, senha };
+            localStorage.setItem(`user_${email}`, JSON.stringify(usuario));
+            
+            alert("Cadastro realizado com sucesso! Agora faça seu login.");
+            window.location.href = "login.html";
+        }
+    </script>
 </body>
 </html>

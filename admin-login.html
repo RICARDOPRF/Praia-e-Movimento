@@ -1,10 +1,62 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head><meta charset="UTF-8"><title>Admin Login</title></head>
-<body>
-<h2>Login Admin</h2>
-<input id="email" placeholder="Email">
-<input id="senha" type="password" placeholder="Senha">
-<button onclick="login()">Entrar</button>
-<script type="module" src="admin.js"></script>
-</body></html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login — Praia & Movimento</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@1&family=Plus+Jakarta+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: { extend: { colors: { sand: "#F7E9D7", ink: "#0C0C0C", gold: "#C9A44F" } } }
+        }
+    </script>
+</head>
+<body class="bg-sand h-screen flex items-center justify-center font-sans px-6">
+
+    <div class="max-w-md w-full bg-white p-10 rounded-3xl shadow-2xl">
+        <div class="text-center mb-10">
+            <h1 class="font-serif text-3xl italic font-bold text-ink">Praia & Movimento</h1>
+            <p class="text-xs uppercase tracking-widest text-gold mt-2 font-bold">Painel de Controle</p>
+        </div>
+
+        <form onsubmit="event.preventDefault(); login();" class="space-y-6">
+            <div>
+                <label class="text-[10px] uppercase font-bold tracking-widest ml-4">E-mail</label>
+                <input id="email" type="email" placeholder="admin@praiaemovimento.com" 
+                    class="w-full mt-1 p-4 rounded-full border border-black/5 bg-sand/30 outline-none focus:border-gold transition">
+            </div>
+
+            <div>
+                <label class="text-[10px] uppercase font-bold tracking-widest ml-4">Senha</label>
+                <input id="senha" type="password" placeholder="••••••••" 
+                    class="w-full mt-1 p-4 rounded-full border border-black/5 bg-sand/30 outline-none focus:border-gold transition">
+            </div>
+
+            <button type="submit" 
+                class="w-full bg-ink text-white py-4 rounded-full font-bold hover:bg-gold transition shadow-lg transform hover:-translate-y-1">
+                ENTRAR NO PAINEL
+            </button>
+        </form>
+
+        <div class="mt-8 text-center">
+            <a href="index.html" class="text-xs text-black/40 hover:text-ink transition uppercase tracking-tighter">Voltar para a loja</a>
+        </div>
+    </div>
+
+    <script>
+        function login() {
+            const email = document.getElementById('email').value;
+            const senha = document.getElementById('senha').value;
+
+            // Simulação de Login (Você pode alterar para sua lógica)
+            if(email === "admin@praiaemovimento.com" && senha === "verao2025") {
+                localStorage.setItem("admin_autenticado", "true");
+                window.location.href = "admin-painel.html";
+            } else {
+                alert("Acesso negado. Verifique suas credenciais.");
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,8 +1,106 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head><meta charset="UTF-8"><title>Painel Admin</title></head>
-<body>
-<h1>Painel de Pedidos</h1>
-<table border="1"><tbody id="pedidos"></tbody></table>
-<script type="module" src="admin.js"></script>
-</body></html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Administrativo — Praia & Movimento</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: { extend: { colors: { sand: "#F7E9D7", ink: "#0C0C0C", gold: "#C9A44F" } } }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 font-sans">
+
+    <script>
+        if (localStorage.getItem("admin_autenticado") !== "true") {
+            window.location.href = "admin-login.html";
+        }
+    </script>
+
+    <div class="flex min-h-screen">
+        <aside class="w-64 bg-ink text-white p-8 hidden md:block">
+            <h2 class="font-bold text-xl mb-10 tracking-tighter">P&M Admin</h2>
+            <nav class="space-y-4 text-sm opacity-80">
+                <a href="#" class="block text-gold font-bold">Dashboard</a>
+                <a href="index.html" class="block hover:text-white transition">Ver Loja</a>
+                <button onclick="logout()" class="block text-red-400 mt-20">Sair</button>
+            </nav>
+        </aside>
+
+        <main class="flex-1 p-8 md:p-12">
+            <header class="flex justify-between items-center mb-12">
+                <h1 class="text-3xl font-bold text-ink tracking-tight">Gestão de Inventário</h1>
+                <div class="text-right text-xs text-gray-400 uppercase font-bold tracking-widest">
+                    Status: <span class="text-green-500">Online</span>
+                </div>
+            </header>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-black/5">
+                    <p class="text-xs text-gray-400 uppercase font-bold mb-1">Total de Produtos</p>
+                    <p id="count-produtos" class="text-3xl font-bold text-ink">0</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-black/5">
+                    <p class="text-xs text-gray-400 uppercase font-bold mb-1">Categorias Ativas</p>
+                    <p class="text-3xl font-bold text-ink">3</p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-3xl shadow-sm border border-black/5 overflow-hidden">
+                <div class="p-6 border-b border-black/5 flex justify-between items-center bg-gray-50/50">
+                    <h3 class="font-bold">Produtos no site.js</h3>
+                    <span class="text-[10px] bg-gold/10 text-gold px-3 py-1 rounded-full font-bold">EDIÇÃO VIA CÓDIGO</span>
+                </div>
+                <table class="w-full text-left border-collapse">
+                    <thead class="text-[10px] uppercase text-gray-400 font-bold bg-gray-50">
+                        <tr>
+                            <th class="p-4 pl-8">Produto</th>
+                            <th class="p-4">Categoria</th>
+                            <th class="p-4">Preço</th>
+                            <th class="p-4">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabela-admin-produtos" class="text-sm">
+                        </tbody>
+                </table>
+            </div>
+
+            <div class="mt-8 p-6 bg-gold/5 rounded-2xl border border-gold/10">
+                <p class="text-sm text-gold"><strong>Dica:</strong> Como o site está no GitHub, para adicionar produtos novos você deve inserir o código no arquivo <code>site.js</code> e fazer o upload. Este painel serve para conferir se os dados estão corretos.</p>
+            </div>
+        </main>
+    </div>
+
+    <script src="site.js"></script>
+    <script>
+        function logout() {
+            localStorage.removeItem("admin_autenticado");
+            window.location.href = "admin-login.html";
+        }
+
+        function carregarPainel() {
+            const tbody = document.getElementById("tabela-admin-produtos");
+            const count = document.getElementById("count-produtos");
+            
+            if (typeof PRODUTOS !== 'undefined') {
+                count.textContent = PRODUTOS.length;
+                tbody.innerHTML = PRODUTOS.map(p => `
+                    <tr class="border-b border-black/5 hover:bg-gray-50 transition">
+                        <td class="p-4 pl-8 font-bold text-ink">${p.nome}</td>
+                        <td class="p-4 text-gray-500">${p.categoria}</td>
+                        <td class="p-4 font-bold text-gold">${p.preco.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})}</td>
+                        <td class="p-4">
+                            <span class="bg-green-100 text-green-600 text-[10px] px-2 py-1 rounded-full font-bold">ATIVO</span>
+                        </td>
+                    </tr>
+                `).join('');
+            }
+        }
+
+        window.onload = carregarPainel;
+    </script>
+</body>
+</html>

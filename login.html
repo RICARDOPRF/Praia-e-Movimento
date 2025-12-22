@@ -1,105 +1,74 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Entrar — Praia & Movimento</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@1&family=Plus+Jakarta+Sans:wght@400;600&display=swap" rel="stylesheet">
-  <script>
-    tailwind.config = { theme: { extend: { colors: { sand: "#F7E9D7", ink: "#0C0C0C", gold: "#C9A44F" } } } }
-  </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login — Praia & Movimento</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@1&family=Plus+Jakarta+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: { extend: { colors: { sand: "#F7E9D7", ink: "#0C0C0C", gold: "#C9A44F" } } }
+        }
+    </script>
 </head>
-<body class="bg-sand text-ink font-sans min-h-screen flex items-center justify-center">
+<body class="bg-sand h-screen flex items-center justify-center font-sans px-6">
 
-  <div class="bg-white w-full max-w-md rounded-[3rem] p-12 shadow-xl mx-6">
-    <header class="text-center mb-10">
-      <a href="index.html" class="font-serif text-2xl font-bold italic block mb-2">Praia & Movimento</a>
-      <p class="text-black/40 text-[10px] uppercase tracking-[0.2em] font-bold">Acesse sua conta</p>
-    </header>
+    <div class="max-w-md w-full bg-white p-10 rounded-[2.5rem] shadow-2xl border border-black/5">
+        <div class="text-center mb-10">
+            <h1 class="font-serif text-3xl italic font-bold text-ink">Praia & Movimento</h1>
+            <p class="text-[10px] uppercase tracking-[0.3em] text-gold mt-2 font-bold">Acesso Administrativo</p>
+        </div>
 
-    <form id="form-login" class="space-y-6">
-      <div>
-        <label class="text-[10px] uppercase font-bold text-black/30 tracking-widest ml-1">E-mail</label>
-        <input type="email" id="login-email" class="w-full border-b border-black/10 py-3 outline-none focus:border-gold transition" required>
-      </div>
-      
-      <div>
-        <label class="text-[10px] uppercase font-bold text-black/30 tracking-widest ml-1">Senha</label>
-        <input type="password" id="login-senha" class="w-full border-b border-black/10 py-3 outline-none focus:border-gold transition" required>
-      </div>
+        <form id="form-admin-master" class="space-y-6">
+            <div>
+                <label class="text-[10px] uppercase font-bold tracking-widest ml-4 text-black/40">Usuário</label>
+                <input id="user-master" type="text" placeholder="Digite seu usuário" required
+                    class="w-full mt-1 p-4 rounded-full border border-black/5 bg-sand/30 outline-none focus:border-gold transition">
+            </div>
 
-      <button type="submit" id="btn-entrar" class="w-full bg-ink text-white py-4 rounded-full font-bold tracking-widest hover:bg-gold transition shadow-lg transform hover:-translate-y-0.5">
-        ENTRAR
-      </button>
-    </form>
-    
-    <div class="mt-10 text-center space-y-4">
-      <p class="text-sm text-black/40">Novo por aqui? <a href="cadastro.html" class="text-ink font-bold underline">Criar conta</a></p>
-      <a href="https://wa.me/555197365965?text=Esqueci%20minha%20senha" target="_blank" class="block text-[10px] uppercase tracking-widest text-black/30 hover:text-gold transition">
-        Esqueceu a senha? Fale connosco
-      </a>
+            <div>
+                <label class="text-[10px] uppercase font-bold tracking-widest ml-4 text-black/40">Senha</label>
+                <input id="pass-master" type="password" placeholder="••••••••" required
+                    class="w-full mt-1 p-4 rounded-full border border-black/5 bg-sand/30 outline-none focus:border-gold transition">
+            </div>
+
+            <button type="submit" 
+                class="w-full bg-ink text-white py-4 rounded-full font-bold tracking-widest hover:bg-gold transition shadow-lg transform hover:-translate-y-1">
+                ACESSAR PAINEL
+            </button>
+        </form>
+
+        <div class="mt-8 text-center">
+            <a href="index.html" class="text-[10px] text-black/30 hover:text-ink transition uppercase tracking-widest font-bold">Sair e voltar para a loja</a>
+        </div>
     </div>
-  </div>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
-    import { firebaseConfig, ADMIN_UID } from "./site.js"; 
+    <script>
+        document.getElementById('form-admin-master').onsubmit = (e) => {
+            e.preventDefault();
+            
+            const user = document.getElementById('user-master').value;
+            const pass = document.getElementById('pass-master').value;
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
+            // Verificação com seus dados solicitados
+            if(user === "admin" && pass === "2798331207") {
+                // Define a permissão master
+                localStorage.setItem("admin_autenticado", "true");
+                
+                // Simula um objeto de usuário para o sistema não bugar
+                const adminSession = {
+                    uid: "ADMIN_MASTER",
+                    email: "pauloricardo96@live.com",
+                    nome: "Admin Master"
+                };
+                localStorage.setItem("usuario_logado", JSON.stringify(adminSession));
 
-    const form = document.getElementById('form-login');
-    const btn = document.getElementById('btn-entrar');
-
-    form.onsubmit = async (e) => {
-      e.preventDefault();
-      
-      const email = document.getElementById('login-email').value;
-      const senha = document.getElementById('login-senha').value;
-
-      btn.innerText = "VERIFICANDO...";
-      btn.disabled = true;
-
-      try {
-        const userCredential = await signInWithEmailAndPassword(auth, email, senha);
-        const user = userCredential.user;
-
-        // Criamos o objeto do usuário para o LocalStorage
-        const dadosUsuario = {
-          uid: user.uid,
-          email: user.email.toLowerCase(),
-          nome: user.displayName || "Cliente"
+                window.location.href = "admin-painel.html";
+            } else {
+                alert("Usuário ou senha incorretos!");
+            }
         };
-
-        localStorage.setItem("usuario_logado", JSON.stringify(dadosUsuario));
-
-        // --- LÓGICA DE REDIRECIONAMENTO ---
-        const EMAIL_ADMIN = "pauloricardo96@live.com";
-        
-        // Se o UID bater com o site.js OU o e-mail for o seu de admin
-        if (user.uid === ADMIN_UID || user.email.toLowerCase() === EMAIL_ADMIN) {
-          console.log("Acesso Admin confirmado!");
-          window.location.href = "admin-painel.html"; 
-        } else {
-          window.location.href = "index.html";
-        }
-
-      } catch (error) {
-        btn.innerText = "ENTRAR";
-        btn.disabled = false;
-        
-        console.error("Erro de login:", error.code);
-        
-        if (error.code === 'auth/invalid-credential' || error.code === 'auth/wrong-password') {
-          alert("E-mail ou senha incorretos.");
-        } else {
-          alert("Ocorreu um erro ao entrar. Verifique se sua conta existe no Firebase.");
-        }
-      }
-    };
-  </script>
-
+    </script>
 </body>
 </html>

@@ -86,33 +86,35 @@
 
   <script src="site.js"></script>
   <script>
-    // --- TRAVA DE SEGURANÇA ATUALIZADA ---
-    const ADM_EMAIL = "pauloricardo96@live.com";
-
+    // --- TRAVA DE SEGURANÇA SIMPLIFICADA ---
     (function verificarAcesso() {
-        const user = JSON.parse(localStorage.getItem("usuario_logado"));
-        if (!user || user.email.toLowerCase() !== ADM_EMAIL.toLowerCase()) {
-            alert("Acesso restrito ao administrador.");
-            window.location.href = "login.html";
+        const adminLogado = localStorage.getItem("admin_autenticado");
+        if (adminLogado !== "true") {
+            alert("Acesso restrito. Por favor, faça login como administrador.");
+            window.location.href = "admin-login.html";
         }
     })();
 
     function fazerLogout() {
+        localStorage.removeItem("admin_autenticado");
         localStorage.removeItem("usuario_logado");
-        window.location.href = "login.html";
+        window.location.href = "admin-login.html";
     }
 
-    // --- LÓGICA DO PAINEL ---
+    // --- LÓGICA DO PAINEL (ESTOQUE) ---
     let produtoSelecionado = null;
     let stockTemporario = {};
 
     document.addEventListener('DOMContentLoaded', () => {
-      renderizarProdutosAdmin();
+      if(typeof PRODUTOS !== 'undefined') {
+          renderizarProdutosAdmin();
+      }
       atualizarListaRastreios();
     });
 
     function renderizarProdutosAdmin() {
       const grid = document.getElementById('grid-admin-produtos');
+      if(!grid) return;
       const stockInfo = JSON.parse(localStorage.getItem('stock_db')) || {};
       
       grid.innerHTML = PRODUTOS.map(p => {
@@ -196,7 +198,7 @@
         document.getElementById('modal-produto').classList.remove('modal-active');
     }
 
-    // GESTÃO DE RASTREIO
+    // --- GESTÃO DE RASTREIO ---
     document.getElementById('form-rastreio').addEventListener('submit', (e) => {
       e.preventDefault();
       const email = document.getElementById('track-email').value;
@@ -213,11 +215,12 @@
     function atualizarListaRastreios() {
       const rastreios = JSON.parse(localStorage.getItem('rastreios_db')) || [];
       const tabela = document.getElementById('tabela-rastreio');
+      if(!tabela) return;
       
       tabela.innerHTML = rastreios.map((r, i) => `
         <tr>
-          <td class="py-3 font-semibold">${r.email}</td>
-          <td class="py-3 font-mono text-blue-600 font-bold">${r.code}</td>
+          <td class="py-3 font-semibold text-xs">${r.email}</td>
+          <td class="py-3 font-mono text-blue-600 font-bold text-xs">${r.code}</td>
           <td class="py-3 text-right">
             <button onclick="removerRastreio(${i})" class="text-red-400 material-symbols-outlined hover:text-red-600 transition">delete</button>
           </td>

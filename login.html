@@ -75,12 +75,13 @@
 
         localStorage.setItem("usuario_logado", JSON.stringify(dadosUsuario));
 
-        // --- REDIRECIONAMENTO CORRIGIDO ---
+        // --- LÓGICA DE REDIRECIONAMENTO ---
         const EMAIL_ADMIN = "pauloricardo96@live.com";
         
+        // Se o UID bater com o site.js OU o e-mail for o seu de admin
         if (user.uid === ADMIN_UID || user.email.toLowerCase() === EMAIL_ADMIN) {
-          // Redireciona para admin.html (o arquivo que criamos anteriormente)
-          window.location.href = "admin.html";
+          console.log("Acesso Admin confirmado!");
+          window.location.href = "admin-painel.html"; 
         } else {
           window.location.href = "index.html";
         }
@@ -91,10 +92,10 @@
         
         console.error("Erro de login:", error.code);
         
-        if (error.code === 'auth/invalid-credential' || error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found') {
+        if (error.code === 'auth/invalid-credential' || error.code === 'auth/wrong-password') {
           alert("E-mail ou senha incorretos.");
         } else {
-          alert("Erro ao acessar. Verifique se o e-mail está cadastrado no Firebase.");
+          alert("Ocorreu um erro ao entrar. Verifique se sua conta existe no Firebase.");
         }
       }
     };

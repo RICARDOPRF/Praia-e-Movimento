@@ -86,13 +86,12 @@
 
   <script src="site.js"></script>
   <script>
-    // CREDENCIAIS FIXAS PARA ACESSO
-    const ADM_EMAIL = "pauloricardo@live.com";
+    // --- TRAVA DE SEGURANÇA ATUALIZADA ---
+    const ADM_EMAIL = "pauloricardo96@live.com";
 
     (function verificarAcesso() {
         const user = JSON.parse(localStorage.getItem("usuario_logado"));
-        // Se não for seu email, volta pro login
-        if (!user || user.email !== ADM_EMAIL) {
+        if (!user || user.email.toLowerCase() !== ADM_EMAIL.toLowerCase()) {
             alert("Acesso restrito ao administrador.");
             window.location.href = "login.html";
         }
@@ -103,6 +102,7 @@
         window.location.href = "login.html";
     }
 
+    // --- LÓGICA DO PAINEL ---
     let produtoSelecionado = null;
     let stockTemporario = {};
 
@@ -134,7 +134,6 @@
         const p = PRODUTOS.find(item => item.slug === slug);
         const db = JSON.parse(localStorage.getItem('stock_db')) || {};
         
-        // Carrega dados do localStorage ou inicia com os dados do site.js
         stockTemporario = db[slug] ? {...db[slug]} : { esgotado: false, tamanhos: [...p.tamanhos] };
         
         document.getElementById('modal-nome').textContent = p.nome;
@@ -204,7 +203,7 @@
       const code = document.getElementById('track-code').value;
       
       let rastreios = JSON.parse(localStorage.getItem('rastreios_db')) || [];
-      rastreios.push({ email, code, data: new Date().toLocaleDateString('pt-BR') });
+      rastreios.push({ email: email.toLowerCase(), code, data: new Date().toLocaleDateString('pt-BR') });
       localStorage.setItem('rastreios_db', JSON.stringify(rastreios));
       
       e.target.reset();
@@ -228,7 +227,6 @@
 
     function removerRastreio(index) {
       let rastreios = JSON.parse(localStorage.getItem('rastreios_db')) || [];
-      // Ajuste para remover do array original mesmo com a lista invertida no HTML
       const originalIndex = rastreios.length - 1 - index;
       rastreios.splice(originalIndex, 1);
       localStorage.setItem('rastreios_db', JSON.stringify(rastreios));

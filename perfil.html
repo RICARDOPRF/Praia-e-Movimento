@@ -37,7 +37,7 @@
         <div class="grid grid-cols-2 gap-4">
             <div>
               <label class="text-[10px] uppercase tracking-widest font-bold text-gold block mb-1">Nome</label>
-              <p id="perfil-nome" class="font-medium text-sm">---</p>
+              <p id="perfil-nome" class="font-medium text-sm italic">Carregando...</p>
             </div>
             <div>
               <label class="text-[10px] uppercase tracking-widest font-bold text-gold block mb-1">E-mail</label>
@@ -47,7 +47,7 @@
 
         <div class="bg-sand/20 p-6 rounded-2xl border border-sand">
           <label class="text-[10px] uppercase tracking-widest font-bold text-gold block mb-2">Endereço de Entrega</label>
-          <p id="perfil-endereco" class="text-sm leading-relaxed text-black/70 italic">---</p>
+          <p id="perfil-endereco" class="text-sm leading-relaxed text-black/70 italic">Buscando endereço...</p>
         </div>
 
         <div class="mt-8 pt-8 border-t border-sand">
@@ -72,48 +72,72 @@
 
           <div id="sem-rastreio" class="text-center py-8 border-2 border-dashed border-sand rounded-2xl">
             <span class="material-symbols-outlined opacity-20 text-4xl mb-2">package_2</span>
-            <p class="text-xs italic opacity-40 block">Ainda não há envios registados para este e-mail.</p>
+            <p class="text-xs italic opacity-40 block">Ainda não há envios registrados para este e-mail.</p>
           </div>
         </div>
 
-        <button onclick="logout()" class="w-full py-4 border border-ink/10 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-red-50 transition mt-10">
+        <button id="btn-logout" class="w-full py-4 border border-ink/10 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-red-50 transition mt-10">
           Sair da Conta
         </button>
       </div>
     </div>
   </main>
 
-  <script src="site.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const user = JSON.parse(localStorage.getItem("usuario_logado"));
-      if (!user) { window.location.href = "login.html"; return; }
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
+    import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js";
+    import { firebaseConfig } from "./site.js";
 
-      // Preencher dados do Perfil
-      document.getElementById("perfil-nome").textContent = user.nome;
-      document.getElementById("perfil-email").textContent = user.email;
-      document.getElementById("perfil-endereco").textContent = `${user.rua}, nº ${user.numero} - ${user.cidade}`;
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
 
-      // Lógica de Rastreio (Vem do site.js)
-      if (typeof DADOS_RASTREIO !== 'undefined') {
-          const info = DADOS_RASTREIO.find(r => r.email === user.email);
-          const box = document.getElementById("box-rastreio");
-          const vazio = document.getElementById("sem-rastreio");
-
-          if (info) {
-              box.classList.remove("hidden");
-              vazio.classList.add("hidden");
-              document.getElementById("txt-codigo").textContent = info.codigo;
-              document.getElementById("txt-status").textContent = info.status;
-              document.getElementById("link-correios").href = `https://www.linkcorreios.com.br/${info.codigo}`;
-          }
+    async function carregarDadosPerfil() {
+      const userLocal = JSON.parse(localStorage.getItem("usuario_logado"));
+      
+      if (!userLocal) {
+        window.location.href = "login.html";
+        return;
       }
-    });
 
-    function logout() {
+      const uid = userLocal.uid;
+      const email = userLocal.email;
+
+      try {
+        // 1. Busca Dados Pessoais e Endereço
+        const snapshotUser = await get(ref(db, 'usuarios/' + uid));
+        if (snapshotUser.exists()) {
+          const dados = snapshotUser.val();
+          document.getElementById("perfil-nome").textContent = dados.nome;
+          document.getElementById("perfil-email").textContent = dados.email;
+          document.getElementById("perfil-endereco").textContent = `${dados.rua}, nº ${dados.numero} - ${dados.cidade}/${dados.estado}`;
+        }
+
+        // 2. Busca Dados de Rastreio (Vinculados pelo e-mail no seu Admin)
+        const snapshotRastreio = await get(ref(db, 'rastreios'));
+        if (snapshotRastreio.exists()) {
+          const todosRastreios = snapshotRastreio.val();
+          // Procuramos se existe algum rastreio para o e-mail logado
+          const rastreioEncontrado = Object.values(todosRastreios).find(r => r.email === email);
+
+          if (rastreioEncontrado) {
+            document.getElementById("box-rastreio").classList.remove("hidden");
+            document.getElementById("sem-rastreio").classList.add("hidden");
+            document.getElementById("txt-codigo").textContent = rastreioEncontrado.code;
+            document.getElementById("txt-status").textContent = rastreioEncontrado.status;
+            document.getElementById("link-correios").href = `https://www.linkcorreios.com.br/${rastreioEncontrado.code}`;
+          }
+        }
+      } catch (error) {
+        console.error("Erro ao buscar dados:", error);
+      }
+    }
+
+    document.getElementById('btn-logout').onclick = () => {
       localStorage.removeItem("usuario_logado");
       window.location.href = "index.html";
-    }
+    };
+
+    carregarDadosPerfil();
   </script>
 </body>
 </html>

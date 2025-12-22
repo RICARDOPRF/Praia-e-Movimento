@@ -86,14 +86,14 @@
 
   <script src="site.js"></script>
   <script>
-    // TRAVA DE SEGURANÇA ATUALIZADA
+    // TRAVA DE SEGURANÇA (Verifica o UID salvo no login)
     const ADMIN_UID = "FRkurJILRWQF7Q2IYMlIWSUVJbq1";
 
     (function verificarAcesso() {
         const user = JSON.parse(localStorage.getItem("usuario_logado"));
         if (!user || user.uid !== ADMIN_UID) {
             alert("Acesso negado.");
-            window.location.href = "index.html";
+            window.location.href = "login.html";
         }
     })();
 
@@ -102,7 +102,7 @@
         window.location.href = "login.html";
     }
 
-    // Lógica do Painel
+    // LÓGICA DO ESTOQUE (LocalStorage)
     let produtoSelecionado = null;
     let stockTemporario = {};
 
@@ -133,7 +133,9 @@
         produtoSelecionado = slug;
         const p = PRODUTOS.find(item => item.slug === slug);
         const db = JSON.parse(localStorage.getItem('stock_db')) || {};
-        stockTemporario = db[slug] || { esgotado: false, tamanhos: ["P", "M", "G", "GG"] };
+        // Se já existir configuração no stock_db usa ela, senão usa os tamanhos do site.js
+        stockTemporario = db[slug] || { esgotado: false, tamanhos: p.tamanhos || ["P", "M", "G", "GG"] };
+        
         document.getElementById('modal-nome').textContent = p.nome;
         renderizarBotoesTamanho();
         atualizarVisualToggle();
@@ -183,14 +185,14 @@
         localStorage.setItem('stock_db', JSON.stringify(db));
         fecharModal();
         renderizarProdutosAdmin();
-        alert('Estoque atualizado!');
+        alert('Estoque atualizado localmente!');
     }
 
     function fecharModal() {
         document.getElementById('modal-produto').classList.remove('modal-active');
     }
 
-    // Rastreio (Local Storage)
+    // LÓGICA DO RASTREIO (LocalStorage)
     document.getElementById('form-rastreio').addEventListener('submit', (e) => {
       e.preventDefault();
       const email = document.getElementById('track-email').value;
@@ -208,9 +210,9 @@
       tabela.innerHTML = rastreios.map((r, i) => `
         <tr>
           <td class="py-3">${r.email}</td>
-          <td class="py-3 font-mono text-blue-600">${r.code}</td>
+          <td class="py-3 font-mono text-blue-600 font-bold">${r.code}</td>
           <td class="py-3 text-right">
-            <button onclick="removerRastreio(${i})" class="text-red-400 hover:text-red-600 material-symbols-outlined text-sm">delete</button>
+            <button onclick="removerRastreio(${i})" class="text-red-400 material-symbols-outlined text-sm">delete</button>
           </td>
         </tr>
       `).reverse().join('');
@@ -218,7 +220,7 @@
 
     function removerRastreio(index) {
       let rastreios = JSON.parse(localStorage.getItem('rastreios_db')) || [];
-      rastreios.splice(index, 1);
+      rastreios.splice(rastreios.length - 1 - index, 1); // Ajuste para remover corretamente da lista invertida
       localStorage.setItem('rastreios_db', JSON.stringify(rastreios));
       atualizarListaRastreios();
     }

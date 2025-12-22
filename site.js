@@ -71,9 +71,10 @@ function atualizarAreaCliente() {
     const usuarioLogado = JSON.parse(localStorage.getItem("usuario_logado"));
     
     if (usuarioLogado) {
+        const nomeExibir = usuarioLogado.nome ? usuarioLogado.nome.split(' ')[0] : 'Conta';
         area.innerHTML = `
             <div class="flex items-center gap-4">
-                <a href="perfil.html" class="hover:text-gold transition">Olá, ${usuarioLogado.nome.split(' ')[0]}</a>
+                <a href="perfil.html" class="hover:text-gold transition">Olá, ${nomeExibir}</a>
                 <a href="carrinho.html" class="material-symbols-outlined !text-xl relative">
                     shopping_bag
                     <span id="cart-count" class="absolute -top-1 -right-1 bg-gold text-white text-[8px] w-4 h-4 rounded-full flex items-center justify-center">0</span>
@@ -87,7 +88,7 @@ function atualizarAreaCliente() {
     }
 }
 
-/* --- VITRINES (AGORA COM FILTRO DE ESGOTADO) --- */
+/* --- VITRINES --- */
 function renderizarVitrine(containerId, filtro = "Todos") {
   const container = document.getElementById(containerId);
   if (!container) return;
@@ -186,8 +187,7 @@ function finalizarPedido() {
     let mensagem = "*PEDIDO — PRAIA & MOVIMENTO*\n\n";
     
     if (usuario) {
-        mensagem += `*Cliente:* ${usuario.nome}\n`;
-        mensagem += `*Endereço:* ${usuario.rua}, ${usuario.numero} - ${usuario.cidade}\n\n`;
+        mensagem += `*Cliente:* ${usuario.nome || 'Não identificado'}\n\n`;
     }
 
     mensagem += "*ITENS:*\n";
@@ -211,7 +211,6 @@ window.addEventListener('DOMContentLoaded', () => {
   renderizarVitrine("vitrine-sexyshop", "Sexy Shop");
   renderizarVitrine("vitrine-loja", "Todos");
 
-  // Lógica da página de produto individual com suporte ao Stock do Admin
   const params = new URLSearchParams(window.location.search);
   const slug = params.get("produto");
   if (slug && document.getElementById("nome-produto")) {
@@ -227,21 +226,36 @@ window.addEventListener('DOMContentLoaded', () => {
         document.getElementById("imagem-principal").src = `${p.slug}-view1.jpeg`;
 
         const selectTamanho = document.getElementById("select-tamanho");
-        const btnAdicionar = document.querySelector("button[onclick='adicionarAoCarrinho()']");
+        const btnAdicionar = document.getElementById("btn-add-carrinho");
 
         if (stockInfo.esgotado) {
-            selectTamanho.innerHTML = `<option>ESGOTADO</option>`;
-            selectTamanho.disabled = true;
+            if(selectTamanho) {
+                selectTamanho.innerHTML = `<option>ESGOTADO</option>`;
+                selectTamanho.disabled = true;
+            }
             if(btnAdicionar) {
                 btnAdicionar.disabled = true;
                 btnAdicionar.textContent = "PRODUTO ESGOTADO";
                 btnAdicionar.classList.add("opacity-50", "cursor-not-allowed");
             }
         } else {
-            // Mostra apenas os tamanhos que estão ativos no Admin ou no site.js
             const tamanhosParaMostrar = stockInfo.tamanhos || p.tamanhos;
-            selectTamanho.innerHTML = tamanhosParaMostrar.map(t => `<option value="${t}">${t}</option>`).join('');
+            if(selectTamanho) {
+                selectTamanho.innerHTML = tamanhosParaMostrar.map(t => `<option value="${t}">${t}</option>`).join('');
+            }
         }
     }
   }
 });
+
+/* --- CONFIGURAÇÕES EXPORTADAS --- */
+export const firebaseConfig = {
+  apiKey: "AIzaSyB...", // Coloque sua chave real aqui
+  authDomain: "praia-movimento.firebaseapp.com",
+  projectId: "praia-movimento",
+  storageBucket: "praia-movimento.appspot.com",
+  messagingSenderId: "123456789",
+  appId: "1:123456789:web:abcdef"
+};
+
+export const ADMIN_UID = "FRkurJILRWQF7Q2IYMlIWSUVJbq1";

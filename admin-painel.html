@@ -44,7 +44,7 @@
 
       <section class="bg-white p-8 rounded-[2rem] shadow-sm border border-gray-100">
         <h2 class="text-xl font-bold mb-4">Envios Recentes</h2>
-        <div class="overflow-y-auto max-h-[200px]">
+        <div class="overflow-y-auto max-h-[220px]">
             <table class="w-full text-left text-xs">
               <tbody id="tabela-rastreio" class="divide-y divide-gray-50"></tbody>
             </table>
@@ -75,8 +75,8 @@
             </div>
             <div class="flex items-center justify-between p-4 bg-gray-50 rounded-2xl border border-gray-100">
               <span class="text-sm font-bold">Marcar como Esgotado</span>
-              <button id="btn-toggle-esgotado" onclick="alternarEsgotadoGeral()" class="w-12 h-6 rounded-full bg-gray-300 relative transition-colors">
-                <div class="dot absolute top-1 left-1 bg-white w-4 h-4 rounded-full transition-transform"></div>
+              <button id="btn-toggle-esgotado" onclick="alternarEsgotadoGeral()" class="w-12 h-6 rounded-full bg-gray-300 relative transition-all duration-300">
+                <div class="dot absolute top-1 left-1 bg-white w-4 h-4 rounded-full transition-transform duration-300"></div>
               </button>
             </div>
         </div>
@@ -86,13 +86,14 @@
 
   <script src="site.js"></script>
   <script>
-    // TRAVA DE SEGURANÇA (Verifica o UID salvo no login)
-    const ADMIN_UID = "FRkurJILRWQF7Q2IYMlIWSUVJbq1";
+    // CREDENCIAIS FIXAS PARA ACESSO
+    const ADM_EMAIL = "pauloricardo@live.com";
 
     (function verificarAcesso() {
         const user = JSON.parse(localStorage.getItem("usuario_logado"));
-        if (!user || user.uid !== ADMIN_UID) {
-            alert("Acesso negado.");
+        // Se não for seu email, volta pro login
+        if (!user || user.email !== ADM_EMAIL) {
+            alert("Acesso restrito ao administrador.");
             window.location.href = "login.html";
         }
     })();
@@ -102,7 +103,6 @@
         window.location.href = "login.html";
     }
 
-    // LÓGICA DO ESTOQUE (LocalStorage)
     let produtoSelecionado = null;
     let stockTemporario = {};
 
@@ -114,14 +114,14 @@
     function renderizarProdutosAdmin() {
       const grid = document.getElementById('grid-admin-produtos');
       const stockInfo = JSON.parse(localStorage.getItem('stock_db')) || {};
-      if (typeof PRODUTOS === 'undefined') return;
-
+      
       grid.innerHTML = PRODUTOS.map(p => {
         const status = stockInfo[p.slug] || { esgotado: false };
         return `
-          <div onclick="abrirModal('${p.slug}')" class="group cursor-pointer bg-white p-3 rounded-2xl border ${status.esgotado ? 'border-red-200 bg-red-50' : 'border-gray-100'} hover:border-blue-500 transition-all relative">
-            <div class="aspect-square bg-gray-50 rounded-xl overflow-hidden mb-3">
-              <img src="${p.slug}-view1.jpeg" class="w-full h-full object-cover ${status.esgotado ? 'grayscale opacity-50' : ''}" onerror="this.src='https://placehold.co/400x400?text=Sem+Foto'">
+          <div onclick="abrirModal('${p.slug}')" class="group cursor-pointer bg-white p-3 rounded-2xl border ${status.esgotado ? 'border-red-500 bg-red-50' : 'border-gray-100'} hover:border-blue-500 transition-all">
+            <div class="aspect-square bg-gray-50 rounded-xl overflow-hidden mb-3 relative">
+              <img src="${p.slug}-view1.jpeg" class="w-full h-full object-cover ${status.esgotado ? 'grayscale opacity-40' : ''}" onerror="this.src='https://placehold.co/400x400?text=Foto'">
+              ${status.esgotado ? '<span class="absolute inset-0 flex items-center justify-center text-[10px] font-bold text-red-600 bg-white/40">ESGOTADO</span>' : ''}
             </div>
             <h4 class="text-[10px] font-bold uppercase truncate">${p.nome}</h4>
           </div>
@@ -133,8 +133,9 @@
         produtoSelecionado = slug;
         const p = PRODUTOS.find(item => item.slug === slug);
         const db = JSON.parse(localStorage.getItem('stock_db')) || {};
-        // Se já existir configuração no stock_db usa ela, senão usa os tamanhos do site.js
-        stockTemporario = db[slug] || { esgotado: false, tamanhos: p.tamanhos || ["P", "M", "G", "GG"] };
+        
+        // Carrega dados do localStorage ou inicia com os dados do site.js
+        stockTemporario = db[slug] ? {...db[slug]} : { esgotado: false, tamanhos: [...p.tamanhos] };
         
         document.getElementById('modal-nome').textContent = p.nome;
         renderizarBotoesTamanho();
@@ -144,13 +145,17 @@
 
     function renderizarBotoesTamanho() {
         const area = document.getElementById('tamanhos-admin');
-        const lista = ["P", "M", "G", "GG", "U"];
-        area.innerHTML = lista.map(t => `
-            <button onclick="toggleTamanho('${t}')" 
-                class="px-4 py-2 rounded-xl border-2 font-bold transition text-xs ${stockTemporario.tamanhos.includes(t) ? 'btn-tamanho-ativo' : 'border-gray-200 text-gray-300'}">
-                ${t}
-            </button>
-        `).join('');
+        const listaTamanhosPadrao = ["P", "M", "G", "GG", "U"];
+        
+        area.innerHTML = listaTamanhosPadrao.map(t => {
+            const ativo = stockTemporario.tamanhos.includes(t);
+            return `
+                <button onclick="toggleTamanho('${t}')" 
+                    class="px-4 py-2 rounded-xl border-2 font-bold transition text-xs ${ativo ? 'btn-tamanho-ativo' : 'border-gray-100 text-gray-300'}">
+                    ${t}
+                </button>
+            `;
+        }).join('');
     }
 
     function toggleTamanho(t) {
@@ -183,23 +188,25 @@
         let db = JSON.parse(localStorage.getItem('stock_db')) || {};
         db[produtoSelecionado] = stockTemporario;
         localStorage.setItem('stock_db', JSON.stringify(db));
+        
         fecharModal();
         renderizarProdutosAdmin();
-        alert('Estoque atualizado localmente!');
     }
 
     function fecharModal() {
         document.getElementById('modal-produto').classList.remove('modal-active');
     }
 
-    // LÓGICA DO RASTREIO (LocalStorage)
+    // GESTÃO DE RASTREIO
     document.getElementById('form-rastreio').addEventListener('submit', (e) => {
       e.preventDefault();
       const email = document.getElementById('track-email').value;
       const code = document.getElementById('track-code').value;
+      
       let rastreios = JSON.parse(localStorage.getItem('rastreios_db')) || [];
-      rastreios.push({ email, code, status: "Objeto Postado" });
+      rastreios.push({ email, code, data: new Date().toLocaleDateString('pt-BR') });
       localStorage.setItem('rastreios_db', JSON.stringify(rastreios));
+      
       e.target.reset();
       atualizarListaRastreios();
     });
@@ -207,12 +214,13 @@
     function atualizarListaRastreios() {
       const rastreios = JSON.parse(localStorage.getItem('rastreios_db')) || [];
       const tabela = document.getElementById('tabela-rastreio');
+      
       tabela.innerHTML = rastreios.map((r, i) => `
         <tr>
-          <td class="py-3">${r.email}</td>
+          <td class="py-3 font-semibold">${r.email}</td>
           <td class="py-3 font-mono text-blue-600 font-bold">${r.code}</td>
           <td class="py-3 text-right">
-            <button onclick="removerRastreio(${i})" class="text-red-400 material-symbols-outlined text-sm">delete</button>
+            <button onclick="removerRastreio(${i})" class="text-red-400 material-symbols-outlined hover:text-red-600 transition">delete</button>
           </td>
         </tr>
       `).reverse().join('');
@@ -220,7 +228,9 @@
 
     function removerRastreio(index) {
       let rastreios = JSON.parse(localStorage.getItem('rastreios_db')) || [];
-      rastreios.splice(rastreios.length - 1 - index, 1); // Ajuste para remover corretamente da lista invertida
+      // Ajuste para remover do array original mesmo com a lista invertida no HTML
+      const originalIndex = rastreios.length - 1 - index;
+      rastreios.splice(originalIndex, 1);
       localStorage.setItem('rastreios_db', JSON.stringify(rastreios));
       atualizarListaRastreios();
     }

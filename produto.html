@@ -7,6 +7,10 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,700&family=Plus+Jakarta+Sans:wght@300;400;600&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+  <style>
+    .scrollbar-hide::-webkit-scrollbar { display: none; }
+    .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
   <script>
     tailwind.config = {
       theme: {
@@ -28,8 +32,13 @@
   </header>
 
   <main class="max-w-7xl mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-2 gap-12">
-    <div class="rounded-[2rem] overflow-hidden bg-white shadow-xl">
-      <img id="prod-img" src="" class="w-full h-auto object-cover min-h-[400px]">
+    <div class="flex flex-col gap-6">
+      <div class="rounded-[2rem] overflow-hidden bg-white shadow-xl aspect-[3/4]">
+        <img id="prod-img" src="" class="w-full h-full object-cover transition-opacity duration-300">
+      </div>
+      
+      <div id="grade-fotos" class="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
+        </div>
     </div>
 
     <div class="flex flex-col justify-center">
@@ -67,20 +76,33 @@
         return;
       }
 
-      // Procura o produto no array PRODUTOS do site.js
+      // Procura o produto no array PRODUTOS vindo do site.js
       if (typeof PRODUTOS !== 'undefined') {
           produtoAtual = PRODUTOS.find(p => p.slug === slug);
       }
 
       if (!produtoAtual) return;
 
-      // Preencher Dados na Tela
+      // 1. Preencher Textos
       document.getElementById('prod-nome').textContent = produtoAtual.nome;
       document.getElementById('prod-cat').textContent = produtoAtual.categoria;
       document.getElementById('prod-preco').textContent = `R$ ${produtoAtual.preco.toFixed(2).replace('.', ',')}`;
-      document.getElementById('prod-img').src = `${produtoAtual.slug}-view1.jpeg`;
 
-      // CONFIGURAÇÃO DE ESTOQUE (Lê do Admin-Painel)
+      // 2. Lógica de Galeria (Foto Principal + 3 Miniaturas)
+      const imgPrincipal = document.getElementById('prod-img');
+      const gradeFotos = document.getElementById('grade-fotos');
+      
+      imgPrincipal.src = `${produtoAtual.slug}-view1.jpeg`;
+
+      const views = [1, 2, 3]; // Define as 3 fotos possíveis
+      gradeFotos.innerHTML = views.map(v => `
+        <img src="${produtoAtual.slug}-view${v}.jpeg" 
+             onclick="trocarFoto(this)"
+             class="w-24 h-32 object-cover rounded-2xl cursor-pointer border-2 border-transparent hover:border-gold transition-all shadow-sm flex-shrink-0 ${v === 1 ? 'border-gold' : ''}"
+             onerror="this.style.display='none'">
+      `).join('');
+
+      // 3. Configuração de Estoque
       const db = JSON.parse(localStorage.getItem('stock_db')) || {};
       const stockInfo = db[slug] || { esgotado: false, tamanhos: produtoAtual.tamanhos || ["P", "M", "G", "GG"] };
 
@@ -101,6 +123,20 @@
       }
     });
 
+    // Função para trocar imagem com efeito de transição
+    function trocarFoto(el) {
+        const principal = document.getElementById('prod-img');
+        principal.style.opacity = '0';
+        setTimeout(() => {
+            principal.src = el.src;
+            principal.style.opacity = '1';
+        }, 150);
+        
+        // Atualiza a borda da miniatura ativa
+        document.querySelectorAll('#grade-fotos img').forEach(img => img.classList.remove('border-gold'));
+        el.classList.add('border-gold');
+    }
+
     function selecionarTamanho(el, tamanho) {
         tamanhoSelecionado = tamanho;
         document.querySelectorAll('#grade-tamanhos button').forEach(b => {
@@ -110,17 +146,14 @@
         el.classList.add('bg-ink', 'text-white', 'border-ink');
     }
 
-    // NOVA FUNÇÃO: SALVA NA SACOLA E VAI PARA A PÁGINA DO CARRINHO
     function adicionarESacola() {
         if (!tamanhoSelecionado) {
             alert("Por favor, selecione um tamanho antes de continuar.");
             return;
         }
 
-        // Pega o que já tem na sacola ou cria uma nova
         let carrinho = JSON.parse(localStorage.getItem("carrinho_pm")) || [];
 
-        // Adiciona o produto atual
         carrinho.push({
             slug: produtoAtual.slug,
             nome: produtoAtual.nome,
@@ -129,10 +162,7 @@
             cor: produtoAtual.cor || "N/A"
         });
 
-        // Salva na memória do navegador
         localStorage.setItem("carrinho_pm", JSON.stringify(carrinho));
-
-        // Redireciona para a página da sacola
         window.location.href = "carrinho.html";
     }
   </script>

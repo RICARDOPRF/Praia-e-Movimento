@@ -1,6 +1,6 @@
 /* ================================
    PRAIA & MOVIMENTO — SITE.JS 
-   Cérebro da Loja Integrada
+   Cérebro da Loja Integrada (Versão Restaurada)
 ================================ */
 
 const PRODUTOS = [
@@ -247,15 +247,3 @@ window.addEventListener('DOMContentLoaded', () => {
     }
   }
 });
-
-/* --- CONFIGURAÇÕES EXPORTADAS --- */
-export const firebaseConfig = {
-  apiKey: "AIzaSyB...", // Coloque sua chave real aqui
-  authDomain: "praia-movimento.firebaseapp.com",
-  projectId: "praia-movimento",
-  storageBucket: "praia-movimento.appspot.com",
-  messagingSenderId: "123456789",
-  appId: "1:123456789:web:abcdef"
-};
-
-export const ADMIN_UID = "FRkurJILRWQF7Q2IYMlIWSUVJbq1";

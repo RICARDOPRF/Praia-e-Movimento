@@ -45,7 +45,7 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
     import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
-    import { firebaseConfig, ADMIN_UID } from "./site.js"; // Importamos o UID do admin do seu site.js
+    import { firebaseConfig, ADMIN_UID } from "./site.js"; 
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
@@ -69,18 +69,19 @@
         // Criamos o objeto do usuário para o LocalStorage
         const dadosUsuario = {
           uid: user.uid,
-          email: user.email,
-          nome: user.displayName || "Cliente" // Tenta pegar o nome se cadastrado
+          email: user.email.toLowerCase(),
+          nome: user.displayName || "Cliente"
         };
 
         localStorage.setItem("usuario_logado", JSON.stringify(dadosUsuario));
 
-        // --- LÓGICA DE REDIRECIONAMENTO AUTOMÁTICO ---
-        if (user.uid === ADMIN_UID) {
-          // Se for você (pauloricardo96@live.com), vai direto pro Painel
-          window.location.href = "admin-painel.html";
+        // --- REDIRECIONAMENTO CORRIGIDO ---
+        const EMAIL_ADMIN = "pauloricardo96@live.com";
+        
+        if (user.uid === ADMIN_UID || user.email.toLowerCase() === EMAIL_ADMIN) {
+          // Redireciona para admin.html (o arquivo que criamos anteriormente)
+          window.location.href = "admin.html";
         } else {
-          // Se for cliente comum, vai para o index ou perfil
           window.location.href = "index.html";
         }
 
@@ -90,10 +91,10 @@
         
         console.error("Erro de login:", error.code);
         
-        if (error.code === 'auth/invalid-credential' || error.code === 'auth/wrong-password') {
+        if (error.code === 'auth/invalid-credential' || error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found') {
           alert("E-mail ou senha incorretos.");
         } else {
-          alert("Ocorreu um erro ao tentar entrar. Tente novamente.");
+          alert("Erro ao acessar. Verifique se o e-mail está cadastrado no Firebase.");
         }
       }
     };

@@ -119,13 +119,16 @@
       
       grid.innerHTML = PRODUTOS.map(p => {
         const status = stockInfo[p.slug] || { esgotado: false };
+        const nomeImagem = `${p.slug}-view1.jpeg`; // Nome do arquivo esperado
+
         return `
           <div onclick="abrirModal('${p.slug}')" class="group cursor-pointer bg-white p-3 rounded-2xl border ${status.esgotado ? 'border-red-500 bg-red-50' : 'border-gray-100'} hover:border-blue-500 transition-all">
-            <div class="aspect-square bg-gray-50 rounded-xl overflow-hidden mb-3 relative">
-              <img src="${p.slug}-view1.jpeg" class="w-full h-full object-cover ${status.esgotado ? 'grayscale opacity-40' : ''}" onerror="this.src='https://placehold.co/400x400?text=Foto'">
+            <div class="aspect-square bg-gray-50 rounded-xl overflow-hidden mb-2 relative">
+              <img src="${nomeImagem}" class="w-full h-full object-cover ${status.esgotado ? 'grayscale opacity-40' : ''}" onerror="this.src='https://placehold.co/400x400?text=Falta+o+JPG'">
               ${status.esgotado ? '<span class="absolute inset-0 flex items-center justify-center text-[10px] font-bold text-red-600 bg-white/40">ESGOTADO</span>' : ''}
             </div>
             <h4 class="text-[10px] font-bold uppercase truncate">${p.nome}</h4>
+            <p class="text-[8px] text-gray-400 font-mono mt-1 opacity-60">${nomeImagem}</p>
           </div>
         `;
       }).join('');

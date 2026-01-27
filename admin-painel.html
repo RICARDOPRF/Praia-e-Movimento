@@ -55,6 +55,9 @@
     <section class="bg-white rounded-[2rem] shadow-xl overflow-hidden border border-gray-100">
       <div class="p-8 border-b border-gray-50 bg-gray-50/50">
         <h2 class="text-2xl font-bold">Gerenciador de Estoque</h2>
+        <p id="msg-produtos" class="hidden mt-2 text-xs text-gray-400">
+          Não foi possível carregar a lista de produtos. Verifique se o <span class="font-mono">site.js</span> está publicado corretamente.
+        </p>
       </div>
       <div class="p-8">
         <div id="grid-admin-produtos" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4"></div>
@@ -63,7 +66,7 @@
   </main>
 
   <div id="modal-produto" class="fixed inset-0 bg-black/80 z-[60] hidden items-center justify-center p-6 backdrop-blur-sm">
-    <div class="bg-white w-full max-w-lg rounded-[2.5rem] overflow-hidden shadow-2xl p-8">
+    <div class="bg-white w-full max-w-lg rounded-[2.5rem] overflow-hidden shadow-2xl p-8" role="dialog" aria-modal="true">
         <div class="flex justify-between items-start mb-6">
             <h3 id="modal-nome" class="text-2xl font-bold">Produto</h3>
             <button onclick="fecharModal()" class="material-symbols-outlined p-2 hover:bg-gray-100 rounded-full transition">close</button>
@@ -88,17 +91,17 @@
   <script>
     // --- TRAVA DE SEGURANÇA SIMPLIFICADA ---
     (function verificarAcesso() {
-        const adminLogado = localStorage.getItem("admin_autenticado");
-        if (adminLogado !== "true") {
-            alert("Acesso restrito. Por favor, faça login como administrador.");
-            window.location.href = "admin-login.html";
-        }
+      const adminLogado = localStorage.getItem("admin_autenticado");
+      if (adminLogado !== "true") {
+        alert("Acesso restrito. Por favor, faça login como administrador.");
+        window.location.href = "admin-login.html";
+      }
     })();
 
     function fazerLogout() {
-        localStorage.removeItem("admin_autenticado");
-        localStorage.removeItem("usuario_logado");
-        window.location.href = "admin-login.html";
+      localStorage.removeItem("admin_autenticado");
+      localStorage.removeItem("usuario_logado");
+      window.location.href = "admin-login.html";
     }
 
     // --- LÓGICA DO PAINEL (ESTOQUE) ---
@@ -106,20 +109,26 @@
     let stockTemporario = {};
 
     document.addEventListener('DOMContentLoaded', () => {
-      if(typeof PRODUTOS !== 'undefined') {
-          renderizarProdutosAdmin();
+      // Se PRODUTOS não existir, avisa (sem quebrar)
+      if (typeof PRODUTOS !== 'undefined' && Array.isArray(PRODUTOS) && PRODUTOS.length) {
+        renderizarProdutosAdmin();
+      } else {
+        const msg = document.getElementById("msg-produtos");
+        if (msg) msg.classList.remove("hidden");
       }
+
       atualizarListaRastreios();
     });
 
     function renderizarProdutosAdmin() {
       const grid = document.getElementById('grid-admin-produtos');
-      if(!grid) return;
+      if (!grid) return;
+
       const stockInfo = JSON.parse(localStorage.getItem('stock_db')) || {};
-      
+
       grid.innerHTML = PRODUTOS.map(p => {
         const status = stockInfo[p.slug] || { esgotado: false };
-        const nomeImagem = `${p.slug}-view1.jpeg`; // Nome do arquivo esperado
+        const nomeImagem = `${p.slug}-view1.jpeg`;
 
         return `
           <div onclick="abrirModal('${p.slug}')" class="group cursor-pointer bg-white p-3 rounded-2xl border ${status.esgotado ? 'border-red-500 bg-red-50' : 'border-gray-100'} hover:border-blue-500 transition-all">
@@ -135,82 +144,106 @@
     }
 
     function abrirModal(slug) {
-        produtoSelecionado = slug;
-        const p = PRODUTOS.find(item => item.slug === slug);
-        const db = JSON.parse(localStorage.getItem('stock_db')) || {};
-        
-        stockTemporario = db[slug] ? {...db[slug]} : { esgotado: false, tamanhos: [...p.tamanhos] };
-        
-        document.getElementById('modal-nome').textContent = p.nome;
-        renderizarBotoesTamanho();
-        atualizarVisualToggle();
-        document.getElementById('modal-produto').classList.add('modal-active');
+      produtoSelecionado = slug;
+      const p = (typeof PRODUTOS !== 'undefined' && Array.isArray(PRODUTOS)) ? PRODUTOS.find(item => item.slug === slug) : null;
+      if (!p) return;
+
+      const db = JSON.parse(localStorage.getItem('stock_db')) || {};
+      const tamanhosBase = Array.isArray(p.tamanhos) && p.tamanhos.length ? p.tamanhos : ["P", "M", "G", "GG"];
+      stockTemporario = db[slug] ? { ...db[slug] } : { esgotado: false, tamanhos: [...tamanhosBase] };
+
+      // garante array
+      if (!Array.isArray(stockTemporario.tamanhos)) stockTemporario.tamanhos = [...tamanhosBase];
+
+      document.getElementById('modal-nome').textContent = p.nome;
+      renderizarBotoesTamanho();
+      atualizarVisualToggle();
+      document.getElementById('modal-produto').classList.add('modal-active');
     }
 
     function renderizarBotoesTamanho() {
-        const area = document.getElementById('tamanhos-admin');
-        const listaTamanhosPadrao = ["P", "M", "G", "GG", "U"];
-        
-        area.innerHTML = listaTamanhosPadrao.map(t => {
-            const ativo = stockTemporario.tamanhos.includes(t);
-            return `
-                <button onclick="toggleTamanho('${t}')" 
-                    class="px-4 py-2 rounded-xl border-2 font-bold transition text-xs ${ativo ? 'btn-tamanho-ativo' : 'border-gray-100 text-gray-300'}">
-                    ${t}
-                </button>
-            `;
-        }).join('');
+      const area = document.getElementById('tamanhos-admin');
+      const listaTamanhosPadrao = ["P", "M", "G", "GG", "U"];
+      if (!area) return;
+
+      area.innerHTML = listaTamanhosPadrao.map(t => {
+        const ativo = Array.isArray(stockTemporario.tamanhos) && stockTemporario.tamanhos.includes(t);
+        return `
+          <button type="button" onclick="toggleTamanho('${t}')"
+            class="px-4 py-2 rounded-xl border-2 font-bold transition text-xs ${ativo ? 'btn-tamanho-ativo' : 'border-gray-100 text-gray-300'}">
+            ${t}
+          </button>
+        `;
+      }).join('');
     }
 
     function toggleTamanho(t) {
-        if (stockTemporario.tamanhos.includes(t)) {
-            stockTemporario.tamanhos = stockTemporario.tamanhos.filter(item => item !== t);
-        } else {
-            stockTemporario.tamanhos.push(t);
-        }
-        renderizarBotoesTamanho();
+      if (!Array.isArray(stockTemporario.tamanhos)) stockTemporario.tamanhos = [];
+      if (stockTemporario.tamanhos.includes(t)) {
+        stockTemporario.tamanhos = stockTemporario.tamanhos.filter(item => item !== t);
+      } else {
+        stockTemporario.tamanhos.push(t);
+      }
+      renderizarBotoesTamanho();
     }
 
     function alternarEsgotadoGeral() {
-        stockTemporario.esgotado = !stockTemporario.esgotado;
-        atualizarVisualToggle();
+      stockTemporario.esgotado = !stockTemporario.esgotado;
+      atualizarVisualToggle();
     }
 
     function atualizarVisualToggle() {
-        const btn = document.getElementById('btn-toggle-esgotado');
-        const dot = btn.querySelector('.dot');
-        if (stockTemporario.esgotado) {
-            btn.classList.replace('bg-gray-300', 'bg-red-500');
-            dot.classList.add('translate-x-6');
-        } else {
-            btn.classList.replace('bg-red-500', 'bg-gray-300');
-            dot.classList.remove('translate-x-6');
-        }
+      const btn = document.getElementById('btn-toggle-esgotado');
+      if (!btn) return;
+      const dot = btn.querySelector('.dot');
+
+      // garante classes base
+      if (!btn.classList.contains('bg-gray-300') && !btn.classList.contains('bg-red-500')) {
+        btn.classList.add('bg-gray-300');
+      }
+
+      if (stockTemporario.esgotado) {
+        btn.classList.remove('bg-gray-300');
+        btn.classList.add('bg-red-500');
+        if (dot) dot.classList.add('translate-x-6');
+      } else {
+        btn.classList.remove('bg-red-500');
+        btn.classList.add('bg-gray-300');
+        if (dot) dot.classList.remove('translate-x-6');
+      }
     }
 
     function salvarEstoque() {
-        let db = JSON.parse(localStorage.getItem('stock_db')) || {};
-        db[produtoSelecionado] = stockTemporario;
-        localStorage.setItem('stock_db', JSON.stringify(db));
-        
-        fecharModal();
-        renderizarProdutosAdmin();
+      let db = JSON.parse(localStorage.getItem('stock_db')) || {};
+      db[produtoSelecionado] = stockTemporario;
+      localStorage.setItem('stock_db', JSON.stringify(db));
+
+      fecharModal();
+      renderizarProdutosAdmin();
     }
 
     function fecharModal() {
-        document.getElementById('modal-produto').classList.remove('modal-active');
+      document.getElementById('modal-produto').classList.remove('modal-active');
     }
+
+    // fechar modal clicando fora / ESC
+    document.getElementById('modal-produto').addEventListener('click', (e) => {
+      if (e.target && e.target.id === 'modal-produto') fecharModal();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') fecharModal();
+    });
 
     // --- GESTÃO DE RASTREIO ---
     document.getElementById('form-rastreio').addEventListener('submit', (e) => {
       e.preventDefault();
       const email = document.getElementById('track-email').value;
       const code = document.getElementById('track-code').value;
-      
+
       let rastreios = JSON.parse(localStorage.getItem('rastreios_db')) || [];
       rastreios.push({ email: email.toLowerCase(), code, data: new Date().toLocaleDateString('pt-BR') });
       localStorage.setItem('rastreios_db', JSON.stringify(rastreios));
-      
+
       e.target.reset();
       atualizarListaRastreios();
     });
@@ -218,8 +251,19 @@
     function atualizarListaRastreios() {
       const rastreios = JSON.parse(localStorage.getItem('rastreios_db')) || [];
       const tabela = document.getElementById('tabela-rastreio');
-      if(!tabela) return;
-      
+      if (!tabela) return;
+
+      if (!rastreios.length) {
+        tabela.innerHTML = `
+          <tr>
+            <td class="py-6 text-center text-xs text-gray-400" colspan="3">
+              Nenhum rastreio cadastrado ainda.
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
       tabela.innerHTML = rastreios.map((r, i) => `
         <tr>
           <td class="py-3 font-semibold text-xs">${r.email}</td>

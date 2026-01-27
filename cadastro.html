@@ -10,6 +10,7 @@
     tailwind.config = { theme: { extend: { colors: { sand: "#F7E9D7", ink: "#0C0C0C", gold: "#C9A44F" } } } }
   </script>
 </head>
+
 <body class="bg-sand text-ink font-sans min-h-screen flex flex-col">
   <header class="p-6 flex justify-center">
     <a href="index.html" class="font-serif text-2xl font-bold italic">Praia & Movimento</a>
@@ -18,101 +19,154 @@
   <main class="flex-1 flex items-center justify-center px-6 py-12">
     <div class="bg-white w-full max-w-xl rounded-[3rem] p-10 shadow-xl">
       <h1 class="font-serif text-3xl mb-8 text-center italic">Cadastre-se</h1>
-      
+
       <form id="form-cadastro" class="space-y-4">
-        <input type="text" id="cad-nome" placeholder="Nome Completo" class="w-full border-b border-black/10 py-3 outline-none focus:border-gold" required>
-        
+        <input type="text" id="cad-nome" placeholder="Nome Completo"
+               class="w-full border-b border-black/10 py-3 outline-none focus:border-gold" required>
+
         <div class="grid grid-cols-2 gap-4">
-          <input type="tel" id="cad-tel" placeholder="Telefone (DDD)" class="border-b border-black/10 py-3 outline-none focus:border-gold" required>
-          <input type="text" id="cad-insta" placeholder="@Instagram" class="border-b border-black/10 py-3 outline-none focus:border-gold">
+          <input type="tel" id="cad-tel" placeholder="Telefone (DDD)"
+                 class="border-b border-black/10 py-3 outline-none focus:border-gold" required>
+          <input type="text" id="cad-insta" placeholder="@Instagram"
+                 class="border-b border-black/10 py-3 outline-none focus:border-gold">
         </div>
 
-        <input type="email" id="cad-email" placeholder="E-mail" class="w-full border-b border-black/10 py-3 outline-none focus:border-gold" required>
-        
-        <input type="password" id="cad-senha" placeholder="Escolha uma Senha" class="w-full border-b border-black/10 py-3 outline-none focus:border-gold" required>
-        
+        <input type="email" id="cad-email" placeholder="E-mail"
+               class="w-full border-b border-black/10 py-3 outline-none focus:border-gold" required>
+
+        <input type="password" id="cad-senha" placeholder="Escolha uma Senha"
+               class="w-full border-b border-black/10 py-3 outline-none focus:border-gold" required>
+
         <div class="pt-4 grid grid-cols-2 gap-4">
-          <input type="text" id="cad-cidade" placeholder="Cidade" class="border-b border-black/10 py-3 outline-none focus:border-gold" required>
-          <input type="text" id="cad-estado" placeholder="Estado" class="border-b border-black/10 py-3 outline-none focus:border-gold" required>
+          <input type="text" id="cad-cidade" placeholder="Cidade"
+                 class="border-b border-black/10 py-3 outline-none focus:border-gold" required>
+          <input type="text" id="cad-estado" placeholder="Estado"
+                 class="border-b border-black/10 py-3 outline-none focus:border-gold" required>
         </div>
 
         <div class="grid grid-cols-3 gap-4">
-          <input type="text" id="cad-rua" placeholder="Rua" class="col-span-2 border-b border-black/10 py-3 outline-none focus:border-gold" required>
-          <input type="text" id="cad-num" placeholder="Nº" class="border-b border-black/10 py-3 outline-none focus:border-gold" required>
+          <input type="text" id="cad-rua" placeholder="Rua"
+                 class="col-span-2 border-b border-black/10 py-3 outline-none focus:border-gold" required>
+          <input type="text" id="cad-num" placeholder="Nº"
+                 class="border-b border-black/10 py-3 outline-none focus:border-gold" required>
         </div>
 
-        <button type="submit" id="btn-cadastrar" class="w-full bg-ink text-white py-4 rounded-full font-bold tracking-widest mt-8 hover:bg-gold transition shadow-lg">
+        <button type="submit" id="btn-cadastrar"
+                class="w-full bg-ink text-white py-4 rounded-full font-bold tracking-widest mt-8 hover:bg-gold transition shadow-lg">
           CRIAR MINHA CONTA
         </button>
       </form>
-      <p class="text-center mt-6 text-sm text-black/40">Já tem conta? <a href="login.html" class="text-ink font-bold underline">Entrar</a></p>
+
+      <p class="text-center mt-6 text-sm text-black/40">
+        Já tem conta? <a href="login.html" class="text-ink font-bold underline">Entrar</a>
+      </p>
+
+      <p class="text-center mt-4 text-[11px] text-black/30">
+        Ao se cadastrar, você concorda em combinar pagamento e entrega via WhatsApp.
+      </p>
     </div>
   </main>
+
+  <!-- site.js precisa definir window.firebaseConfig -->
+  <script src="site.js"></script>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
     import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
     import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js";
-    import { firebaseConfig } from "./site.js";
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getDatabase(app);
 
     const form = document.getElementById('form-cadastro');
-    const btn = document.getElementById('btn-cadastrar');
+    const btn  = document.getElementById('btn-cadastrar');
 
-    form.onsubmit = async (e) => {
-      e.preventDefault();
-      
-      const email = document.getElementById('cad-email').value;
-      const senha = document.getElementById('cad-senha').value;
-      const nome = document.getElementById('cad-nome').value;
+    function setLoading(on) {
+      btn.disabled = on;
+      btn.textContent = on ? "CRIANDO CONTA..." : "CRIAR MINHA CONTA";
+      btn.classList.toggle("opacity-60", on);
+      btn.classList.toggle("cursor-not-allowed", on);
+    }
 
-      btn.innerText = "CRIANDO CONTA...";
-      btn.disabled = true;
+    function validarEmail(email) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
 
-      try {
-        // 1. Criar usuário no Auth
-        const userCredential = await createUserWithEmailAndPassword(auth, email, senha);
-        const user = userCredential.user;
+    function validarTelefone(tel) {
+      const digits = (tel || "").replace(/\D/g, "");
+      return digits.length >= 10; // DDD + número
+    }
 
-        // 2. Salvar dados extras no Realtime Database
-        await set(ref(db, 'usuarios/' + user.uid), {
-          nome: nome,
-          telefone: document.getElementById('cad-tel').value,
-          email: email,
-          cidade: document.getElementById('cad-cidade').value,
-          estado: document.getElementById('cad-estado').value,
-          rua: document.getElementById('cad-rua').value,
-          numero: document.getElementById('cad-num').value,
-          instagram: document.getElementById('cad-insta').value,
-          uid: user.uid
-        });
+    // --- Firebase config ---
+    const firebaseConfig = window.firebaseConfig;
 
-        // 3. Login local para persistência rápida nas páginas
-        localStorage.setItem("usuario_logado", JSON.stringify({
-          uid: user.uid,
-          nome: nome,
-          email: email
-        }));
+    if (!firebaseConfig || !firebaseConfig.apiKey || !firebaseConfig.authDomain) {
+      alert("Configuração do Firebase não encontrada (apiKey/authDomain). Abra o site.js e preencha window.firebaseConfig com os dados do Firebase.");
+      console.error("firebaseConfig inválido:", firebaseConfig);
+    } else {
+      const app  = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+      const db   = getDatabase(app);
 
-        alert("Bem-vinda à Praia & Movimento!");
-        window.location.href = "index.html";
+      form.onsubmit = async (e) => {
+        e.preventDefault();
 
-      } catch (error) {
-        btn.innerText = "CRIAR MINHA CONTA";
-        btn.disabled = false;
-        
-        if (error.code === 'auth/email-already-in-use') {
-          alert("Este e-mail já está em uso.");
-        } else if (error.code === 'auth/weak-password') {
-          alert("A senha deve ter pelo menos 6 caracteres.");
-        } else {
-          alert("Erro no cadastro: " + error.message);
+        const nome  = (document.getElementById('cad-nome').value  || "").trim();
+        const tel   = (document.getElementById('cad-tel').value   || "").trim();
+        const insta = (document.getElementById('cad-insta').value || "").trim();
+        const email = (document.getElementById('cad-email').value || "").trim().toLowerCase();
+        const senha = (document.getElementById('cad-senha').value || "").trim();
+
+        const cidade = (document.getElementById('cad-cidade').value || "").trim();
+        const estado = (document.getElementById('cad-estado').value || "").trim();
+        const rua    = (document.getElementById('cad-rua').value    || "").trim();
+        const numero = (document.getElementById('cad-num').value    || "").trim();
+
+        // validações rápidas
+        if (nome.length < 3) return alert("Informe seu nome completo.");
+        if (!validarEmail(email)) return alert("Informe um e-mail válido.");
+        if (senha.length < 6) return alert("A senha deve ter pelo menos 6 caracteres.");
+        if (!validarTelefone(tel)) return alert("Informe um telefone com DDD (ex: 41999999999).");
+
+        setLoading(true);
+
+        try {
+          const userCredential = await createUserWithEmailAndPassword(auth, email, senha);
+          const user = userCredential.user;
+
+          await set(ref(db, 'usuarios/' + user.uid), {
+            nome,
+            telefone: tel,
+            email,
+            cidade,
+            estado,
+            rua,
+            numero,
+            instagram: insta,
+            uid: user.uid,
+            criadoEm: new Date().toISOString()
+          });
+
+          localStorage.setItem("usuario_logado", JSON.stringify({
+            uid: user.uid,
+            nome,
+            email
+          }));
+
+          alert("Bem-vindo(a) à Praia & Movimento!");
+          window.location.href = "index.html";
+
+        } catch (error) {
+          console.error(error);
+          setLoading(false);
+
+          if (error.code === 'auth/email-already-in-use') {
+            alert("Este e-mail já está em uso.");
+          } else if (error.code === 'auth/weak-password') {
+            alert("A senha deve ter pelo menos 6 caracteres.");
+          } else {
+            alert("Erro no cadastro: " + (error?.message || "tente novamente"));
+          }
         }
-      }
-    };
+      };
+    }
   </script>
 </body>
 </html>

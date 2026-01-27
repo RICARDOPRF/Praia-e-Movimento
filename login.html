@@ -24,16 +24,18 @@
             <div>
                 <label class="text-[10px] uppercase font-bold tracking-widest ml-4 text-black/40">Usuário</label>
                 <input id="user-master" type="text" placeholder="Digite seu usuário" required
-                    class="w-full mt-1 p-4 rounded-full border border-black/5 bg-sand/30 outline-none focus:border-gold transition">
+                    class="w-full mt-1 p-4 rounded-full border border-black/5 bg-sand/30 outline-none focus:border-gold transition"
+                    autocomplete="username">
             </div>
 
             <div>
                 <label class="text-[10px] uppercase font-bold tracking-widest ml-4 text-black/40">Senha</label>
                 <input id="pass-master" type="password" placeholder="••••••••" required
-                    class="w-full mt-1 p-4 rounded-full border border-black/5 bg-sand/30 outline-none focus:border-gold transition">
+                    class="w-full mt-1 p-4 rounded-full border border-black/5 bg-sand/30 outline-none focus:border-gold transition"
+                    autocomplete="current-password">
             </div>
 
-            <button type="submit" 
+            <button type="submit"
                 class="w-full bg-ink text-white py-4 rounded-full font-bold tracking-widest hover:bg-gold transition shadow-lg transform hover:-translate-y-1">
                 ACESSAR PAINEL
             </button>
@@ -45,18 +47,27 @@
     </div>
 
     <script>
+        // se já estiver logado como admin, manda direto pro painel
+        (function autoRedirectAdmin() {
+            try {
+                const adminLogado = localStorage.getItem("admin_autenticado");
+                if (adminLogado === "true") {
+                    window.location.href = "admin-painel.html";
+                }
+            } catch {}
+        })();
+
         document.getElementById('form-admin-master').onsubmit = (e) => {
             e.preventDefault();
-            
-            const user = document.getElementById('user-master').value;
-            const pass = document.getElementById('pass-master').value;
 
-            // Verificação com seus dados solicitados
-            if(user === "admin" && pass === "2798331207") {
-                // Define a permissão master
+            const user = (document.getElementById('user-master').value || "").trim().toLowerCase();
+            const pass = (document.getElementById('pass-master').value || "").trim();
+
+            // Verificação
+            if (user === "admin" && pass === "2798331207") {
                 localStorage.setItem("admin_autenticado", "true");
-                
-                // Simula um objeto de usuário para o sistema não bugar
+
+                // sessão admin (mantém compatibilidade com o resto do sistema)
                 const adminSession = {
                     uid: "ADMIN_MASTER",
                     email: "pauloricardo96@live.com",
@@ -66,7 +77,7 @@
 
                 window.location.href = "admin-painel.html";
             } else {
-                alert("Usuário ou senha incorretos!");
+                alert("Usuário ou senha incorretos.");
             }
         };
     </script>

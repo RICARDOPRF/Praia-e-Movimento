@@ -13,15 +13,15 @@
     tailwind.config = {
       theme: {
         extend: {
-          colors: { 
-            sand: "#F7E9D7", 
-            ink: "#1A1A1A", 
-            gold: "#C9A44F", 
-            peach: "#FFB089" 
+          colors: {
+            sand: "#F7E9D7",
+            ink: "#1A1A1A",
+            gold: "#C9A44F",
+            peach: "#FFB089"
           },
-          fontFamily: { 
-            serif: ["Playfair Display", "serif"], 
-            sans: ["Plus Jakarta Sans", "sans-serif"] 
+          fontFamily: {
+            serif: ["Playfair Display", "serif"],
+            sans: ["Plus Jakarta Sans", "sans-serif"]
           }
         }
       }
@@ -40,17 +40,26 @@
 <header class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur border-b border-black/5">
   <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
     <a href="index.html" class="font-serif text-xl font-bold italic tracking-wide">Praia & Movimento</a>
-    
+
     <nav class="hidden md:flex gap-10 text-[10px] uppercase font-bold tracking-[0.2em]">
+      <a href="loja.html" class="hover:text-gold transition">Loja</a>
       <a href="feminino.html" class="hover:text-gold transition">Feminino</a>
       <a href="masculino.html" class="hover:text-gold transition">Masculino</a>
       <a href="lingerie.html" class="hover:text-gold transition">Lingerie</a>
       <a href="sexy-shop.html" class="hover:text-rose-400 transition">Sexy Shop</a>
     </nav>
 
-    <div id="area-cliente" class="flex gap-6 text-[10px] uppercase font-bold tracking-widest">
-        <a href="login.html" class="hover:text-gold transition">Entrar</a>
-        <a href="carrinho.html" class="material-symbols-outlined !text-lg">shopping_bag</a>
+    <div id="area-cliente" class="flex items-center gap-6 text-[10px] uppercase font-bold tracking-widest">
+      <a href="login.html" class="hover:text-gold transition">Entrar</a>
+
+      <!-- Sacola com badge -->
+      <a href="carrinho.html" class="relative">
+        <span class="material-symbols-outlined !text-lg">shopping_bag</span>
+        <span
+          data-cart-badge
+          class="hidden absolute -top-2 -right-2 text-[10px] leading-none px-2 py-1 rounded-full bg-ink text-white"
+        >0</span>
+      </a>
     </div>
   </div>
 </header>
@@ -73,30 +82,33 @@
 </section>
 
 <section class="max-w-7xl mx-auto px-6 py-16 grid grid-cols-2 md:grid-cols-4 gap-6">
-    <a href="feminino.html" class="text-center group">
-        <div class="aspect-square bg-white rounded-full overflow-hidden mb-4 border-4 border-white shadow-lg">
-            <img src="cat-fem.jpeg" class="w-full h-full object-cover group-hover:scale-110 transition">
-        </div>
-        <span class="font-serif italic text-lg">Feminino</span>
-    </a>
-    <a href="masculino.html" class="text-center group">
-        <div class="aspect-square bg-white rounded-full overflow-hidden mb-4 border-4 border-white shadow-lg">
-            <img src="cat-masc.jpeg" class="w-full h-full object-cover group-hover:scale-110 transition">
-        </div>
-        <span class="font-serif italic text-lg">Masculino</span>
-    </a>
-    <a href="lingerie.html" class="text-center group">
-        <div class="aspect-square bg-white rounded-full overflow-hidden mb-4 border-4 border-white shadow-lg">
-            <img src="cat-ling.jpeg" class="w-full h-full object-cover group-hover:scale-110 transition">
-        </div>
-        <span class="font-serif italic text-lg">Lingerie</span>
-    </a>
-    <a href="sexy-shop.html" class="text-center group">
-        <div class="aspect-square bg-white rounded-full overflow-hidden mb-4 border-4 border-white shadow-lg">
-            <img src="home-sexyshop.jpeg" class="w-full h-full object-cover group-hover:scale-110 transition">
-        </div>
-        <span class="font-serif italic text-lg text-rose-500">Sexy Shop</span>
-    </a>
+  <a href="feminino.html" class="text-center group">
+    <div class="aspect-square bg-white rounded-full overflow-hidden mb-4 border-4 border-white shadow-lg">
+      <img src="cat-fem.jpeg" class="w-full h-full object-cover group-hover:scale-110 transition">
+    </div>
+    <span class="font-serif italic text-lg">Feminino</span>
+  </a>
+
+  <a href="masculino.html" class="text-center group">
+    <div class="aspect-square bg-white rounded-full overflow-hidden mb-4 border-4 border-white shadow-lg">
+      <img src="cat-masc.jpeg" class="w-full h-full object-cover group-hover:scale-110 transition">
+    </div>
+    <span class="font-serif italic text-lg">Masculino</span>
+  </a>
+
+  <a href="lingerie.html" class="text-center group">
+    <div class="aspect-square bg-white rounded-full overflow-hidden mb-4 border-4 border-white shadow-lg">
+      <img src="cat-ling.jpeg" class="w-full h-full object-cover group-hover:scale-110 transition">
+    </div>
+    <span class="font-serif italic text-lg">Lingerie</span>
+  </a>
+
+  <a href="sexy-shop.html" class="text-center group">
+    <div class="aspect-square bg-white rounded-full overflow-hidden mb-4 border-4 border-white shadow-lg">
+      <img src="home-sexyshop.jpeg" class="w-full h-full object-cover group-hover:scale-110 transition">
+    </div>
+    <span class="font-serif italic text-lg text-rose-500">Sexy Shop</span>
+  </a>
 </section>
 
 <section id="destaques" class="max-w-7xl mx-auto px-6 py-12">
@@ -105,11 +117,14 @@
       <h2 class="font-serif text-4xl italic">Destaques</h2>
       <p class="text-black/40 text-sm mt-2 font-light">Peças mais desejadas da semana</p>
     </div>
-    <a href="feminino.html" class="text-xs font-bold uppercase tracking-widest border-b border-gold pb-1 hover:text-gold transition">Ver tudo</a>
+    <a href="loja.html" class="text-xs font-bold uppercase tracking-widest border-b border-gold pb-1 hover:text-gold transition">Ver tudo</a>
   </div>
 
-  <div id="vitrine-destaques" class="grid grid-cols-2 md:grid-cols-4 gap-8">
-      </div>
+  <div id="vitrine-destaques" class="grid grid-cols-2 md:grid-cols-4 gap-8"></div>
+
+  <p id="fallback-destaques" class="hidden text-center text-sm opacity-50 mt-8">
+    Estamos atualizando os destaques… volte já 👀
+  </p>
 </section>
 
 <section class="max-w-7xl mx-auto px-6 mb-24">
@@ -137,6 +152,7 @@
     <div>
       <h4 class="text-[10px] uppercase font-bold tracking-widest mb-6 opacity-30">Explore</h4>
       <ul class="space-y-4 text-sm font-medium">
+        <li><a href="loja.html" class="hover:text-gold transition">Loja</a></li>
         <li><a href="feminino.html" class="hover:text-gold transition">Feminino</a></li>
         <li><a href="masculino.html" class="hover:text-gold transition">Masculino</a></li>
         <li><a href="lingerie.html" class="hover:text-gold transition">Lingerie</a></li>
@@ -151,44 +167,104 @@
       </ul>
     </div>
   </div>
-  <div class="text-center text-[10px] uppercase tracking-widest text-black/20 pt-10 border-t border-black/5">
-    © 2024 Praia & Movimento — Lifestyle Brasileiro
+
+  <div class="border-t border-black/5 pt-8">
+  <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] uppercase tracking-widest text-black/20">
+    
+    <!-- Esquerda: Criado por LPS -->
+    <div class="text-left">
+      Criado por
+      <a
+        href="https://ricardoprf.github.io/LPS---Lean-Performance-Solutions/"
+        target="_blank"
+        rel="noopener"
+        class="underline hover:text-black/40 transition"
+      >
+        LPS — Lean Performance Solutions
+      </a>
+    </div>
+
+    <!-- Direita: Copyright -->
+    <div class="text-center md:text-right">
+      © <span id="ano"></span> Praia & Movimento — Lifestyle Brasileiro
+    </div>
+
   </div>
+</div>
+
 </footer>
 
 <script src="site.js"></script>
 <script>
   window.addEventListener('DOMContentLoaded', () => {
-    // 1. Carrega 4 produtos aleatórios da lista global em site.js
+    // Ano automático
+    const anoEl = document.getElementById("ano");
+    if (anoEl) anoEl.textContent = new Date().getFullYear();
+
+    // Destaques (fallback seguro)
     const container = document.getElementById("vitrine-destaques");
-    if (container && typeof PRODUTOS !== 'undefined') {
-      const destaques = PRODUTOS.sort(() => 0.5 - Math.random()).slice(0, 4);
+    const fallback = document.getElementById("fallback-destaques");
+
+    if (container && typeof PRODUTOS !== 'undefined' && Array.isArray(PRODUTOS) && PRODUTOS.length) {
+      const destaques = [...PRODUTOS].sort(() => 0.5 - Math.random()).slice(0, 4);
+
       container.innerHTML = destaques.map(p => `
         <a href="produto.html?produto=${p.slug}" class="group">
           <div class="aspect-[3/4] overflow-hidden rounded-2xl bg-white shadow-sm group-hover:shadow-xl transition-all duration-500">
-            <img src="${p.slug}-view1.jpeg" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+            <img src="${p.slug}-view1.jpeg" class="w-full h-full object-cover group-hover:scale-110 transition duration-700" alt="${p.nome}">
           </div>
           <div class="mt-4">
             <h3 class="font-serif text-lg leading-tight">${p.nome}</h3>
             <p class="text-[10px] uppercase tracking-widest text-black/30 mt-1">${p.categoria}</p>
-            <p class="mt-2 text-gold font-bold">R$ ${p.preco.toFixed(2).replace('.', ',')}</p>
+            <p class="mt-2 text-gold font-bold">R$ ${Number(p.preco).toFixed(2).replace('.', ',')}</p>
           </div>
         </a>
       `).join('');
+    } else {
+      if (fallback) fallback.classList.remove("hidden");
     }
 
-    // 2. Atualiza o Header com o nome do cliente se estiver logado
+    // Header com nome do cliente se estiver logado
     const areaCliente = document.getElementById("area-cliente");
     const user = JSON.parse(localStorage.getItem("usuario_logado"));
     if (user && areaCliente) {
-        areaCliente.innerHTML = `
-            <a href="perfil.html" class="hover:text-gold transition flex items-center gap-2">
-                <span class="material-symbols-outlined !text-lg">person</span>
-                ${user.nome.split(' ')[0]}
-            </a>
-            <a href="carrinho.html" class="material-symbols-outlined !text-lg">shopping_bag</a>
-        `;
+      areaCliente.innerHTML = `
+        <a href="perfil.html" class="hover:text-gold transition flex items-center gap-2">
+          <span class="material-symbols-outlined !text-lg">person</span>
+          ${user.nome.split(' ')[0]}
+        </a>
+        <a href="carrinho.html" class="relative">
+          <span class="material-symbols-outlined !text-lg">shopping_bag</span>
+          <span
+            data-cart-badge
+            class="hidden absolute -top-2 -right-2 text-[10px] leading-none px-2 py-1 rounded-full bg-ink text-white"
+          >0</span>
+        </a>
+      `;
     }
+
+    // Badge do carrinho (compatível com chaves diferentes)
+    function lerCarrinho() {
+      const chaves = ["carrinho_pm", "pm_cart_v1", "carrinho"];
+      for (const k of chaves) {
+        try {
+          const v = JSON.parse(localStorage.getItem(k));
+          if (Array.isArray(v)) return v;
+        } catch {}
+      }
+      return [];
+    }
+
+    const cart = lerCarrinho();
+    const count = cart.reduce((acc, it) => acc + (Number(it.qtd || it.quantidade || 1)), 0);
+    document.querySelectorAll("[data-cart-badge]").forEach(el => {
+      if (count > 0) {
+        el.textContent = String(count);
+        el.classList.remove("hidden");
+      } else {
+        el.classList.add("hidden");
+      }
+    });
   });
 </script>
 </body>

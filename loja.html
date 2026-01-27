@@ -11,22 +11,46 @@
     }
   </script>
 </head>
+
 <body class="bg-sand text-ink">
   <header class="p-6 bg-white border-b border-black/5 flex justify-between items-center sticky top-0 z-50">
     <a href="index.html" class="font-serif text-xl font-bold">Praia & Movimento</a>
-    <nav class="flex gap-4 text-xs uppercase tracking-widest">
+
+    <nav class="flex items-center gap-4 text-xs uppercase tracking-widest">
       <a href="masculino.html">Masculino</a>
       <a href="feminino.html">Feminino</a>
       <a href="lingerie.html">Lingerie</a>
+      <a href="carrinho.html" class="underline">Sacola</a>
     </nav>
   </header>
 
   <main class="max-w-7xl mx-auto px-6 py-12">
     <h1 class="font-serif text-4xl mb-12 text-center italic">Nossa Coleção</h1>
-    
-    <div id="vitrine-loja" class="grid grid-cols-2 md:grid-cols-4 gap-8">
-      </div>
+
+    <!-- Mantém exatamente o ID que seu JS antigo usa -->
+    <div id="vitrine-loja" class="grid grid-cols-2 md:grid-cols-4 gap-8"></div>
   </main>
+
+  <footer class="px-6 py-10 bg-white border-t border-black/5">
+    <div class="max-w-7xl mx-auto text-center text-xs uppercase tracking-widest opacity-80">
+      Criado por
+      <a
+        href="https://ricardoprf.github.io/LPS---Lean-Performance-Solutions/"
+        target="_blank"
+        rel="noopener"
+        class="underline hover:opacity-100 transition"
+      >
+        LPS — Lean Performance Solutions
+      </a>
+      <div class="mt-2 normal-case tracking-normal opacity-70">
+        © <span id="ano"></span> Praia & Movimento. Todos os direitos reservados.
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("ano").textContent = new Date().getFullYear();
+  </script>
 
   <script src="site.js"></script>
 </body>

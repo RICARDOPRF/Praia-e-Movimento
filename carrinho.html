@@ -30,8 +30,7 @@
   <main class="max-w-3xl mx-auto px-6 py-12">
     <h1 class="font-serif text-4xl mb-8 italic">Sua Sacola</h1>
 
-    <div id="itens-carrinho" class="space-y-4 mb-10">
-      </div>
+    <div id="itens-carrinho" class="space-y-4 mb-10"></div>
 
     <div id="resumo-carrinho" class="bg-white p-8 rounded-[2rem] shadow-sm hidden">
       <div class="flex justify-between items-center mb-6 pb-6 border-b border-gray-100">
@@ -50,27 +49,50 @@
     </div>
 
     <div id="carrinho-vazio" class="hidden text-center py-20">
-        <span class="material-symbols-outlined text-6xl opacity-10 mb-4">shopping_basket</span>
-        <p class="italic opacity-40 mb-8">Sua sacola ainda está vazia...</p>
-        <a href="index.html" class="inline-block px-8 py-4 bg-ink text-white rounded-full text-[10px] font-bold uppercase tracking-widest">Ver Coleção</a>
+      <span class="material-symbols-outlined text-6xl opacity-10 mb-4">shopping_basket</span>
+      <p class="italic opacity-40 mb-8">Sua sacola ainda está vazia...</p>
+      <a href="index.html" class="inline-block px-8 py-4 bg-ink text-white rounded-full text-[10px] font-bold uppercase tracking-widest">Ver Coleção</a>
     </div>
   </main>
 
   <script src="site.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-        // Chama a função que já existe no seu site.js
-        exibirCarrinho();
-        
-        // Verifica se está vazio para mostrar a mensagem correta
-        const carrinho = JSON.parse(localStorage.getItem("carrinho_pm")) || [];
-        if (carrinho.length === 0) {
-            document.getElementById("carrinho-vazio").classList.remove("hidden");
-            document.getElementById("resumo-carrinho").classList.add("hidden");
-        } else {
-            document.getElementById("carrinho-vazio").classList.add("hidden");
-            document.getElementById("resumo-carrinho").classList.remove("hidden");
+
+      // 1) Lê o carrinho sem perder nada (compatível com versões antigas)
+      function lerCarrinho() {
+        const chaves = ["carrinho_pm", "pm_cart_v1", "carrinho"];
+        for (const k of chaves) {
+          try {
+            const v = JSON.parse(localStorage.getItem(k));
+            if (Array.isArray(v) && v.length) return v;
+          } catch (e) {}
         }
+        return [];
+      }
+
+      // 2) Mostra/oculta blocos com base no carrinho
+      function atualizarVisibilidade() {
+        const carrinho = lerCarrinho();
+        const vazioEl = document.getElementById("carrinho-vazio");
+        const resumoEl = document.getElementById("resumo-carrinho");
+
+        if (!carrinho || carrinho.length === 0) {
+          vazioEl.classList.remove("hidden");
+          resumoEl.classList.add("hidden");
+        } else {
+          vazioEl.classList.add("hidden");
+          resumoEl.classList.remove("hidden");
+        }
+      }
+
+      // 3) Se o site.js tiver exibirCarrinho(), usa. Se não, não quebra.
+      if (typeof window.exibirCarrinho === "function") {
+        window.exibirCarrinho();
+      }
+
+      // 4) Garante que o estado visual esteja certo sempre
+      atualizarVisibilidade();
     });
   </script>
 </body>
